@@ -51,7 +51,7 @@ function renderRoutes() {
       <Route component={Base} onEnter={requireAuth}>
         <Redirect from="/account" to="/account/profile"/>
 
-        <Route path="/" component={Entreprises} onEnter={loadData}/>
+        <Route path="/" component={LoginPage} onEnter={loadData}/>
 
         <Route path="/account/profile/:id" component={UserProfile} onEnter={loadData}/>
 
