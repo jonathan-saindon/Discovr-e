@@ -1,0 +1,415 @@
+/* ------------ CONTAINERS ---------- */
+
+*
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  -ms-box-sizing: border-box
+  -o-box-sizing: border-box
+  box-sizing: border-box
+
+*:focus
+  outline: none
+
+html, body
+  height: 100%
+
+body
+  font-family: 'DINNext', 'Helvetica', 'sans-serif'
+  font-size: 14px
+  width: 100%
+  overflow-y: auto
+  overflow-x: hidden
+  margin: 0
+  line-height: 20px
+
+#pop-up-wrap
+  position: fixed
+  bottom: 0
+  left: 0
+  top: 0
+  right: 0
+  width: 100%
+  height: 0
+  z-index: 100
+
+#overlay
+  width: 100%
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  height: 100%
+  background: $darkgrey
+  opacity: 0.5
+  z-index: 900
+  display: none
+
+#overlay.display
+  display: block
+
+#pop-up
+  left: 50%
+  margin-left: -150px
+  margin-top: 100px
+  width: 300px
+  overflow: hidden
+  @include border-radius($borderradius)
+  position: absolute
+
+
+.container-fluid
+  padding: 0
+  margin-right: auto
+  margin-left: auto
+  overflow: hidden
+
+.wrap
+  overflow: hidden
+  max-width: 1200px
+  width: 1200px
+  margin: 0 auto
+
+.hero-unit
+  color: #000
+  height: auto
+  overflow-y: auto
+  min-height: calc(100% - 54px)
+
+#main-content
+  height: calc(100% - 54px)
+
+.menu
+  height: 100%
+
+#main-content
+  position: absolute
+  top: 54px
+  width: 100%
+
+
+.full,
+.quarter,
+.half,
+.seventh,
+.third,
+.two-third
+  float: left
+
+.full
+  width: 100%
+
+.quarter
+  width: 25%
+
+.third
+  width: 33.33333333333333333%
+
+.two-third
+  width: 66.6666666666666666%
+
+.half
+  width: 50%
+
+.seventh
+  width: 14.28571428571429%
+
+.clearfix
+  clear: both
+
+.bigger-padding
+  padding: 200px
+  overflow: hidden
+
+.big-padding
+  padding: 60px
+  overflow: hidden
+
+.medium-padding
+  padding: 30px
+  overflow: hidden
+
+.small-padding
+  padding: 20px
+  overflow: hidden
+
+.smaller-padding
+  padding: 10px
+  overflow: hidden
+
+.bigger-padding-top
+  padding-top: 200px
+
+.bigger-padding-bottom
+  padding-bottom: 200px
+
+.bigger-padding-right
+  padding-right: 200px
+
+.bigger-padding-left
+  padding-left: 200px
+
+.big-padding-top
+  padding-top: 60px
+
+.big-padding-bottom
+  padding-bottom: 60px
+
+.big-padding-right
+  padding-right: 60px
+
+.big-padding-left
+  padding-left: 60px
+
+.medium-padding-top
+  padding-top: 30px
+
+.medium-padding-bottom
+  padding-bottom: 30px
+
+.medium-padding-left
+  padding-left: 30px
+
+.medium-padding-right
+  padding-right: 30px
+
+.small-padding-top
+  padding-top: 20px
+
+.small-padding-bottom
+  padding-bottom: 20px
+
+.small-padding-right
+  padding-right: 20px
+
+.small-padding-left
+  padding-left: 20px
+
+.smaller-padding-top
+  padding-top: 10px
+
+.smaller-padding-bottom
+  padding-bottom: 10px
+
+.smaller-padding-right
+  padding-right: 10px
+
+.smaller-padding-left
+  padding-left: 10px
+
+.no-top-padding
+  padding-top: 0
+
+.no-bottom-padding
+  padding-bottom: 0
+
+.no-right-padding
+  padding-right: 0
+
+.no-left-padding
+  padding-left: 0
+
+.nav
+  padding-left: 0
+  margin-bottom: 0
+  list-style: none
+
+.nav > li
+  position: relative
+  display: block
+
+.navbar
+  border-radius: 0
+
+.navbar > .navbar-header
+  .navbar-brand
+    margin-left: 0
+
+.navbar-brand
+  width: 200px
+  height: 50px
+  float: left
+  padding: 15px 15px
+  font-size: 18px
+  line-height: 20px
+
+  img
+    width: 30px
+    float: left
+    margin-right: 15px
+    position: relative
+    top: -6px
+
+.navbar-header
+  width: 100%
+  padding: 0 20px 0 0
+
+  .profile-photo
+    margin-right: 10px
+    float: left
+    margin-top: 1px
+
+.navbar-nav
+  float: left
+  margin: 0
+
+.navbar-nav > li
+  float: left
+
+.navbar-right
+  float: right
+
+.navbar-text
+  display: block
+
+.tab-menu
+  border-bottom: 2px solid $mediumgrey
+  padding-bottom: 15px
+
+.editing
+  .tab-menu
+    border-bottom: 2px solid #FFFFFF
+
+  a:not(.btn)
+    color: $mediumgrey
+    font-size: 1.6em
+    font-weight: 100
+    margin-right: 20px
+    letter-spacing: 1px
+    text-decoration: none
+
+  a.active
+    color: #000000
+
+.no-touchevents
+  .editing
+    a:hover
+      color: #000000
+
+    .btn-purple:hover
+      color: #ffffff
+
+.bar-wrapper
+  overflow: hidden
+
+  h3
+    white-space: nowrap
+
+.display-table
+  display: table
+  width: 100%
+
+.display-row
+  display: table-row
+
+.table-head
+  font-weight: bold
+
+  .display-cell
+    border-color: #000000
+    padding: 0 10px 10px 0
+
+.display-cell
+  display: table-cell
+  vertical-align: top
+  padding: 10px 10px 10px 0
+  border-bottom: 2px solid $mediumgrey
+
+.table-list
+  h4.name
+    float: left
+    margin: 6px 0
+
+  .table-list-employee
+    width: 50%
+    display: block
+    overflow: hidden
+    margin-bottom: 5px
+    border: none
+
+  .table-list-item
+    border-bottom: 2px solid $lightgrey
+    padding: 6px 12px 6px 0
+
+    .small-icon
+      margin-right: 10px
+
+.table-list-buttons
+  padding-top: 6px
+  clear: both
+  float: left
+
+  a
+    display: block
+    float: none
+
+.login-register-container
+  overflow: hidden
+
+  footer
+    color: $darkorange
+
+  .white-back
+    min-height: 415px
+
+  .field
+    padding: 0 0 10px
+
+.imageBox
+  position: relative
+  height: 400px
+  width: 400px
+  border: 1px solid $lightgrey
+  background: #FFFFFF
+  overflow: hidden
+  background-repeat: no-repeat
+  cursor: move
+
+  .thumbBox
+    position: absolute
+    top: 50%
+    left: 50%
+    width: 200px
+    height: 200px
+    margin-top: -100px
+    margin-left: -100px
+    border: 0
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5)
+    background: none repeat scroll 0% 0% transparent
+    -o-border-radius: 50%
+    -moz-border-radius: 50%
+    -webkit-border-radius: 50%
+    border-radius: 50%
+
+  .spinner
+    position: absolute
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    text-align: center
+    line-height: 400px
+    background: rgba(0,0,0,0.7)
+
+.action
+  width: 400px
+  height: 30px
+  margin: 10px 0
+
+  p
+    margin: 10px 0
+    overflow: hidden
+    float: left
+
+.compound-btn
+  label
+    float: left
+    display: block
+    width: auto
+    padding-left: 10px
+    padding-right: 10px
+    line-height: 32px
+
+  .btn
+    float: left!important
+

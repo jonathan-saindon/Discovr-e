@@ -1,0 +1,495 @@
+/* -------------------------------------
+/////// MAISON DES RÉGIONS //////////
+/////// MAIN STYLES ///////////////// */
+/* ---------------------------------- */
+
+/////// TABLE OF CONTENTS //////////////
+
+// 01 - fonts
+// 02 - variables
+// 03 - variables
+// 04 - containers
+// 05 - atoms
+///// 05.1 - type
+///// 05.1 - lists
+///// 05.1 - buttons
+///// 05.1 - forms
+// 06 - modifiers
+// 07 - molecules
+
+/* ---------------------------------- */
+
+// Fonts, Variables and Mixins
+
+/* ------------ ../fonts ------------ */
+
+@font-face
+  font-family: 'DINNext'
+  font-weight: normal
+  font-style: italic
+  src: url('fonts/2EFA7E_0_0.eot')
+  src: url('fonts/2EFA7E_0_0.eot?#iefix') format('embedded-opentype'), url('fonts/2EFA7E_0_0.woff2') format('woff2'), url('fonts/2EFA7E_0_0.woff') format('woff'), url('fonts/2EFA7E_0_0.ttf') format('truetype'), url('fonts/2EFA7E_0_0.svg#wf') format('svg')
+
+@font-face
+  font-family: 'DINNext'
+  font-weight: bold
+  font-style: normal
+  src: url('fonts/2EFA7E_1_0.eot')
+  src: url('fonts/2EFA7E_1_0.eot?#iefix') format('embedded-opentype'), url('fonts/2EFA7E_1_0.woff2') format('woff2'), url('fonts/2EFA7E_1_0.woff') format('woff'), url('fonts/2EFA7E_1_0.ttf') format('truetype'), url('fonts/2EFA7E_1_0.svg#wf') format('svg')
+
+@font-face
+  font-family: 'DINNext'
+  font-weight: normal
+  font-style: normal
+  src: url('fonts/2EFA7E_2_0.eot')
+  src: url('fonts/2EFA7E_2_0.eot?#iefix') format('embedded-opentype'), url('fonts/2EFA7E_2_0.woff2') format('woff2'), url('fonts/2EFA7E_2_0.woff') format('woff'), url('fonts/2EFA7E_2_0.ttf') format('truetype'), url('fonts/2EFA7E_2_0.svg#wf') format('svg')
+
+@font-face
+  font-family: 'DINNext'
+  font-weight: bold
+  font-style: italic
+  src: url('fonts/2EFA7E_3_0.eot')
+  src: url('fonts/2EFA7E_3_0.eot?#iefix') format('embedded-opentype'), url('fonts/2EFA7E_3_0.woff2') format('woff2'), url('fonts/2EFA7E_3_0.woff') format('woff'), url('fonts/2EFA7E_3_0.ttf') format('truetype'), url('fonts/2EFA7E_3_0.svg#wf') format('svg')
+
+@font-face
+  font-family: 'DINNextLTPro-LightItalic'
+  src: url('fonts/2EFA7E_4_0.eot')
+  src: url('fonts/2EFA7E_4_0.eot?#iefix') format('embedded-opentype'), url('fonts/2EFA7E_4_0.woff2') format('woff2'), url('fonts/2EFA7E_4_0.woff') format('woff'), url('fonts/2EFA7E_4_0.ttf') format('truetype'), url('fonts/2EFA7E_4_0.svg#wf') format('svg')
+
+@font-face
+  font-family: 'DINNextLTPro-Light'
+  src: url('fonts/2EFA7E_5_0.eot')
+  src: url('fonts/2EFA7E_5_0.eot?#iefix') format('embedded-opentype'), url('fonts/2EFA7E_5_0.woff2') format('woff2'), url('fonts/2EFA7E_5_0.woff') format('woff'), url('fonts/2EFA7E_5_0.ttf') format('truetype'), url('fonts/2EFA7E_5_0.svg#wf') format('svg')
+
+@import "_helpers/variables"
+@import "_helpers/mixins"
+
+// Basic Style Elements
+@import "_base_elements/containers"
+@import "_base_elements/atoms"
+@import "_base_elements/modifiers"
+
+/* ---------- MOLECULES ------------ */
+
+@import "../../modules/profile/styles/_company"
+@import "../../modules/profile/styles/_client"
+
+@import "../../modules/timeline/styles/_timeline"
+
+@import "../../modules/pairing/styles/_meeting_form"
+@import "../../modules/pairing/styles/_pairings"
+@import "../../modules/proposition/styles/_proposition_form"
+
+@import "../../modules/pairing/styles/_meetings"
+
+@import "component_style/_login"
+@import "component_style/_side_panel"
+@import "component_style/_top_panel"
+@import "component_style/_drop_menu"
+@import "component_style/_top_bar"
+@import "component_style/_notifications"
+
+@import "_The_Shame"
+
+/* ========== Date Time Picker ========== */
+
+.date-time-picker
+  margin: 0 -10px
+  overflow: hidden
+
+  .date-nav
+    height: 50px
+
+  .day
+    width: 20%
+    float: left
+    position: relative
+    height: 600px
+
+    .date
+      padding: 0 10px 10px 10px
+
+    .period
+      @include border-radius($borderradius)
+      margin: 0 10px 20px 10px
+      text-align: center
+      overflow: hidden
+      @include transition($transitiontime)
+      @include animation-timing($transitiontiming)
+
+      .smaller-padding
+        min-height: 74px
+
+    .time-picker
+      z-index: 98
+      width: calc(100% - 20px)
+      position: absolute
+      top: 62px
+      @include border-radius($borderradius)
+      margin: 0 10px 20px 10px
+      text-align: center
+      overflow: hidden
+
+      a
+        display: block
+
+      a:last-child
+        .sub-list-item
+          border-bottom: 0
+
+      .smaller-padding
+        border-bottom: 2px solid #ffffff
+        text-align: left
+
+        i
+          float: right
+
+        .close
+          float: right
+          padding: 8px
+
+        h4
+          margin-left: 10px
+          display: inline-block
+
+      .sub-list-item
+        padding: 10px 0
+        border-bottom: 2px solid #ffffff
+        @include transition($transitiontime)
+        @include animation-timing($transitiontiming)
+
+        a
+          text-decoration: none
+          color: $purple
+
+      .sub-list-item.selected
+        background: $mediumgrey
+
+        a
+          text-decoration: none
+          color: $purple
+
+  .today
+    h3
+      color: $orange
+
+.no-touchevents
+  .date-time-picker
+    .day
+      .period:hover
+        background: $mediumgrey
+
+      .period.empty:hover
+        background: $lightgrey
+
+      .time-picker
+        a:hover
+          .sub-list-item
+            background: $lightgrey
+
+        .sub-list-item:hover
+          background: $mediumgrey
+
+        .sub-list-item
+          a:hover
+            background: $mediumgrey
+
+.date-nav
+  .third.align-right
+    a
+      i
+        margin-right: 0
+        margin-left: 10px
+
+.time-picker
+  .card-sub-list
+    height: 351px
+    overflow: auto
+
+/* ========== Quantity Indicator ========== */
+
+.quantity-indicator
+  .number
+    text-align: left
+    padding: 0 0 4px 4px
+    font-size: 0.8em
+
+  .number.empty
+    opacity: 0
+
+  .bar
+    position: relative
+    width: 100%
+    height: 4px
+    background: $mediumgrey
+
+    .quantity
+      height: 4px
+      background: $orange
+
+.quantity-indicator.big-indicator
+  .bar
+    height: 26px
+
+    .quantity
+      height: 26px
+
+/* ========== Email Confirmation ========== */
+
+.email-confirmation-wrapper
+  .brand
+    color: #FFFFFF
+    height: 100px
+    font-size: 20px
+    line-height: 50px
+
+    img
+      width: 50px
+      float: left
+      margin-right: 15px
+
+  .email-confirmation
+    text-align: center
+
+    .btn
+      margin-top: 15px
+
+/* ========== Loading Bar Class ========== */
+
+.loading-bar
+  height: 4px
+  width: 101%
+  position: relative
+  background: $mediumgrey
+  overflow: hidden
+  margin-left: -1px
+
+.loading-sub-bar-1
+  position: absolute
+  top: 0
+  background: $beige
+  height: 4px
+  @include transition(0.5s)
+  @include animation-timing($transitiontiming)
+
+.loading-sub-bar-2
+  position: absolute
+  top: 0
+  background: #e0644b
+  height: 4px
+  @include transition(0.5s)
+  @include animation-timing($transitiontiming)
+
+.loading-sub-bar-3
+  position: absolute
+  top: 0
+  background: $darkbrown
+  height: 4px
+  @include transition(0.5s)
+  @include animation-timing($transitiontiming)
+
+/* ========== Loading Bar Id ========== */
+
+#loading-bar
+  #bar-1
+    height: 4px
+    position: absolute
+    background: $mediumgrey
+  #bar-2
+    height: 4px
+    position: absolute
+    background: $mediumdarkgrey
+  #bar-3
+    height: 4px
+    position: absolute
+    background: $lightgrey
+  #bar-4
+    height: 4px
+    position: absolute
+    background: $lightmediumgrey
+    z-index: -1
+
+#loading-circle
+  width: 50px
+  height: 50px
+  border-radius: 50%
+  overflow: hidden
+  position: relative
+  z-index: 110
+  margin: 0 auto
+  display: none
+
+  .bar
+    width: 100%
+    height: 100%
+
+#loading-circle.animated
+  display: block
+  #circle-bar-1
+    position: absolute
+    border-top: 4px solid $purple
+    border-bottom: 4px solid rgba(0, 0, 0, 0)
+    border-left: 4px solid rgba(0, 0, 0, 0)
+    border-right: 4px solid rgba(0, 0, 0, 0)
+    @include border-radius(100%)
+    @include animate(circle-bar-1, 2.5s, infinite)
+    animation-delay: 1.5s
+    animation-timing-function: ease-in-out
+
+  #circle-bar-2
+    position: absolute
+    border-top: 4px solid $lilac
+    border-bottom: 4px solid rgba(0, 0, 0, 0)
+    border-left: 4px solid rgba(0, 0, 0, 0)
+    border-right: 4px solid $lilac
+    @include border-radius(100%)
+    @include animate(circle-bar-1, 2.5s, infinite)
+    animation-delay: 2.5s
+    animation-timing-function: ease-in-out
+    z-index: -1
+
+  #circle-bar-3
+    position: absolute
+    border: 4px solid
+    border-top-color: $lightlilac
+    border-bottom-color: rgba(0, 0, 0, 0)
+    border-left-color: rgba(0, 0, 0, 0)
+    border-right-color: rgba(0, 0, 0, 0)
+    @include border-radius(100%)
+    @include animate(circle-bar-1, 2.5s, infinite)
+    animation-delay: 2.5s
+    animation-timing-function: ease-in-out
+
+  #circle-bar-4
+    position: absolute
+    border-top: 4px solid #ffffff
+    border-bottom: 4px solid #ffffff
+    border-left: 4px solid #ffffff
+    border-right: 4px solid #ffffff
+    @include border-radius(100%)
+    @include animate(circle-bar-1, 4.5s, infinite)
+    animation-delay: 3.5s
+    animation-timing-function: ease-in-out
+    z-index: -3
+
+
+#photo_choice_content
+  #loading-circle
+    position: absolute
+    left: 225px
+    margin-left: -25px
+    top: 280px
+
+#loading-bar.animated
+  #bar-1
+    @include animate(loader-bar-1, 2.5s, infinite)
+    animation-delay: 1.5s
+    animation-timing-function: ease-in-out
+  #bar-2
+    @include animate(loader-bar-1, 2.5s, infinite)
+    animation-delay: 2.5s
+    animation-timing-function: ease-in-out
+  #bar-3
+    @include animate(loader-bar-1, 1.5s, infinite)
+    animation-delay: 3.5s
+    animation-timing-function: ease-in-out
+  #bar-4
+    @include animate(loader-bar-1, 4.5s, infinite)
+    animation-delay: 1.5s
+    animation-timing-function: ease-in-out
+
+@-webkit-keyframes loader-bar-1
+  0%
+    width: 0
+    left: 0
+  50%
+    width: 100%
+    left: 0
+  100%
+    width: 0
+    left: 100%
+
+@-moz-keyframes loader-bar-1
+  0%
+    width: 0
+    left: 0
+  50%
+    width: 100%
+    left: 0
+  100%
+    width: 0
+    left: 100%
+
+@-o-keyframes loader-bar-1
+  0%
+    width: 0
+    left: 0
+  50%
+    width: 100%
+    left: 0
+  100%
+    width: 0
+    left: 100%
+
+@keyframes loader-bar-1
+  0%
+    width: 0
+    left: 0
+  50%
+    width: 100%
+    left: 0
+  100%
+    width: 0
+    left: 100%
+
+@-webkit-keyframes circle-bar-1
+  0%
+    -webkit-transform: rotate(0)
+    -ms-transform: rotate(0)
+    -o-transform: rotate(0)
+    transform: rotate(0)
+
+  100%
+    -webkit-transform: rotate(360deg)
+    -ms-transform: rotate(360deg)
+    -o-transform: rotate(360deg)
+    transform: rotate(360deg)
+
+@-moz-keyframes circle-bar-1
+  0%
+    -webkit-transform: rotate(0)
+    -ms-transform: rotate(0)
+    -o-transform: rotate(0)
+    transform: rotate(0)
+
+  100%
+    -webkit-transform: rotate(360deg)
+    -ms-transform: rotate(360deg)
+    -o-transform: rotate(360deg)
+    transform: rotate(360deg)
+
+@-o-keyframes circle-bar-1
+  0%
+    -webkit-transform: rotate(0)
+    -ms-transform: rotate(0)
+    -o-transform: rotate(0)
+    transform: rotate(0)
+
+  100%
+    -webkit-transform: rotate(360deg)
+    -ms-transform: rotate(360deg)
+    -o-transform: rotate(360deg)
+    transform: rotate(360deg)
+
+@keyframes circle-bar-1
+  0%
+    -webkit-transform: rotate(0)
+    -ms-transform: rotate(0)
+    -o-transform: rotate(0)
+    transform: rotate(0)
+
+  100%
+    -webkit-transform: rotate(360deg)
+    -ms-transform: rotate(360deg)
+    -o-transform: rotate(360deg)
+    transform: rotate(360deg)

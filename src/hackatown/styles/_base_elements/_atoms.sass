@@ -1,0 +1,653 @@
+/* -------------- ATOMS ------------ */
+
+h1
+  font-weight: 100
+  font-size: 50px
+  color: rgba(0,0,0,0.8)
+  line-height: 1.1
+  margin: 0
+
+h2
+  font-weight: 100
+  font-size: 26px
+  color: rgba(0,0,0,0.8)
+  line-height: 1.1
+  margin: 0
+
+h3
+  font-weight: 100
+  font-size: 24px
+  color: rgba(0,0,0,0.8)
+  line-height: 1.1
+  margin: 0
+
+h4
+  font-weight: 100
+  font-size: 18px
+  color: rgba(0,0,0,0.8)
+  line-height: 1.1
+  margin: 0
+
+body
+  font-weight: 100
+  font-size: 16px
+  color: rgba(0,0,0,0.8)
+  line-height: 1.1
+
+small
+  font-weight: 100
+  font-size: 12px
+  color: rgba(0,0,0,0.8)
+  line-height: 1.1
+
+h1.bold,
+h2.bold,
+h3.bold,
+h4.bold,
+strong,
+small.bold
+  font-weight: bold
+
+h1.secondary,
+h2.secondary,
+h3.secondary,
+h4.secondary,
+div.secondary,
+p.secondary,
+span.secondary,
+small.secondary
+  color: rgba(0,0,0,0.6)
+
+h1.disabled,
+h2.disabled,
+h3.disabled,
+h4.disabled,
+div.disabled,
+p.disabled,
+span.disabled,
+small.disabled
+  color: rgba(0,0,0,0.3)
+
+h1.accent,
+h2.accent,
+h3.accent,
+h4.accent,
+div.accent,
+p.accent,
+span.accent,
+small.accent
+  color: $red
+
+h1 i,
+h2 i,
+h3 i,
+h4 i
+  margin-right: 10px
+
+h1.underline,
+h2.underline,
+h3.underline,
+h4.underline
+  border-bottom: 2px solid $mediumgrey
+  padding-bottom: 15px
+
+p
+  margin: 0 0 10px
+
+em
+  font-style: italic
+
+a
+  color: #000
+  @include transition($transitiontime)
+  @include animation-timing($transitiontiming)
+  text-decoration: none
+  cursor: pointer
+
+a.disabled
+  color: #000000
+  cursor: default
+  text-decoration: none
+  pointer-events: none
+
+a:visited
+  color: #000
+  text-decoration: none
+
+.no-touchevents
+  a:hover
+    color: #000
+    text-decoration: none
+
+a.bar
+  text-decoration: none
+  overflow: hidden
+
+  h3
+    position: relative
+    height: 1em
+    margin: 0
+
+    i.fa
+      position: absolute
+      top: 60px
+      opacity: 0
+
+    span
+      @include transition(0.5s)
+      @include animation-timing($transitiontiming)
+      position: absolute
+
+.no-touchevents
+  a.bar:hover
+    text-decoration: none
+    overflow: hidden
+
+hr
+  border: 0
+  height: 2px
+  background: $lightgrey
+  margin: 0
+
+form
+  overflow: hidden
+
+footer
+  margin-top: 35px
+
+label
+  width: 150px
+  display: inline-block
+  max-width: 100%
+  margin-bottom: 5px
+
+  span
+    width: inherit
+
+.field label
+  font-size: 12px
+  font-weight: 600
+
+input[type=text],
+input[type=number],
+input[type=url],
+input[type=email],
+input[type=password],
+textarea
+  @include border-radius($borderradius)
+  background: #fff
+  border: 0
+  padding: 6px 8px
+  width: 100%
+  color: #000!important
+  font-size: 1rem
+  box-sizing: border-box
+  @include appearance-none()
+
+input[type=text]:focus,
+input[type=number]:focus,
+input[type=url]:focus,
+input[type=email]:focus,
+input[type=password]:focus,
+textarea:focus,
+select:focus
+  outline: 0
+
+.checkbox-field
+  input[type=checkbox]
+    float: left
+    margin: 3px 8px 0 0
+
+.select-input
+  background: inherit
+  position: relative
+  @include border-radius($borderradius)
+  overflow: visible
+  width: 100%
+
+  select
+    background: #FFFFFF
+    border: 0
+    padding: 6px 8px
+    width: 100%
+    @include border-radius($borderradius)
+    font-size: 1rem
+    @include appearance-none()
+
+  .select-arrow
+    position: absolute
+    right: 0
+    top: 0
+    line-height: 39px
+    padding-right: 10px
+
+input[type=submit]
+  outline: 0 none
+  border: 0
+  padding: 6px 12px
+  clear: both
+  float: left
+  cursor: pointer
+  @include transition($transitiontime)
+  @include animation-timing($transitiontiming)
+  @include border-radius($borderradius)
+  @include appearance-none()
+
+.danger-zone
+  overflow: hidden
+  clear: both
+
+  label
+    margin: 0
+    padding-bottom: 10px
+    line-height: 1.2em
+    font-size: 12px
+    font-weight: 600
+
+    i
+      margin-right: 10px
+
+.no-touchevents
+  input[type=submit]:hover
+    background: $mediumdarkgrey
+    color: #fff
+
+
+.btn
+  display: inline-block
+  padding: 6px 12px
+  margin-bottom: 0
+  font-size: 14px
+  font-weight: normal
+  line-height: 1.42857143
+  text-align: center
+  white-space: nowrap
+  vertical-align: middle
+  -ms-touch-action: manipulation
+  touch-action: manipulation
+  cursor: pointer
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+  background-image: none
+  border: 0
+  background: $lightgrey
+  @include border-radius($borderradius)
+
+  i
+    margin-right: 10px
+
+.circle-btn
+  width: 30px
+  height: 30px
+  text-align: center
+  line-height: 31px
+  padding: 0
+  overflow: hidden
+  border-radius: 50%
+  background: $mediumgrey
+  margin: 0 5px
+  display: inline-block
+  cursor: pointer
+
+  i
+    margin: 0
+    color: #fff
+
+.circle-btn.disabled
+  background: $lightgrey
+
+.no-touchevents
+  .btn:hover,
+  .circle-btn:hover
+    background: $mediumdarkgrey
+    color: #fff
+
+input[type=submit]:active,
+input[type=submit]:focus,
+.btn:focus,
+.btn:active
+  outline: 0 none !important
+  border: 0
+
+.btn-red,
+.btn-red:active,
+.btn-red:visited
+  border: 0
+  background: $red
+  color: #ffffff
+  @include transition($transitiontime)
+  @include animation-timing($transitiontiming)
+  cursor: pointer
+
+.no-touchevents
+  .btn-red:hover,
+  input[type=submit].btn-darkred:hover
+    background: $darkred
+    color: #ffffff
+
+.btn-white,
+.btn-white:active,
+.btn-white:visited
+  border: 0
+  background: #ffffff
+  color: $mediumdarkgrey
+  @include transition($transitiontime)
+  @include animation-timing($transitiontiming)
+  cursor: pointer
+
+.no-touchevents
+  .btn-white:hover,
+  input[type=submit].btn-white:hover
+    background: $mediumdarkgrey
+    color: #ffffff
+
+.btn-grey,
+.btn-grey:active,
+.btn-grey:visited
+  border: 0
+  background: $lightgrey
+  color: #000000
+  @include transition($transitiontime)
+  @include animation-timing($transitiontiming)
+  cursor: pointer
+
+.no-touchevents
+  .btn-grey:hover,
+  input[type=submit].btn-grey:hover
+    background: $mediumdarkgrey
+    color: #ffffff
+
+.btn-darkgrey,
+.btn-darkgrey:active,
+.btn-darkgrey:visited
+  border: 0
+  background: $mediumdarkgrey
+  color: #000000
+  @include transition($transitiontime)
+  @include animation-timing($transitiontiming)
+  cursor: pointer
+
+.no-touchevents
+  .btn-darkgrey:hover,
+  input[type=submit].btn-darkgrey:hover
+    background: $red
+    color: #ffffff
+
+.btn-toggle,
+.btn-toggle:active,
+.btn-toggle:visited
+  cursor: pointer
+  font-weight: bold
+  padding: 3px 6px
+  border: 0
+  background: $mediumgrey
+  color: $red
+  @include transition($transitiontime)
+  @include animation-timing($transitiontiming)
+
+.btn-toggle.toggle-on,
+input[type=submit].btn-toggle.toggle-on
+  background: $red
+  color: #FFFFFF
+
+.no-touchevents
+  .btn-toggle:hover,
+  input[type=submit].btn-toggle:hover
+    background: $red
+    color: #FFFFFF
+
+
+.btn-transparent
+  color: $red
+  background: transparent
+
+  i
+    margin: 0
+
+.no-touchevents
+  .btn-transparent:hover
+    color: $darkred
+    background: transparent
+
+img
+  max-width: 100%
+  height: auto
+  vertical-align: middle
+  border: 0
+
+textarea
+  height: 100px
+
+input,
+button,
+select,
+textarea,
+optgroup
+  font-family: inherit
+  font-size: inherit
+  line-height: inherit
+  margin: 0
+  color: #000000
+
+select,
+button
+  cursor: pointer
+
+.side-panel::-webkit-scrollbar
+  width: 5px
+  margin-right: 10px
+
+.side-panel::-webkit-scrollbar-track
+  background: $mediumgrey
+
+.side-panel::-webkit-scrollbar-thumb
+  background-color: $mediumdarkgrey
+
+.panel-menu-wrap::-webkit-scrollbar
+  width: 5px
+  margin-right: 10px
+
+.card-sub-list::-webkit-scrollbar
+  width: 5px
+  margin-right: 10px
+
+.card-sub-list::-webkit-scrollbar-track
+  background-color: $mediumgrey
+
+.pop-up
+  .small-padding::-webkit-scrollbar
+    width: 5px
+    margin-right: 10px
+
+  .small-padding::-webkit-scrollbar-track
+    background-color: $mediumgrey
+
+.buttons
+  a,
+  input[type="submit"]
+    margin: 10px 10px 0 0
+    display: block
+    float: left
+    clear: none
+
+.small-icon
+  float: left
+  width: 25px
+  height: 25px
+  box-sizing: border-box
+  font-size: 11px
+  line-height: 25px
+  @include border-radius(50%)
+  background: $mediumgrey
+  color: #ffffff
+  text-align: center
+  font-size: 13px
+
+
+input[type=file]:before
+  content: 'Select file'
+  display: inline-block
+  border: 0
+  padding: 6px 8px
+  background: $purple
+  color: #FFFFFF
+  border-radius: 4px
+  cursor: pointer
+  @include transition($transitiontime)
+
+.no-touchevents
+  input[type=file]:before:hover
+    background: $darkpurple
+
+input[type=file]:focus
+  outline: none
+
+/* ========== Profile Photo and Logo ========== */
+
+.profile-photo
+  overflow: hidden
+  @include border-radius(50%)
+  float: left
+  margin-right: 20px
+  background: $lightmediumgrey
+  position: relative
+
+  .letter
+    width: 100%
+    text-align: center
+    display: block
+    text-transform: uppercase
+    color: #fff
+
+.logo
+  @include flex(1)
+  overflow: hidden
+  @include border-radius(4px)
+  float: left
+  margin-right: 20px
+  background: $lightmediumgrey
+  position: relative
+  text-align: center
+  color: #fff
+  text-transform: uppercase
+
+  .change-picture
+    position: relative
+
+    .letter
+      width: 100%
+      text-align: center
+      display: block
+      text-transform: uppercase
+      color: #fff
+
+    .edit-icon
+      width: 20px
+      height: 20px
+      position: absolute
+      left: -32px
+      margin-top: -9px
+      background: #312159
+      color: #ffffff
+      @include border-radius(50%)
+      text-align: center
+      line-height: 21px
+      display: none
+      font-size: 0.8em
+
+      i
+        margin: 0
+
+  #change-picture:hover
+    .edit-icon
+      display: block
+
+.profile-photo.big,
+.logo.big
+  width: 100px
+  height: 100px
+
+  .letter
+    font-size: 3em
+    line-height: 106px
+
+.profile-photo.medium,
+.logo.medium
+  width: 75px
+  height: 75px
+
+  .letter
+    font-size: 1.4em
+    line-height: 75px
+
+.profile-photo.small,
+.logo.small
+  width: 30px
+  height: 30px
+  margin-right: 10px
+
+  .letter
+    font-size: 1.3em
+    line-height: 32px
+
+.profile-photo.inline-photo
+  display: inline-block
+  float: none
+  margin: -10px 10px
+  background: #FFFFFF
+
+  .letter
+    color: $orange
+
+.logo
+  .profile-photo.medium
+    background: $lightmediumgrey
+    @include border-radius(4px)
+
+  .profile-photo.big
+    background: $lightmediumgrey
+    @include border-radius(4px)
+
+.display-cell
+  .profile-photo
+    margin-right: 10px
+
+
+.filter.select
+  select
+    background: none
+    @include border-radius($borderradius)
+    height: 32px
+
+/* ========== Status icons ========== */
+
+.small-icon.status
+  margin-right: 10px
+  background-color: #AAE1A2
+  @include border-radius(50%)
+
+.small-icon.status.active
+  background-color: #AAE1A2
+
+.small-icon.status.draft
+  background-color: #FFA755
+
+.small-icon.status.completed
+  background-color: #3B6734
+
+.small-icon.status.cancelled
+  background-color: $red
+
+.small-icon.status.inactive
+  background-color: #C5C5C5
+
+.small-icon.status.undecided
+  background-color: $mediumdarkgrey
+
+.small-icon.status.accepted
+  background-color: #AAE1A2
+
+.small-icon.status.refused
+  background-color: $red

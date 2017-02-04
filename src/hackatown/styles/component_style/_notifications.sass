@@ -1,0 +1,89 @@
+/* ========== NOTIFICATIONS ========== */
+
+.notification-form
+  label
+    width: auto
+    margin-right: 10px
+    margin-bottom: 10px
+
+.notification-list
+  .load-more
+    width: 100%
+    text-align: left
+    display: block
+
+#notification-button
+  cursor: pointer
+  position: relative
+
+  .medium-icon
+
+    i
+      margin: 0
+
+  .number-icon
+    position: absolute
+    right: 2px
+    top: 7px
+    width: 18px
+    height: 18px
+    text-align: center
+    @include border-radius(50%)
+    font-size: 10px
+    line-height: 19px
+    color: #FFFFFF
+    background: $darkred
+    overflow: hidden
+    padding-right: 1px
+
+.no-touchevents
+  .purple-back
+    #notification-button
+      .medium-icon:hover
+        background: $darkpurple
+
+    #notification-button:hover
+      .medium-icon
+        background: $darkpurple
+
+  #notification-button
+    .medium-icon:hover
+      background: $darkgrey
+
+  #notification-button:hover
+    .medium-icon
+      background: $darkgrey
+
+.notification
+  border-bottom: 1px solid $mediumgrey
+  overflow: hidden
+  line-height: 1.2em
+  cursor: pointer
+
+  div
+    overflow: hidden
+
+  .time
+    font-size: 0.8em
+    opacity: 0.6
+
+  a
+    padding: 0
+
+  .medium-icon
+    margin-right: 10px
+    float: left
+
+  i
+    margin: 0
+
+.notification.viewed
+  color: #A9A9A9
+
+  a
+    color: #A9A9A9
+
+.no-touchevents
+  .notification.viewed
+    a:hover
+      color: $darkgrey

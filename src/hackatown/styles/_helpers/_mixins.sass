@@ -1,0 +1,99 @@
+/* -------------- MIXINS ------------ */
+
+@mixin border-radius($radius)
+  -webkit-border-radius: $radius
+  -moz-border-radius: $radius
+  -ms-border-radius: $radius
+  -o-border-radius: $radius
+  border-radius: $radius
+
+@mixin border-bottom-radius($radius)
+  -webkit-border-bottom-left-radius: $radius
+  -webkit-border-bottom-right-radius: $radius
+  -moz-border-bottom-left-radius: $radius
+  -moz-border-bottom-right-radius: $radius
+  -ms-border-bottom-left-radius: $radius
+  -ms-border-bottom-right-radius: $radius
+  -o-border-bottom-left-radius: $radius
+  -o-border-bottom-right-radius: $radius
+  border-bottom-left-radius: $radius
+  border-bottom-right-radius: $radius
+
+@mixin animation-timing($timing)
+  -webkit-transition-timing-function: $timing
+  -moz-transition-timing-function: $timing
+  -ms-transition-timing-function: $timing
+  -o-transition-timing-function: $timing
+  transition-timing-function: $timing
+
+@mixin transition($time)
+  -webkit-transition: $time
+  -moz-transition: $time
+  -ms-transition: $time
+  -o-transition: $time
+  transition: $time
+
+@mixin background-color-transition($time)
+  -webkit-transition: background-color $time
+  -moz-transition: background-color $time
+  -ms-transition: background-color $time
+  -o-transition: background-color $time
+  transition: background-color $time
+
+@mixin appearance-none()
+  -webkit-appearance: none
+  -moz-appearance: none
+  -ms-appearance: none
+  -o-appearance: none
+  appearance: none
+
+@mixin display-flex()
+  display: -webkit-box
+  display: -webkit-flex
+  display: -moz-flex
+  display: -ms-flexbox
+  display: flex
+
+@mixin flex-direction-col()
+  -webkit-box-direction: normal
+  -webkit-box-orient: vertical
+  -webkit-flex-direction: column
+  -moz-flex-direction: column
+  -ms-flex-direction: column
+  flex-direction: column
+
+@mixin flex-direction-row()
+  -webkit-box-direction: normal
+  -webkit-box-orient: horizontal
+  -webkit-flex-direction: row
+  -moz-flex-direction: row
+  -ms-flex-direction: row
+  flex-direction: row
+
+@mixin flex($num)
+  -webkit-box-flex: $num
+  -webkit-flex: $num
+  -moz-box-flex: $num
+  -moz-flex: $num
+  -ms-flex: $num
+  flex: $num
+
+@mixin align-stretch()
+  -webkit-box-align: stretch
+  -ms-flex-align: stretch
+  -webkit-align-items: stretch
+  -moz-align-items: stretch
+  align-items: stretch
+
+@mixin box-shadow($opacity)
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, $opacity)
+  -moz-box-shadow: 0 0 20px rgba(0, 0, 0, $opacity)
+  -ms-box-shadow: 0 0 20px rgba(0, 0, 0, $opacity)
+  -o-box-shadow: 0 0 20px rgba(0, 0, 0, $opacity)
+  box-shadow: 0 0 20px rgba(0, 0, 0, $opacity)
+
+@mixin animate($animation, $time, $loop)
+  -webkit-animation: $animation $time $loop
+  -moz-animation:    $animation $time $loop
+  -o-animation:      $animation $time $loop
+  animation:         $animation $time $loop

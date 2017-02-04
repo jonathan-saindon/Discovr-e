@@ -1,0 +1,446 @@
+/* -------------- TABLET ------------ */
+
+@media screen and (max-width: 1100px)
+
+  .calendar
+    .calendar-header
+      nav
+        .calendar-type-selector
+          @include flex(1)
+          .btn
+            span
+              display: none
+
+@media screen and (max-width: 980px)
+
+  body.public-page
+    .top-bar
+      .navbar-brand
+        .desktop
+          display: block!important
+
+        .mobile
+          display: none!important
+
+      .navbar-right
+        .btn-orange
+          display: none
+
+        #profile-menu
+          display: block!important
+
+  #profile-link.mobile
+    display: none
+
+  .day-shift.smaller-padding.unavailable
+    padding: 2px 7px
+
+  .top-bar.ios-standalone
+    top: 20px
+
+  #main-content.ios-standalone
+    top: 74px
+
+  #main-content
+    top: 54px
+    height: calc(100% - 74px)
+
+  .panel-menu-wrap
+    height: calc(100% - 74px)
+
+  .ngdialog.ngdialog-side-panel
+    .ngdialog-overlay
+      display: none
+
+  body .mobile,
+  .table-list .table-list-buttons a.mobile
+    display: block
+
+  body span.mobile
+    display: inline-block
+
+  body .desktop
+    display: none!important
+
+  body
+    .calendar-wrapper
+      .mobile
+        display: none!important
+
+      .desktop
+        display: flex!important
+
+      .employee-calendar-wrapper.desktop
+        display: block!important
+
+    .availability-planner
+      .desktop
+        @include flex-direction-col()
+
+  .publish-button
+    margin-right: 5px
+
+  .bigger-padding
+    padding: 80px
+
+  .appointment-top h3
+    margin-top: 0
+
+  .availabilities_container .fc-toolbar h2,
+  .appointment_container .fc-toolbar h2
+    font-size: 1.3em
+    margin: 20px 0 0 0
+
+
+  .fixed + div
+    margin-left: 0
+
+  .container-fluid>.navbar-collapse,
+  .container-fluid>.navbar-header,
+  .container>.navbar-collapse,
+  .container>.navbar-header
+    margin: 0
+
+  .side-panel
+    width: 100%
+    margin-right: -100%
+    top: 74px
+    max-height: calc(100% - 74px)
+
+  #footer
+    display: none
+
+  #footer-mobile
+    display: block
+
+  .subpanel .third,
+  .existing-content .third
+    width: 50%
+
+  .business_container .third
+    width: 33.3333333333333333%
+
+
+  .navbar-brand
+    width: 170px
+    padding: 15px 8px
+
+  .nav>li
+    float: left
+
+  .navbar-nav
+    margin: 0
+    float: right
+
+  .date-nav .third
+    width: 33.3333%
+
+  .panel-menu
+    width: 48px
+
+
+  .logo-wrapper
+    width: 60px
+    margin-right: 20px
+
+  .logo-wrapper .logo
+    width: 60px
+    height: 60px
+
+  .business .name
+    font-size: 2em
+
+  #event-form .business .name
+    margin-top: 0
+
+  .business .third
+    margin-right: 0
+    width: calc(100% - 120px)
+    float: right
+
+  .timeline
+    margin: 0
+
+  #event-preview.event-preview-big
+    width: 400px
+
+  #event-form.event-page-4
+    margin-right: 400px
+
+  .btn-print
+    display: none!important
+
+  .availabilities_container .fc-toolbar,
+  .appointment_container .fc-toolbar
+    padding: 10px 0 0 0
+
+  .panel-menu, .panel-menu-back
+    margin-left: -200px
+
+  #language-link-wrap
+    display: none
+
+  .panel-menu.open,
+  .panel-menu-back.open
+    margin-left: 0
+
+  .calendar.schedule-planner
+    .calendar-header
+      height: 60px
+      .calendar-header-mobile
+        height: 125px
+
+        .bottom-row
+          width: 100%
+
+      h1
+        text-align: center
+        min-width: 0
+        position: relative
+        top: 2px
+        font-size: 16px
+
+        .smaller-padding
+          padding: 7px
+
+  .mobile-avails
+    .calendar-header-mobile
+      .month-selector
+        .week-preview
+          padding: 0
+          .day-preview-wrap
+            .day-preview
+              margin: 0 auto
+              padding-top: 10px
+              padding-bottom: 10px
+              height: 55px
+              .day-name-small
+                display: block!important
+                margin-left: 0
+                text-align: center
+    .employee-calendar-list-wrapper
+      .employee-avail
+        .shift
+          line-height: 35px
+        .shift.unavailable
+          color: #FFFFFF
+          background: $darkred
+
+    .add-avails
+      .btn-toggle
+        padding: 6px 12px
+        clear: left
+
+
+    .shift
+      padding: 5px 7px
+      @include border-radius($borderradius)
+      overflow: hidden
+      position: relative
+      min-height: 35px
+      cursor: pointer
+      font-size: 14px
+      margin-bottom: 8px
+
+      .edit-shift-icon
+        position: absolute
+        display: block
+        top: 5px
+        right: 7px
+        opacity: 0
+        @include transition($transitiontime)
+        @include animation-timing($transitiontiming)
+
+  .no-touchevents
+    .mobile-avails
+      .shift:hover
+        .edit-shift-icon
+          opacity: 1
+
+  .position-container
+    .position-in-list
+      .group-button
+        display: none!important
+
+  .calendar-type-selector
+    .btn
+      i
+        margin-right: 0
+
+  .color-radio-wrap
+    max-width: 50%
+
+  .week-preview
+    @include display-flex()
+    @include flex-direction-row()
+    background: $orange
+
+    .week-change-button
+      line-height: 35px
+      width: 40px
+      text-align: center
+      color: #ffffff
+
+      i
+        margin: 0
+
+    .day-preview-wrap
+      @include display-flex()
+      @include flex(1)
+      padding: 0
+
+      .day-preview
+        @include border-radius(0)
+        overflow: hidden
+        height: 35px
+        width: auto
+        line-height: 36px
+        background: transparent
+        color: #ffffff
+        text-align: center
+        cursor: pointer
+        padding: 0 10px
+        width: 100%
+        @include transition($transitiontime)
+        @include animation-timing($transitiontiming)
+
+        .day-name-small
+          display: inline-block
+          margin-left: 10px
+
+        .day-name-full
+          display: none
+          margin-left: 10px
+
+      .day-preview.today
+        color: $orange
+
+        .day-name-small
+          display: inline-block
+          margin-left: 10px
+
+        .day-name-full
+          display: none
+          margin-left: 10px
+
+      .day-preview.current-day
+        background: $purple
+        color: #ffffff
+
+        .day-name-small
+          display: inline-block
+          margin-left: 10px
+
+        .day-name-full
+          display: none
+          margin-left: 10px
+
+  .no-touchevents
+    .week-preview
+      .day-preview-wrap
+        .day-preview:hover
+          background: $lilac
+
+        .day-preview.today:hover
+          background: $beige
+
+  .employee-calendar-list-wrapper
+
+    .employee-schedule
+      border-bottom: 1px solid $mediumgrey
+
+      .smaller-padding
+        @include display-flex()
+        @include flex-direction-row()
+
+        .employee
+          @include display-flex()
+          @include flex(1)
+
+          .profile-photo
+            margin-right: 10px
+
+          .employee-name
+            margin-right: 20px
+
+        .shift-list
+          @include display-flex()
+          @include flex(3)
+          @include flex-direction-row()
+          flex-wrap: wrap
+
+          .day-shift
+            @include border-radius($borderradius)
+            color: #fff
+            @include display-flex()
+            @include flex(4)
+            position: relative
+            cursor: pointer
+            min-width: 150px
+            margin-right: 5px
+            margin-bottom: 5px
+            overflow: hidden
+
+            .shift-content-back
+              width: 100%
+              margin-left: 3px
+
+              .shift-content
+                width: 100%
+                border: none
+                min-height: 35px
+                line-height: 1em
+                padding: 10px
+                font-size: 16px
+
+                p
+                  display: inline-block
+                  margin-bottom: 0
+                  margin-left: 5px
+
+                .edit-shift-icon
+                  position: static
+                  display: block
+                  float: right
+                  opacity: 0
+                  @include transition($transitiontime)
+                  @include animation-timing($transitiontiming)
+
+              .shift-content.unpublished
+                color: #000000
+
+          .add-shift
+            @include display-flex()
+            @include flex(1)
+            text-align: right
+            line-height: 40px
+
+            a
+              text-align: right
+              display: block
+              padding-right: 12px
+              width: 100%
+
+              i
+                margin: 0
+
+            a:focus
+              outline: 0
+
+  .no-touchevents
+    .employee-calendar-list-wrapper
+      .employee-schedule
+        .smaller-padding
+          .shift-list
+            .day-shift:hover
+              .shift-content-back
+                .shift-content
+                  .edit-shift-icon
+                    opacity: 1
+
+  #menu-footer
+    position: static
+
+  .schedule-settings-wrapper
+    label
+      padding-bottom: 5px
