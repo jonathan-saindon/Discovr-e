@@ -11,16 +11,8 @@ import * as i18n from './i18n'
 
 import {fetchData} from './middleware/api'
 import {Schemas} from './middleware/schema'
-import {selectPropositionFromPairing} from './modules/proposition/ducks'
 
 //pages
-import Entreprises from './hackatown/pages/entreprises'
-import Entreprise from './hackatown/pages/entreprise'
-import Maillages from './hackatown/pages/maillages'
-import Maillage from './hackatown/pages/maillage'
-import ClientObjectivesPage from './hackatown/pages/ClientObjectivesPage'
-import ClientBusinessPage from './hackatown/pages/ClientBusinessPage'
-import ClientConfirmPage from './hackatown/pages/ClientConfirmPage'
 import UserProfile from './hackatown/pages/UserProfile'
 import LoginPage from './shared/components/pages/LoginPage'
 import ErrorPage from './shared/components/pages/ErrorPage'
@@ -41,18 +33,10 @@ export const store = configureStore({
 
 const history = syncHistoryWithStore(browserHistory, store)
 
-export const API_URL = "http://api.maisondesregions.com/api/"
+export const API_URL = "http://api..com/"
 
 function loadData() {
-  store.dispatch(fetchData(Schemas.DOMAINS_ARRAY, "domain"))
-  store.dispatch(fetchData(Schemas.REGIONS_ARRAY, "region"))
-  store.dispatch(fetchData(Schemas.CONTACT_ARRAY, "contact"))
-  store.dispatch(fetchData(Schemas.BUSINESS_ARRAY, "business"))
-  store.dispatch(fetchData(Schemas.MEETING_ARRAY, "meeting"))
-  store.dispatch(fetchData(Schemas.PAIRING_ARRAY, "pairing"))
   store.dispatch(fetchData(Schemas.USER_ARRAY, "user"))
-  store.dispatch(fetchData(Schemas.FOLLOWUP_ARRAY, "followup"))
-  store.dispatch(fetchData(Schemas.PAIRING_STATE_ARRAY, "pairing_state"))
 }
 
 function selectAndLoad(route){
@@ -71,19 +55,10 @@ function renderRoutes() {
 
         <Route path="/account/profile/:id" component={UserProfile} onEnter={loadData}/>
 
-        <Route path="/company" component={Entreprises} onEnter={loadData}/>
-        <Route path="/company/:id" component={Entreprise} onEnter={loadData}/>
-
-        <Route path="pairing" component={Maillages} onEnter={loadData}/>
-        <Route path="pairing/:id" component={Maillage} onEnter={selectAndLoad}/>
-
         <Route path="logout" onEnter={logout}/>
       </Route>
 
       <Route component={PublicBase}>
-        <Route path="client/confirm" component={ClientConfirmPage} onEnter={loadData}/>
-        <Route path="client/business/:id" component={ClientBusinessPage} onEnter={loadData}/>
-        <Route path="client/objectives/:id" component={ClientObjectivesPage} onEnter={loadData}/>
         <Route path="/login" component={LoginPage}/>
         <Route path="/error" component={ErrorPage}/>
       </Route>
