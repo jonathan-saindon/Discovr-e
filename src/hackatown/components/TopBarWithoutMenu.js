@@ -36,7 +36,7 @@ export class TopBarActionList extends Component {
 
 export const TopBarBrandMinimal = ({}) => (
   <div className="navbar-brand">
-    <span>Maison des Régions</span>
+    <span>Discover-E MTL</span>
   </div>
 )
 

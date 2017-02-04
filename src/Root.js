@@ -15,6 +15,7 @@ import {Schemas} from './middleware/schema'
 //pages
 import UserProfile from './hackatown/pages/UserProfile'
 import LoginPage from './shared/components/pages/LoginPage'
+import Map from './hackatown/pages/Map'
 import ErrorPage from './shared/components/pages/ErrorPage'
 import NotFoundPage from './shared/components/pages/NotFoundPage'
 import Base from './hackatown/pages/Base'
@@ -51,7 +52,6 @@ function renderRoutes() {
       <Route component={Base} onEnter={requireAuth}>
         <Redirect from="/account" to="/account/profile"/>
 
-        <Route path="/" component={LoginPage} onEnter={loadData}/>
 
         <Route path="/account/profile/:id" component={UserProfile} onEnter={loadData}/>
 
@@ -59,6 +59,7 @@ function renderRoutes() {
       </Route>
 
       <Route component={PublicBase}>
+        <Route path="/" component={Map}/>
         <Route path="/login" component={LoginPage}/>
         <Route path="/error" component={ErrorPage}/>
       </Route>

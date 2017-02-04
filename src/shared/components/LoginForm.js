@@ -19,7 +19,7 @@ class LoginForm extends Component {
 
     return (
       <form onSubmit={handleSubmit} className="login-form">
-        <h2 className="underline">Plateforme de maillage de la Maison des Régions</h2>
+        <h2 className="underline">Login Page</h2>
         <h3 className="bold small-padding-top">Connexion</h3>
         <div className="field">
           <label for="id_email">Email</label>
