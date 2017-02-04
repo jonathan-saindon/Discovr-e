@@ -12,7 +12,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/static/'
+    publicPath: '/dist/'
   },
   plugins: [
     // todo Use the plugin to specify the resulting filename (and add needed behavior to the compiler)
