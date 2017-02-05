@@ -5,6 +5,8 @@ var lieuMarkers = [];
 var patrimoniauxMarkers = [];
 const distance = 5;
 var dictionaire = [];
+var lat;
+var lng;
 
 function initMap() {
     console.log("init gmap");
@@ -143,7 +145,11 @@ function showPatrimoniaux() {
 
 function setMapOnAll(map, arr) {
     for (let i = 0; i < arr.length; i++) {
-        arr[i].setMap(map);
+        if (getDistanceFromLatLonInKm(lat, lng, arr[i].position.lat(), arr[i].position.lng()) < distance) {
+            arr[i].setMap(map);
+        } else {
+            arr[i].setMap(null);
+        }
     }
 }
 
@@ -183,7 +189,9 @@ function geoLocalisation(callback) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var jsonResponse = JSON.parse(this.responseText);
-            callback(jsonResponse.location.lat, jsonResponse.location.lng, distance);
+            lat = jsonResponse.location.lat;
+            lng = jsonResponse.location.lng;
+            callback(lat, lng, distance);
         }
     };
     xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
