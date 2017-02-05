@@ -141,6 +141,10 @@ a.menuElem.right {
     background-image: url("/static/img/parking.png");
 }
 
+.img.public {
+    background-image: url("/static/img/public.png");
+}
+
 .img.library {
     background-image: url("/static/img/bibliotheque.png");
 }
