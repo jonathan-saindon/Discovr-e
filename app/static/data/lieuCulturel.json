@@ -1,4 +1,4 @@
-exports.lieuCulturel = [
+[
  {
    "FIELD1": "Arrondissement",
    "FIELD2": "Noms du réseau",

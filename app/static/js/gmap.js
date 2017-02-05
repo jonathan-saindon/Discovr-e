@@ -1,8 +1,8 @@
 // $(function() {
 var map;
-
-var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-var labelIndex = 0;
+var monumentMarkers = [];
+var lieuMarkers = [];
+var patrimoniauxMarkers = [];
 
 function initMap() {
     console.log("init gmap");
@@ -10,11 +10,6 @@ function initMap() {
         center: {lat: 45.5016889, lng: -73.56725599999999},
         zoom: 14
     });
-    addMarker({lat: 45.5016889, lng: -73.56725599999999}, map, "Musee de truc",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Mus%C3%A9e_Goya_6.jpg/250px-Mus%C3%A9e_Goya_6.jpg",
-        "description super awesome");
-
-
 }
 
 // Adds a marker to the map.
@@ -33,7 +28,6 @@ function addMarker(location, map, name, urlImage, description) {
     return marker;
 }
 
-
 function setSidebarInformation(name, urlImage, description) {
     document.getElementById("sidebar-name").innerHTML = name;
     if(urlImage){
@@ -43,24 +37,22 @@ function setSidebarInformation(name, urlImage, description) {
     // window.alert(name+""+urlImage);
 }
 
-var monumentMarkers = [];
-var lieuMarkers = [];
-
-var dataHandler = require(['./static/js/dataHandler.js'], function (dataHandler) {
+require(['./static/js/dataHandler.js'], function (dataHandler) {
     dataHandler.getMonument(function (data) {
         for (var i = 0; i < data.length; i++) {
             monumentMarkers.push(addMarker({lat: data[i].LAT, lng: data[i].LONG}, map, data[i].NOM));
         }
-
     });
     dataHandler.getLieuxCulturel(function (data) {
         for (var i = 0; i < data.length; i++) {
-            console.log(data[i]);
             lieuMarkers.push(addMarker({lat: parseFloat(data[i].FIELD11), lng: parseFloat(data[i].FIELD10)}, map, data[i].FIELD3,null,data[i].FIELD12));
         }
     });
-    // console.log();
-    //for each
+    dataHandler.getSitePatrimoniaux(function (data) {
+        for (var i = 1; i <data.length; i++) {
+            patrimoniauxMarkers.push(addMarker({lat: parseFloat(data[i].FIELD11), lng: parseFloat(data[i].FIELD12)}, map, data[i].FIELD1,null,data[i].FIELD4));
+        }
+    });
 });
 
 //ex hideMarker(monumentMarkers)
@@ -72,18 +64,4 @@ function showMonument(name){
     setMapOnAll(map, name)
 }
 
-function setMapOnAll(map, markers) {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
-    }
-}
-
-// console.log("hi"+dataHandler.getHello());
-// console.log(user);
-
-// console.log(result);
-// $(function() {
 initMap();
-// });
-// google.maps.event.addDomListener(window, 'load', initMap);
-// });

@@ -1,4 +1,4 @@
-exports.monument = [{
+[{
     "NO_OUVRAGE": 215,
     "NOM": "CROIX DU MONT-ROYAL",
     "x": 297931.97941375,
