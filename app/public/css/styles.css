@@ -26,6 +26,8 @@
     --color-complement-3: #B54F26;
     --color-complement-4: #8F320D;
 
+    --color-disabled: #888;
+
     /* ---- SCREEN RESOLUTIONS ---- */
     --low-res: 480px;
     --medium-res: 800px;
@@ -34,7 +36,7 @@
     /* ELEMENT SIZES */
     --menubar-height: 40px;
     --sidebar-width: 50px;
-    --sidebarBtn-size: 42px;
+    --sidebarBtn-size: 40px;
     --menuElem-width: 80px;
     --menuElem-padding: 10px;
 }
@@ -113,6 +115,16 @@ a.menuElem.right {
     background-size: contain;
     height: var(--sidebarBtn-size);
     width: var(--sidebarBtn-size);
+}
+
+.sidebarBtn.disabled {
+    background-color: var(--color-disabled);
+    opacity: 0.5;
+}
+
+.sidebarBtn.disabled:hover {
+    background-color: var(--color-secondary-2-1);
+    opacity: 0.75;
 }
 
 .sidebarBtn .landmarks {
