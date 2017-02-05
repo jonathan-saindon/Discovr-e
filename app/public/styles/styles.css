@@ -1,4 +1,6 @@
 :root {
+    --img-base: "/app/public/img/s";
+
     /* ---- COLOR PALETTE ---- */
     --color1: rgba(1, 22, 56, 1);
     --color2: rgba(54, 65, 86, 1);
@@ -7,21 +9,22 @@
     --color5: rgba(33, 78, 52, 1);
 
     /* ---- SCREEN RESOLUTIONS ---- */
-    --lowres: 480px;
-    --mediumres: 800px;
-    --highres: 1200px;
+    --low-res: 480px;
+    --medium-res: 800px;
+    --high-res: 1200px;
 
     /* ELEMENT SIZES */
-    --menuBarHeight: 40px;
-    --sideMenuWidth: 50px;
-    --menuElemWidth: 80px;
-    --menuElemPadding: 10px;
+    --menubar-height: 40px;
+    --sidemenu-width: 50px;
+    --menuElem-width: 80px;
+    --menuElem-padding: 10px;
 }
 
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
 }
 
 #map {
@@ -29,25 +32,25 @@ html, body {
 }
 
 .content {
-    margin-left: var(--sideMenuWidth);
+    margin-left: var(--sidemenu-width);
 }
 
 .menubar {
-    height: var(--menuBarHeight);
+    height: var(--menubar-height);
     background-color: var(--color1);
 }
 
 .menubar .title {
     display: inline-block;
-    height: calc(100% - (2 * var(--menuElemPadding)));
+    height: calc(100% - (2 * var(--menuElem-padding)));
     width: 120px;
-    padding: var(--menuElemPadding);
+    padding: var(--menuElem-padding);
 }
 
 .menubar .menuElem {
     display: inline-block;
-    height: calc(100% - (2 * var(--menuElemPadding)));
-    padding: var(--menuElemPadding);
+    height: calc(100% - (2 * var(--menuElem-padding)));
+    padding: var(--menuElem-padding);
     color: var(--color3);
 }
 
@@ -70,19 +73,32 @@ html, body {
 .sidebar {
     float: left;
     height: 100%;
-    width: var(--sideMenuWidth);
-    padding-top: var(--menuBarHeight);
+    width: var(--sidemenu-width);
     background-color: var(--color2);
 }
 
-/* The navigation menu links */
-.sidebar a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: var(--color2);
-    display: block;
-    transition: 0.3s
+.sidebar .sidebarBtn {
+    height: 50px;
+    width: 50px;
+    margin: 0;
+}
+
+.sidebarBtn img.landmarks {
+    background-image: "/static/img/landmark.png";
+    height: 50px;
+    width: 50px;
+}
+
+.sidebarBtn img.landmarks {
+    background-image: "/static/img/landmark.png";
+    height: 50px;
+    width: 50px;
+}
+
+.sidebarBtn img.landmarks {
+    background-image: "/static/img/landmark.png";
+    height: 50px;
+    width: 50px;
 }
 
 /* When you mouse over the navigation links, change their color */
