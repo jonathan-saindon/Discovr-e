@@ -9,8 +9,10 @@
     <div class="menubar">
         <div class="title">Discovr-e</div>
         <a class="menuElem left">Map</a>
+        <!--
         <a class="menuElem right">FAQ</a>
         <a class="menuElem right">Contact</a>
+        -->
     </div>
 
 
@@ -26,9 +28,12 @@
 
         <div id="map" class="mapContainer"></div>
 
-        <div class="descrBar">
-            <p id="descr-name" class="descrBar-name">here</p>
-            <p id="descr-details" class="descrBar-description">here</p>
+        <div id="descrBar" class="descrBar" style="display: none;">
+            <div class="descrHead">
+                <p id="descr-name" class="descrBar-name">name</p>
+                <div class="descrBtn" onclick="hideDescrBar()"><div class="img close"></div></div>
+            </div>
+            <p id="descr-details" class="descrBar-description">description</p>
             <img id="descr-img" class="descrBar-image" src="">
         </div>
     </div>
@@ -40,6 +45,7 @@
             crossorigin="anonymous"></script>
     <script src="/static/js/require.js"></script>
     <script src="/static/js/gmap.js" defer="defer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!--<script src="/static/js/dataHandler.js" defer="defer"></script>-->
     <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&callback=initMap"

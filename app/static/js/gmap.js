@@ -29,8 +29,19 @@ function addMarker(location, map, name, urlImage, description) {
     marker.addListener('click', function () {
         setSidebarInformation(name, urlImage, description);
 
+        if (document.getElementById("descrBar").style.display == "none") {
+            showDescrBar();
+        }
     });
     return marker;
+}
+
+function showDescrBar() {
+    $('#descrBar').show().animate({right: 0});
+}
+
+function hideDescrBar() {
+    $('#descrBar').animate({right: -355}).hide();
 }
 
 function setSidebarInformation(name, urlImage, description) {
