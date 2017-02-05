@@ -14,9 +14,7 @@
             height: 100%;
         }
     </style>
-    <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY">
-    </script>
+
     <!--<script-->
             <!--src="https://code.jquery.com/jquery-3.1.1.slim.min.js"-->
             <!--integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="-->
@@ -25,12 +23,21 @@
 </head>
 <body>
 <div>Hello</div>
-<div class="container">
-    <div class="menu">
 
-    </div>
-    <div id="map"></div>
-</div>
+<div id="map"></div>
 <script src="/static/gmap.js"></script>
+<!--<script>-->
+    <!--var map;-->
+    <!--function initMap() {-->
+        <!--map = new google.maps.Map(document.getElementById('map'), {-->
+            <!--center: {lat: -34.397, lng: 150.644},-->
+            <!--zoom: 8-->
+        <!--});-->
+    <!--}-->
+<!--</script>-->
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&callback=initMap"
+        async defer>
+</script>
 </body>
 </html>
