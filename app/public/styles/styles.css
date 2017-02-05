@@ -1,0 +1,152 @@
+:root {
+    /* ---- COLOR PALETTE ---- */
+    --color1: rgba(1, 22, 56, 1);
+    --color2: rgba(54, 65, 86, 1);
+    --color3: rgba(205, 205, 205, 1);
+    --color4: rgba(223, 248, 235, 1);
+    --color5: rgba(33, 78, 52, 1);
+
+    /* ---- SCREEN RESOLUTIONS ---- */
+    --lowres: 480px;
+    --mediumres: 800px;
+    --highres: 1200px;
+
+    /* ELEMENT SIZES */
+    --menuBarHeight: 40px;
+    --sideMenuWidth: 50px;
+    --menuElemWidth: 80px;
+    --menuElemPadding: 10px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    height: 100%;
+}
+
+.content {
+    margin-left: var(--sideMenuWidth);
+}
+
+.menubar {
+    height: var(--menuBarHeight);
+    background-color: var(--color1);
+}
+
+.menubar .title {
+    display: inline-block;
+    height: calc(100% - (2 * var(--menuElemPadding)));
+    width: 120px;
+    padding: var(--menuElemPadding);
+}
+
+.menubar .menuElem {
+    display: inline-block;
+    height: calc(100% - (2 * var(--menuElemPadding)));
+    padding: var(--menuElemPadding);
+    color: var(--color3);
+}
+
+.menubar .menuElem a {
+    color: var(--color3);
+}
+
+.menuElem .left {
+    float: left;
+    border-style: solid;
+    border-left: thick double var(--color3);
+}
+
+.menuElem .right {
+    float: right;
+    border-style: solid;
+    border-right: thick double var(--color3);
+}
+
+.sidebar {
+    float: left;
+    height: 100%;
+    width: var(--sideMenuWidth);
+    padding-top: var(--menuBarHeight);
+    background-color: var(--color2);
+}
+
+/* The navigation menu links */
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: var(--color2);
+    display: block;
+    transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover,
+.offcanvas a:focus {
+    color: var(--color3);
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    /* transition: margin-left .5s; */
+    padding: 20px;
+}
+
+.testbar {
+    position: absolute;
+    right: 0px;
+    top: 60px;
+    height: 150px;
+    width: 100px;
+    background-color: var(--color5);
+}
+
+@media screen and (min-width: var(--mediumres)) {
+
+}
+
+@media screen and (min-width: var(--highres)) {
+    /*
+    :root {
+        --menuBarHeight: 50px;
+        --sideMenuWidth: 50px;
+    }
+
+    .content {
+        margin-top: var(--menuBarHeight);
+        margin-left: var(--sideMenuWidth);
+    }
+
+    .menubar {
+        height: var(--menuBarHeight);
+    }
+
+    .menubar li {
+        width: 80px;
+        padding: 5px;
+    }
+
+    .sidebar {
+        width: var(--sideMenuWidth);
+        padding-top: 15px;
+    }
+
+    .sidebar a {
+        font-size: 18px;
+    }
+    */
+}

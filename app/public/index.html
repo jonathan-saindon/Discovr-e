@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/static/styles/styles.css" type="text/css" media="screen" />
 
     <!--<script-->
             <!--src="https://code.jquery.com/jquery-3.1.1.slim.min.js"-->
@@ -12,10 +12,27 @@
 
 </head>
 <body>
-<div class="sidebar">
+    <div class="menubar">
+        <div class="title">Discovr-e</div>
+        <a class="menuElem left">Map</a>
+        <a class="menuElem right">FAQ</a>
+        <a class="menuElem right">Contact</a>
+        <!--
+        <div class="menuElem left"><a>Map</a></div>
+        <div class="menuElem right"><a>FAQ</a></div>
+        <div class="menuElem right"><a>Contact</a></div>
+        -->
+    </div>
 
-</div>
-<div id="map"></div>
+    <div class="sidebar">
+    </div>
+
+    <div id="map" class="content"></div>
+
+    <div class="testbar">
+    </div>
+
+
 <script src="/static/gmap.js"></script>
 
 <script
