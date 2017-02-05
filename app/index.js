@@ -15,15 +15,15 @@ app.use(bodyParser.json());
 // app.use(bodyParser.json());
 
 router.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/index.html'));
+    res.sendFile(path.join(__dirname + '/static/index.html'));
 });
 
-var monument = require('./public/data/monument.js').monument;
+var monument = require('./static/data/monument.js').monument;
 router.get('/data/monument', function(req, res) {
     res.json(monument);
 });
 
-app.use('/static', express.static(__dirname + '/public'));
+app.use('/static', express.static(__dirname + '/static'));
 
 // Start the server
 app.use('/', router);
