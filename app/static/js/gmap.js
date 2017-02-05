@@ -4,6 +4,7 @@ var monumentMarkers = [];
 var lieuMarkers = [];
 var patrimoniauxMarkers = [];
 const distance = 5;
+var dictionaire = [];
 
 function initMap() {
     console.log("init gmap");
@@ -12,7 +13,8 @@ function initMap() {
         zoom: 14
     });
     loadData();
-    setTimeout(function(){
+    setTimeout(function () {
+        dictionaire = [monumentMarkers, lieuMarkers, patrimoniauxMarkers];
         geoLocalisation(showNear);
     }, 1000);
 }
@@ -84,40 +86,77 @@ function loadData() {
 }
 
 
-function toggleBtn(name, classnames) {
-    //console.log(name, classnames);
-    var classname = classnames.split(" ")[1];
+function toggleBtn(index, obj) {
+    var classname = obj.className.split(" ")[1];
     if (classname && classname == "disabled") {
-        showMonument(name);
+        obj.className = "sidebarBtn enable";
+        switch (index) {
+            case 0:
+                showMonument();
+                break;
+            case 1:
+                showLieu();
+                break;
+            case 2:
+                showPatrimoniaux();
+                break;
+        }
     } else {
-        hideMarker(name);
+        obj.className = "sidebarBtn disabled";
+        switch (index) {
+            case 0:
+                hideMonument();
+                break;
+            case 1:
+                hideLieu();
+                break;
+            case 2:
+                hidePatrimoniaux();
+                break;
+        }
     }
 }
 
-function hideMarker(name) {
-    setMapOnAll(null, name)
+function hideMarker(index) {
+    setMapOnAll(null, index)
 }
 
-function showMarker(name) {
-    setMapOnAll(map, name)
+function hideMonument() {
+    setMapOnAll(null, monumentMarkers)
+}
+function hideLieu() {
+    setMapOnAll(null, lieuMarkers)
+}
+function hidePatrimoniaux() {
+    setMapOnAll(null, patrimoniauxMarkers)
 }
 
-function setMapOnAll(map, name) {
-    for (let i = 0; i < name.length; i++) {
-        name[i].setMap(map);
+function showMonument() {
+    setMapOnAll(map, monumentMarkers)
+}
+function showLieu() {
+    setMapOnAll(map, lieuMarkers)
+}
+function showPatrimoniaux() {
+    setMapOnAll(map, patrimoniauxMarkers)
+}
+
+function setMapOnAll(map, arr) {
+    for (let i = 0; i < arr.length; i++) {
+        arr[i].setMap(map);
     }
 }
 
 function showNear(lat, long, distance) {
-    let tab = monumentMarkers.splice(0).concat(lieuMarkers, patrimoniauxMarkers);
-    //this might bug by making monumentMarkertooBig
+    let allData = [];
+    allData = allData.concat(monumentMarkers, lieuMarkers, patrimoniauxMarkers);
     //console.log("houla" + tab);
 
-    for (let i = 0; i < tab.length; i++) {
-        if (getDistanceFromLatLonInKm(lat, long, tab[i].position.lat(), tab[i].position.lng()) < distance) {
-            tab[i].setMap(map);
+    for (let i = 0; i < allData.length; i++) {
+        if (getDistanceFromLatLonInKm(lat, long, allData[i].position.lat(), allData[i].position.lng()) < distance) {
+            allData[i].setMap(map);
         } else {
-            tab[i].setMap(null);
+            allData[i].setMap(null);
         }
     }
 }
