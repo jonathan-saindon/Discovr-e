@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <title>Discovr-e</title>
     <link rel="stylesheet" href="/static/css/styles.css" type="text/css" media="screen" />
-    <script
-            src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-            integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
-            crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="menubar">
@@ -30,8 +26,13 @@
     </div>
 
     <!-- SCRIPTS -->
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+            integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+            crossorigin="anonymous"></script>
     <script src="/static/js/require.js"></script>
-    <script src="/static/js/gmap.js"></script>
+    <script src="/static/js/gmap.js" defer="defer"></script>
+    <!--<script src="/static/js/dataHandler.js" defer="defer"></script>-->
     <script src="/static/js/utils.js"></script>
     <script
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&callback=initMap"

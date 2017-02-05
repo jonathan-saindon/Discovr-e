@@ -22,6 +22,10 @@ var monument = require('./static/data/monument.js').monument;
 router.get('/data/monument', function(req, res) {
     res.json(monument);
 });
+var lieuCulturel = require('./static/data/lieuCulturel.js').lieuCulturel;
+router.get('/data/lieuCulturel', function(req, res) {
+    res.json(lieuCulturel);
+});
 
 app.use('/static', express.static(__dirname + '/static'));
 

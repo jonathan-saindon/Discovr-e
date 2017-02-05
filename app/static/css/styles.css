@@ -123,8 +123,8 @@ a.menuElem.right {
     position: absolute;
     right: 0px;
     top: 60px;
-    height: 150px;
-    width: 100px;
+    height: 100%;
+    width: 300px;
     background-color: var(--color5);
 }
 
