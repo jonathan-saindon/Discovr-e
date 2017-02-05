@@ -2,11 +2,29 @@
     --img-base: "/app/public/img/s";
 
     /* ---- COLOR PALETTE ---- */
-    --color1: rgba(1, 22, 56, 1);
-    --color2: rgba(54, 65, 86, 1);
-    --color3: rgba(205, 205, 205, 1);
-    --color4: rgba(223, 248, 235, 1);
-    --color5: rgba(33, 78, 52, 1);
+    --color-primary-0: #319167;	/* Main Primary color */
+    --color-primary-1: #7FC7A8;
+    --color-primary-2: #4FA882;
+    --color-primary-3: #1A7C52;
+    --color-primary-4: #09623C;
+
+    --color-secondary-1-0: #346388;	/* Main Secondary color (1) */
+    --color-secondary-1-1: #7FA4C0;
+    --color-secondary-1-2: #507C9D;
+    --color-secondary-1-3: #1F4F74;
+    --color-secondary-1-4: #0E3A5C;
+
+    --color-secondary-2-0: #D39747;	/* Main Secondary color (2) */
+    --color-secondary-2-1: #FFD8A3;
+    --color-secondary-2-2: #F5BD73;
+    --color-secondary-2-3: #B57826;
+    --color-secondary-2-4: #8F570D;
+
+    --color-complement-0: #D36F47;	/* Main Complement color */
+    --color-complement-1: #FFBDA3;
+    --color-complement-2: #F59873;
+    --color-complement-3: #B54F26;
+    --color-complement-4: #8F320D;
 
     /* ---- SCREEN RESOLUTIONS ---- */
     --low-res: 480px;
@@ -15,7 +33,8 @@
 
     /* ELEMENT SIZES */
     --menubar-height: 40px;
-    --sidemenu-width: 50px;
+    --sidebar-width: 50px;
+    --sidebarBtn-size: 42px;
     --menuElem-width: 80px;
     --menuElem-padding: 10px;
 }
@@ -32,12 +51,12 @@ html, body {
 }
 
 .content {
-    margin-left: var(--sidemenu-width);
+    margin-left: var(--sidebar-width);
 }
 
 .menubar {
     height: var(--menubar-height);
-    background-color: var(--color1);
+    background-color: var(--color-primary-1);
 }
 
 .menubar .title {
@@ -46,17 +65,19 @@ html, body {
     height: calc(100% - (2 * var(--menuElem-padding)));
     width: 120px;
     padding: var(--menuElem-padding);
+    color: var(--color-primary-4);
 }
 
 .menubar .menuElem {
     display: inline-block;
     height: calc(100% - (2 * var(--menuElem-padding)));
     padding: var(--menuElem-padding);
-    color: var(--color3);
+    color: white;
 }
 
-.menubar .menuElem a {
-    color: var(--color3);
+a.menuElem:hover {
+    background-color: var(--color-primary-4);
+    cursor: pointer
 }
 
 a.menuElem.left {
@@ -70,38 +91,58 @@ a.menuElem.right {
 .sidebar {
     float: left;
     height: 100%;
-    width: var(--sidemenu-width);
-    background-color: var(--color2);
+    width: var(--sidebar-width);
+    background-color: var(--color-secondary-2-4);
 }
 
 .sidebar .sidebarBtn {
-    height: 50px;
-    width: 50px;
+    background-color: var(--color-secondary-2-0);
+    border-top: solid 2px var(--color-secondary-2-4);
+    border-left: solid 2px var(--color-secondary-2-4);
+    border-right: solid 2px var(--color-secondary-2-4);
+    padding: 8px 4px;
     margin: 0;
 }
 
-.sidebarBtn img.landmarks {
-    background-image: "/static/img/landmark.png";
-    height: 50px;
-    width: 50px;
+.sidebar .sidebarBtn:hover {
+    cursor:pointer;
+    background-color: var(--color-secondary-2-1);
 }
 
-.sidebarBtn img.landmarks {
-    background-image: "/static/img/landmark.png";
-    height: 50px;
-    width: 50px;
+.sidebarBtn .img {
+    background-size: contain;
+    height: var(--sidebarBtn-size);
+    width: var(--sidebarBtn-size);
 }
 
-.sidebarBtn img.landmarks {
-    background-image: "/static/img/landmark.png";
-    height: 50px;
-    width: 50px;
+.sidebarBtn .landmarks {
+    background-image: url("/static/img/landmark.png");
+}
+
+.sidebarBtn .parks {
+    background-image: url("/static/img/parc.png");
+}
+
+.sidebarBtn .parkings {
+    background-image: url("/static/img/parking.png");
+}
+
+.sidebarBtn .library {
+    background-image: url("/static/img/bibliotheque.png");
+}
+
+.sidebarBtn .patrimoine {
+    background-image: url("/static/img/patrimoine.png");
+}
+
+.sidebarBtn .murale {
+    background-image: url("/static/img/murale.png");
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidebar a:hover,
 .offcanvas a:focus {
-    color: var(--color3);
+    color: var(--color-primary-1);
 }
 
 /* Position and style the close button (top right corner) */
@@ -125,7 +166,7 @@ a.menuElem.right {
     top: 60px;
     height: 150px;
     width: 100px;
-    background-color: var(--color5);
+    background-color: var(--color-secondary-2-0);
 }
 
 @media screen and (min-width: var(--mediumres)) {
@@ -133,33 +174,5 @@ a.menuElem.right {
 }
 
 @media screen and (min-width: var(--highres)) {
-    /*
-    :root {
-        --menuBarHeight: 50px;
-        --sideMenuWidth: 50px;
-    }
 
-    .content {
-        margin-top: var(--menuBarHeight);
-        margin-left: var(--sideMenuWidth);
-    }
-
-    .menubar {
-        height: var(--menuBarHeight);
-    }
-
-    .menubar li {
-        width: 80px;
-        padding: 5px;
-    }
-
-    .sidebar {
-        width: var(--sideMenuWidth);
-        padding-top: 15px;
-    }
-
-    .sidebar a {
-        font-size: 18px;
-    }
-    */
 }
