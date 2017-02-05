@@ -12,13 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "cors": "^2.8.1",
     "express": "^4.14.0",
-    "mongodb": "^2.2.21",
-    "mongoose": "^4.7.7",
-    "node-schedule": "^1.1.1",
-    "xml2json": "^0.10.0",
-    "yaas.js": "^0.1.8"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
@@ -26,7 +20,6 @@
     "babel-preset-stage-2": "^6.13.0",
     "babel-register": "^6.14.0",
     "jsonfile": "^2.4.0",
-    "mocha": "^3.0.2",
     "nodemon": "^1.10.2"
   }
 }
