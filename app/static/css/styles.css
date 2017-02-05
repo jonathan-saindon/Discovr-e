@@ -33,7 +33,8 @@
 
     /* ELEMENT SIZES */
     --menubar-height: 40px;
-    --sidebar-width: 50px;
+    --menubar-title-width: 120px;
+    --sidebar-width: 52px;
     --sidebarBtn-size: 40px;
     --menuElem-width: 80px;
     --menuElem-padding: 10px;
@@ -46,12 +47,13 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
-#map {
-    height: 100%;
+.content {
+    height: calc(100% - var(--menubar-height));
 }
 
-.content {
-    margin-left: var(--sidebar-width);
+.mapContainer {
+    height: 100%;
+    width: calc(100% - var(--sidebar-width));
 }
 
 .menubar {
@@ -63,15 +65,16 @@ html, body {
     float: left;
     display: inline-block;
     height: calc(100% - (2 * var(--menuElem-padding)));
-    width: 120px;
+    width: var(--menubar-title-width);
     padding: var(--menuElem-padding);
     color: var(--color-primary-4);
+    background-color: var(--color-primary-2);
 }
 
 .menubar .menuElem {
     display: inline-block;
     height: calc(100% - (2 * var(--menuElem-padding)));
-    padding: var(--menuElem-padding);
+    padding: var(--menuElem-padding) calc(2 * var(--menuElem-padding));
     color: white;
 }
 
@@ -164,19 +167,15 @@ a.menuElem.right {
     margin-left: 50px;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#main {
-    /* transition: margin-left .5s; */
-    padding: 20px;
-}
-
-.testbar {
+.descriptionbar {
     position: absolute;
     right: 0px;
     top: 60px;
-    height: 100%;
+    height: calc(100% - 100px);
     width: 300px;
+    padding: 10px;
     background-color: var(--color-secondary-2-0);
+    box-shadow: -3px 5px 15px #666;
 }
 
 @media screen and (min-width: var(--mediumres)) {
