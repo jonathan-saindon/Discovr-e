@@ -33,5 +33,16 @@ define(function () {
             xhttp.open("GET", "./static/data/SitePatrimoniaux.json", true);
             xhttp.send();
         },
+        getMuralesSubventionnees: function (callback) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var jsonResponse = JSON.parse(this.responseText);
+                    callback(jsonResponse.features);
+                }
+            };
+            xhttp.open("GET", "./static/data/muralesSubventionnees.json", true);
+            xhttp.send();
+        },
     };
 });
