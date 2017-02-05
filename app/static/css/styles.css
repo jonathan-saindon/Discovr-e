@@ -98,7 +98,7 @@ a.menuElem.right {
     background-color: var(--color-secondary-2-4);
 }
 
-.sidebar .sidebarBtn {
+.sidebarBtn {
     background-color: var(--color-secondary-2-0);
     border-top: solid 2px var(--color-secondary-2-4);
     border-left: solid 2px var(--color-secondary-2-4);
@@ -107,7 +107,7 @@ a.menuElem.right {
     margin: 0;
 }
 
-.sidebar .sidebarBtn:hover {
+.sidebarBtn:hover {
     cursor:pointer;
     background-color: var(--color-secondary-2-1);
 }
@@ -167,7 +167,7 @@ a.menuElem.right {
     margin-left: 50px;
 }
 
-.descriptionbar {
+.descrBar {
     position: absolute;
     right: 0px;
     top: 60px;
@@ -176,6 +176,28 @@ a.menuElem.right {
     padding: 10px;
     background-color: var(--color-secondary-2-0);
     box-shadow: -3px 5px 15px #666;
+}
+
+.descrBar-name {
+    border-bottom: solid 1px var(--color-secondary-2-2);
+    padding-bottom: 5px;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.descrBar-description {
+    max-height: 250px;
+    overflow: auto;
+    margin: 0;
+    margin-bottom: 10px;
+    /* border: solid 1px var(--color-secondary-2-2); */
+}
+
+.descrBar-image {
+    width: calc(100% - 20px);
+    height: 200px;
+    position: absolute;
+    bottom: 10px;
 }
 
 @media screen and (min-width: var(--mediumres)) {

@@ -29,12 +29,16 @@ function addMarker(location, map, name, urlImage, description) {
 }
 
 function setSidebarInformation(name, urlImage, description) {
-    document.getElementById("sidebar-name").innerHTML = name;
-    if(urlImage){
-        document.getElementById("sidebar-img").src = urlImage;
+    document.getElementById("descr-name").innerHTML = name;
+
+    if (!description) {
+        description = "";
     }
-    document.getElementById("sidebar-description").innerHTML = description;
-    // window.alert(name+""+urlImage);
+    document.getElementById("descr-details").innerHTML = description;
+
+    if (urlImage) {
+        document.getElementById("descr-img").src = urlImage;
+    }
 }
 
 require(['./static/js/dataHandler.js'], function (dataHandler) {
@@ -55,7 +59,16 @@ require(['./static/js/dataHandler.js'], function (dataHandler) {
     });
 });
 
-//ex hideMarker(monumentMarkers)
+function toggleBtn(name, classnames) {
+    console.log(name, classnames);
+    var classname = classnames.split(" ")[1];
+    if (classname && classname == "disabled") {
+        showMonument(name);
+    } else {
+        hideMarker(name);
+    }
+}
+
 function hideMarker(name) {
     setMapOnAll(null, name)
 }

@@ -16,7 +16,7 @@
 
     <div class="content">
         <div class="sidebar">
-            <div class="sidebarBtn"><div class="img landmarks"></div></div>
+            <div class="sidebarBtn disabled" onclick="toggleBtn('lankmarks', this.className)"><div class="img landmarks"></div></div>
             <div class="sidebarBtn"><div class="img parkings"></div></div>
             <div class="sidebarBtn"><div class="img parks"></div></div>
             <div class="sidebarBtn disabled"><div class="img library"></div></div>
@@ -26,10 +26,10 @@
 
         <div id="map" class="mapContainer"></div>
 
-        <div class="descriptionbar">
-            <p id="sidebar-name">here</p>
-            <p id="sidebar-description">here</p>
-            <img id="sidebar-img" src="" style="width:304px;height:228px;">
+        <div class="descrBar">
+            <p id="descr-name" class="descrBar-name">here</p>
+            <p id="descr-details" class="descrBar-description">here</p>
+            <img id="descr-img" class="descrBar-image" src="">
         </div>
     </div>
 
