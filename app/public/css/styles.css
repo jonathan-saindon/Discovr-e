@@ -41,6 +41,7 @@ html, body {
 }
 
 .menubar .title {
+    float: left;
     display: inline-block;
     height: calc(100% - (2 * var(--menuElem-padding)));
     width: 120px;
@@ -58,16 +59,12 @@ html, body {
     color: var(--color3);
 }
 
-.menuElem .left {
+a.menuElem.left {
     float: left;
-    border-style: solid;
-    border-left: thick double var(--color3);
 }
 
-.menuElem .right {
+a.menuElem.right {
     float: right;
-    border-style: solid;
-    border-right: thick double var(--color3);
 }
 
 .sidebar {
