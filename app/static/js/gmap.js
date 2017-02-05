@@ -4,7 +4,7 @@ var monumentMarkers = [];
 var lieuMarkers = [];
 var patrimoniauxMarkers = [];
 var muralesMarkers = [];
-const distance = 5;
+var distance = 5;
 var dictionaire = [];
 var lat;
 var lng;
@@ -17,19 +17,25 @@ function initMap() {
     });
     loadData();
     setTimeout(function () {
-        dictionaire = [monumentMarkers, lieuMarkers, patrimoniauxMarkers, muralesMarkers];
-        geoLocalisation(showNear);
+        dictionaire = [monumentMarkers, lieuMarkers, patrimoniauxMarkers];
+        geoLocalisation(function(lat,lng, dist){
+            showNear(lat,lng, dist);
+            var icon = 'http://i.stack.imgur.com/orZ4x.png';
+            addMarker({lat: lat, lng: lng}, map, "You are here", null, null, icon);
+            map.setCenter({lat: lat, lng: lng});
+        });
     }, 1000);
 }
 
 // Adds a marker to the map.
-function addMarker(location, map, name, urlImage, description) {
+function addMarker(location, map, name, urlImage, description, icon) {
     // Add the marker at the clicked location, and add the next-available label
     // from the array of alphabetical characters.
     let marker = new google.maps.Marker({
         position: location,
-        label: name.charAt(0),
-        map: map
+        // label: name.charAt(0),
+        map: map,
+        icon: icon
     });
     marker.addListener('click', function () {
         setSidebarInformation(name, urlImage, description);
@@ -59,6 +65,11 @@ function setSidebarInformation(name, urlImage, description) {
 
     if (urlImage) {
         document.getElementById("descr-img").src = urlImage;
+    } else {
+        getImage(name, function (url) {
+            console.log("heryeyryey");
+            document.getElementById("descr-img").src = url;
+        })
     }
 }
 
@@ -212,15 +223,54 @@ function deg2rad(deg) {
 }
 
 function geoLocalisation(callback) {
+    if (!lat) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var jsonResponse = JSON.parse(this.responseText);
+                lat = jsonResponse.location.lat;
+                lng = jsonResponse.location.lng;
+                callback(lat, lng, distance);
+            }
+        };
+        xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
+        xhttp.send();
+    } else {
+        callback(lat, lng, distance);
+    }
+}
+
+
+function getImage(query, callback) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var jsonResponse = JSON.parse(this.responseText);
-            lat = jsonResponse.location.lat;
-            lng = jsonResponse.location.lng;
-            callback(lat, lng, distance);
+            // console.log(jsonResponse.items[0].link);
+            var url = "";
+            if (jsonResponse.items) {
+                url = jsonResponse.items[0];
+            }
+            callback(url.link);
         }
     };
-    xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
+    xhttp.open("GET", "https://www.googleapis.com/customsearch/v1?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&cx=015911799653155271639%3Ayxc2mwmxfwy&searchType=image&fileType=jpg&q=" + query+ " endroit montreal", true);
     xhttp.send();
+}
+
+function gup(name, url) {
+    if (!url) url = location.href;
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    console.log(name);
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(url);
+    return results == null ? null : results[1];
+}
+
+var dist = gup('distance');
+lat = parseFloat(gup('lat'));
+lng = parseFloat(gup('lng'));
+if (dist) {
+    distance = dist;
 }

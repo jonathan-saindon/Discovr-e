@@ -202,7 +202,7 @@ a.menuElem.right {
     display: inline-block;
     width: calc(100% - 20px);
     height: 200px;
-    position: absolute;
+    /*position: absolute;*/
     bottom: 10px;
 }
 
