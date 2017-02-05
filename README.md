@@ -4,5 +4,6 @@
 * hide et show en fonction du data (JS coder manque interface) ex: hideMarker(monumentMarkers); ou showMarker(monumentMarkers);
 * chercher image en fonction du titre avec api image
 
-showNear(45.5016889,-73.56725599999999, 2)
+
+exemple d'url : http://localhost:9002/?distance=40&lat=50&lng=-70
 

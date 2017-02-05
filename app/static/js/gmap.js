@@ -17,23 +17,24 @@ function initMap() {
     loadData();
     setTimeout(function () {
         dictionaire = [monumentMarkers, lieuMarkers, patrimoniauxMarkers];
-        geoLocalisation(function(){
-            showNear();
-            addMarker({lat: lat, lng: lng}, null, "You are here");
-            map.center = {lat: lat, lng: lng};
-            console.log(lat, lng);
+        geoLocalisation(function(lat,lng, dist){
+            showNear(lat,lng, dist);
+            var icon = 'http://i.stack.imgur.com/orZ4x.png';
+            addMarker({lat: lat, lng: lng}, map, "You are here", null, null, icon);
+            map.setCenter({lat: lat, lng: lng});
         });
     }, 1000);
 }
 
 // Adds a marker to the map.
-function addMarker(location, map, name, urlImage, description) {
+function addMarker(location, map, name, urlImage, description, icon) {
     // Add the marker at the clicked location, and add the next-available label
     // from the array of alphabetical characters.
     let marker = new google.maps.Marker({
         position: location,
         // label: name.charAt(0),
-        map: map
+        map: map,
+        icon: icon
     });
     marker.addListener('click', function () {
         setSidebarInformation(name, urlImage, description);
@@ -207,6 +208,8 @@ function geoLocalisation(callback) {
         };
         xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
         xhttp.send();
+    } else {
+        callback(lat, lng, distance);
     }
 }
 
@@ -224,7 +227,7 @@ function getImage(query, callback) {
             callback(url.link);
         }
     };
-    xhttp.open("GET", "https://www.googleapis.com/customsearch/v1?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&cx=015911799653155271639%3Ayxc2mwmxfwy&searchType=image&fileType=jpg&q=" + query, true);
+    xhttp.open("GET", "https://www.googleapis.com/customsearch/v1?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&cx=015911799653155271639%3Ayxc2mwmxfwy&searchType=image&fileType=jpg&q=" + query+ " endroit montreal", true);
     xhttp.send();
 }
 
@@ -237,9 +240,10 @@ function gup(name, url) {
     var results = regex.exec(url);
     return results == null ? null : results[1];
 }
+
 var dist = gup('distance');
-lat = gup('lat');
-lng = gup('lng');
+lat = parseFloat(gup('lat'));
+lng = parseFloat(gup('lng'));
 if (dist) {
     distance = dist;
 }
