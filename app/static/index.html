@@ -18,12 +18,12 @@
 
     <div class="content">
         <div class="sidebar">
-            <div class="sidebarBtn" onclick="toggleBtn(0, this)"><div class="img landmarks"></div></div>
-            <div class="sidebarBtn" onclick="toggleBtn(1, this)"><div class="img public"></div></div>
-            <!--<div class="sidebarBtn" onclick="toggleBtn(parks, this)"><div class="img parks"></div></div>-->
-            <!--<div class="sidebarBtn" onclick="toggleBtn(library, this)"><div class="img library"></div></div>-->
-            <div class="sidebarBtn" onclick="toggleBtn(2, this)"><div class="img patrimoine"></div></div>
-            <div class="sidebarBtn" onclick="toggleBtn(3, this)"><div class="img murale"></div></div>
+            <div class="sidebarBtn" onclick="toggleBtn(0, this)" title="Landmark"><div class="img landmarks"></div></div>
+            <div class="sidebarBtn" onclick="toggleBtn(1, this)" title="Public place"><div class="img public"></div></div>
+            <!--<div class="sidebarBtn" onclick="toggleBtn(parks, this)" title="Parks"><div class="img parks"></div></div>-->
+            <!--<div class="sidebarBtn" onclick="toggleBtn(library, this)" title="Library"><div class="img library"></div></div>-->
+            <div class="sidebarBtn" onclick="toggleBtn(2, this)" title="Patrimony"><div class="img patrimoine"></div></div>
+            <div class="sidebarBtn" onclick="toggleBtn(3, this)" title="Street art"><div class="img murale"></div></div>
         </div>
 
         <div id="map" class="mapContainer"></div>
@@ -36,6 +36,10 @@
             <p id="descr-details" class="descrBar-description">description</p>
             <img id="descr-img" class="descrBar-image" src="">
         </div>
+
+        <div id="overlay" class="overlay" style="display: none;">
+            <img id="overlay-img" class="overlay-image" src="">
+        </div>
     </div>
 
     <!-- SCRIPTS -->
@@ -43,7 +47,7 @@
             src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
             integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
             crossorigin="anonymous"></script>
-    <script src="/static/js/require.js"></script>
+    <script src="/static/js/require.min.js"></script>
     <script src="/static/js/gmap.js" defer="defer"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!--<script src="/static/js/dataHandler.js" defer="defer"></script>-->

@@ -1,4 +1,4 @@
-// $(function() {
+/* ---- VARIABLES ---- */
 var map;
 var monumentMarkers = [];
 var lieuMarkers = [];
@@ -9,6 +9,7 @@ var dictionaire = [];
 var lat;
 var lng;
 
+/* ---- FUNCTIONS ---- */
 function initMap() {
     console.log("init gmap");
     map = new google.maps.Map(document.getElementById('map'), {
@@ -65,9 +66,12 @@ function setSidebarInformation(name, urlImage, description) {
 
     if (urlImage) {
         document.getElementById("descr-img").src = urlImage;
+        $("#descr-img").addEventListener('click', function() {
+            $("#overlay").show();
+            $("#overlay-img").attr("src", urlImage);
+        });
     } else {
         getImage(name, function (url) {
-            console.log("heryeyryey");
             document.getElementById("descr-img").src = url;
         })
     }
@@ -107,7 +111,6 @@ function loadData() {
         });
     });
 }
-
 
 function toggleBtn(index, obj) {
     var classname = obj.className.split(" ")[1];
@@ -193,9 +196,7 @@ function setMapOnAll(map, arr) {
 }
 
 function showNear(lat, long, distance) {
-    let allData = [];
-    allData = allData.concat(monumentMarkers, lieuMarkers, patrimoniauxMarkers, muralesMarkers);
-
+    let allData = getAllData();
     for (let i = 0; i < allData.length; i++) {
         if (getDistanceFromLatLonInKm(lat, long, allData[i].position.lat(), allData[i].position.lng()) < distance) {
             allData[i].setMap(map);
@@ -240,13 +241,11 @@ function geoLocalisation(callback) {
     }
 }
 
-
 function getImage(query, callback) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var jsonResponse = JSON.parse(this.responseText);
-            // console.log(jsonResponse.items[0].link);
             var url = "";
             if (jsonResponse.items) {
                 url = jsonResponse.items[0];
@@ -261,13 +260,36 @@ function getImage(query, callback) {
 function gup(name, url) {
     if (!url) url = location.href;
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-    console.log(name);
     var regexS = "[\\?&]" + name + "=([^&#]*)";
     var regex = new RegExp(regexS);
     var results = regex.exec(url);
     return results == null ? null : results[1];
 }
 
+function getAllData() {
+    return allData.concat(monumentMarkers, lieuMarkers, patrimoniauxMarkers, muralesMarkers);
+}
+
+function searchByName(name) {
+    let allData = getAllData();
+    let matches = [];
+    for (let i = 0; i < allData.length; i++) {
+        for (let j = 0; i < allData[i]; i++) {
+            var elemName = allData[i][j];
+            if (elemName == name) {
+                matches.push(elemName);
+            }
+        }
+    }
+    return matches;
+}
+
+function addTooltip() {
+
+}
+
+/* ---- SCRIPT ---- */
+$(document).tooltip();
 var dist = gup('distance');
 lat = parseFloat(gup('lat'));
 lng = parseFloat(gup('lng'));
