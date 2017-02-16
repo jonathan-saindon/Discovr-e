@@ -2,6 +2,17 @@ import json
 import csv
 import xml.etree.ElementTree as ET
 
+basepath = "datasets/"
+output_file = "data.json"
+wrapper = {
+	"art": [],
+	"landmarks": [],
+	"lieuxCulturels": [],
+	"parcs": [],
+	"patrimoine": []
+}
+newline = "<br /><br />"
+
 def meanPosition(positions):
 	n = 0
 	totalLat = 0
@@ -23,17 +34,7 @@ def meanPosition(positions):
 	}
 	return mean
 
-output_file = "data.json"
-wrapper = {
-	"art": [],
-	"lieuxCulturels": [],
-	"monuments": [],
-	"parcs": [],
-	"patrimoine": [],
-	"attraits": []
-}
-
-with open("monument.json", 'r') as data_file:
+with open(basepath + "monument.json", 'r') as data_file:
 	data = json.load(data_file)
 	for elem in data:
 		element = {
@@ -43,9 +44,9 @@ with open("monument.json", 'r') as data_file:
 			"description": "",
 			"urlImg": ""
 		}
-		wrapper["monuments"].append(element)
+		wrapper["landmarks"].append(element)
 
-with open("muralesSubventionnees.json", 'r') as data_file:
+with open(basepath + "muralesSubventionnees.json", 'r') as data_file:
 	data = json.load(data_file)["features"]
 	for elem in data:
 		element = {
@@ -57,32 +58,39 @@ with open("muralesSubventionnees.json", 'r') as data_file:
 		}
 		wrapper["art"].append(element)
 
-with open("SitePatrimoniaux.json", 'r') as data_file:
+with open(basepath + "SitePatrimoniaux.json", 'r') as data_file:
 	data = json.load(data_file)
 	for x in range(1, len(data)):
-		if ((data[x]["FIELD12"] != None) and (data[x]["FIELD11"] != None)):
+		elem = data[x]
+		if ((elem["FIELD12"] != None) and (elem["FIELD11"] != None)):
+			descr = elem["FIELD8"] + newline + elem["FIELD3"]
+			if elem["FIELD21"] != None:
+				descr += (newline + elem["FIELD21"])
+			if elem["FIELD4"] != None:
+				descr += (newline + elem["FIELD4"])
 			element = {
-				"lng": float(data[x]["FIELD12"]),
-				"lat": float(data[x]["FIELD11"]),
-				"nom": data[x]["FIELD1"],
-				"description": str(data[x]["FIELD4"]) + " " + data[x]["FIELD3"],
+				"lng": float(elem["FIELD12"]),
+				"lat": float(elem["FIELD11"]),
+				"nom": elem["FIELD1"],
+				"description": descr,
 				"urlImg": ""
 			}
 		wrapper["patrimoine"].append(element)
 
-with open("sitesPatQc.geojson", 'r') as data_file:
+with open(basepath + "sitesPatQc.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
 	for x in range(1, len(data)):
+		elem = data[x]
 		element = {
-			"lng": float(data[x]["properties"]["latitude"]),
-			"lat": float(data[x]["properties"]["longitude"]),
-			"nom": data[x]["properties"]["nom_bien"],
-			"description": data[x]["properties"]["description_bien"],
-			"urlImg": data[x]["properties"]["url_photo"]
+			"lng": float(elem["properties"]["latitude"]),
+			"lat": float(elem["properties"]["longitude"]),
+			"nom": elem["properties"]["nom_bien"],
+			"description": elem["properties"]["description_bien"],
+			"urlImg": elem["properties"]["url_photo"]
 		}
 		wrapper["patrimoine"].append(element)
 
-with open("PatrimoineQc.csv", 'r') as data_file:
+with open(basepath + "PatrimoineQc.csv", 'r') as data_file:
 	data = csv.reader(data_file, dialect="excel")
 	next(data)
 	for elem in data:
@@ -97,36 +105,37 @@ with open("PatrimoineQc.csv", 'r') as data_file:
 			#element["urlImg"] = ""
 		wrapper["patrimoine"].append(element)
 
-with open("lieuCulturel.json", 'r') as data_file:
+with open(basepath + "lieuCulturel.json", 'r') as data_file:
 	data = json.load(data_file)
 	for x in range(1, len(data)):
-		websites = data[x]["FIELD9"].split(",")
+		elem = data[x]
+		websites = elem["FIELD9"].split(",")
 		website = ""
 		if len(websites) > 2:
 			website += websites[1]
 		element = {
-			"lng": float(data[x]["FIELD10"]),
-			"lat": float(data[x]["FIELD11"]),
-			"nom": data[x]["FIELD3"],
-			"description": str(data[x]["FIELD12"]) + website,
+			"lng": float(elem["FIELD10"]),
+			"lat": float(elem["FIELD11"]),
+			"nom": elem["FIELD3"],
+			"description": str(elem["FIELD12"]) + newline + website,
 			"urlImg": ""
 		}
 		wrapper["lieuxCulturels"].append(element)
 
-with open("grandsparcsmtl.geojson", 'r') as data_file:
+with open(basepath + "grandsparcsmtl.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
 	for elem in data:
 		position = meanPosition(elem["geometry"]["coordinates"])
 		element = {
-			"lng": position["lat"],
-			"lat": position["lng"],
+			"lng": position["lng"],
+			"lat": position["lat"],
 			"nom": elem["properties"]["Nom_parc"],
 			"description": elem["properties"]["Generique2"],
 			"urlImg": ""
 		}
 		wrapper["parcs"].append(element)
 
-with open("piscinesMtl.geojson", 'r') as data_file:
+with open(basepath + "piscinesMtl.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
 	for elem in data:
 		element = {
@@ -138,7 +147,7 @@ with open("piscinesMtl.geojson", 'r') as data_file:
 		}
 		wrapper["parcs"].append(element)
 
-with open("gatineau_lieuxPublics.json", 'r') as data_file:
+with open(basepath + "gatineau_lieuxPublics.json", 'r') as data_file:
 	data = json.load(data_file)
 	for elem in data:
 		type = elem["properties"]["TYPE"]
@@ -146,7 +155,7 @@ with open("gatineau_lieuxPublics.json", 'r') as data_file:
 			"lng": float(elem["geometry"]["coordinates"][1]),
 			"lat": float(elem["geometry"]["coordinates"][0]),
 			"nom": elem["properties"]["NOM_TOPOGR"],
-			"description": str(type + " - " + elem["properties"]["ADR_COMPLE"]),
+			"description": str(type + newline + elem["properties"]["ADR_COMPLE"]),
 			"urlImg": ""
 		}
 		if any(type in x for x in ["Autre parc", "Baie", "Lac", "Marina", "Parc récréatif", "Piscine", "Réserve faunique"]):
@@ -154,13 +163,14 @@ with open("gatineau_lieuxPublics.json", 'r') as data_file:
 		elif any(type in x for x in ["Aménagement public", "Aréna", "Bibliothèque", "Centre culturel", "Édifice municipal", "Édifice provincial", "Musée"]):
 			wrapper["lieuxCulturels"].append(element)
 		elif any(type in x for x in ["Monument et site historique"]):
-			wrapper["monuments"].append(element)
+			wrapper["landmarks"].append(element)
 		elif any(type in x for x in ["Lieu de culte"]):
 			wrapper["patrimoine"].append(element)
 		elif any(type in x for x in ["Galerie d'art"]):
 			wrapper["art"].append(element)
 	
-with open('attraitsQc.xml', 'r') as xml_file:
+with open(basepath + "attraitsQc.xml", 'r') as xml_file:
+	attraitsTypes = json.load(open(basepath + "attraitsQcTypes.json"))
 	data = ET.parse(xml_file).getroot()
 	for elem in data.findall('ETABLISSEMENT'):
 		nom = elem.find('ETBL_NOM_FR').text
@@ -169,17 +179,24 @@ with open('attraitsQc.xml', 'r') as xml_file:
 		adr = adrs[0] if adrs != None else None
 		
 		if adr != None:
-			lng = adr.find('ADR_LONGITUDE').text
-			lat = adr.find('ADR_LATITUDE').text
-			if (lng != None and lat != None):
-				element = {
-					"lng": float(lng),
-					"lat": float(lat),
-					"nom": nom,
-					"description": desc if desc != None else "",
-					"urlImg": ""
-				}
-				wrapper["attraits"].append(element)
+			types = elem.find('ETBL_TYPES')
+			type = types[0] if types != None else None
+			
+			if not any(type in attraitsTypes[tag] for tag in attraitsTypes) and len(types) > 1:
+				type = types[1]
+			
+			if any(type in attraitsTypes[tag] for tag in attraitsTypes):
+				lng = adr.find('ADR_LONGITUDE').text
+				lat = adr.find('ADR_LATITUDE').text
+				if (lng != None and lat != None):
+					element = {
+						"lng": float(lng),
+						"lat": float(lat),
+						"nom": nom,
+						"description": desc if desc != None else "",
+						"urlImg": ""
+					}
+					wrapper[tag].append(element)
 
 with open(output_file, "w") as f:
 	f.write(json.dumps(wrapper, ensure_ascii=False))

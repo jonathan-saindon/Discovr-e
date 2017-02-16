@@ -1,12 +1,12 @@
 var MapController = (function () {
     function MapController() {
-        this.markers = [];
         this.distance = 5;
         this.initMap();
     }
     MapController.prototype.initMap = function () {
         var ctrl = this;
-        ctrl.map = new google.maps.Map(document.getElementById('map'), {
+        MapController.markers = [];
+        MapController.map = new google.maps.Map(document.getElementById('map'), {
             center: {
                 lat: 45.5016889,
                 lng: -73.56725599999999
@@ -14,9 +14,7 @@ var MapController = (function () {
             zoom: 14
         });
         ctrl.loadData();
-        ctrl.geoLocalisation(ctrl.lat, ctrl.lng, ctrl.distance, function (lat, lng, dist) {
-        });
-        return ctrl.map;
+        ctrl.geoLocalisation(ctrl.lat, ctrl.lng, ctrl.distance);
     };
     MapController.prototype.setLat = function (lat) {
         this.lat = lat;
@@ -31,15 +29,15 @@ var MapController = (function () {
         var ctrl = this;
         var marker = new google.maps.Marker({
             position: location,
-            map: ctrl.map
+            map: MapController.map
         });
         marker.addListener('click', function () {
             ctrl.setSidebarInformation(name, urlImage, description);
-            if (document.getElementById("descrBar").style('display') == "none") {
+            if ($("#descrBar").style('display', 'none')) {
                 $('#descrBar').show().animate({ right: 0 });
             }
         });
-        ctrl.markers.push(marker);
+        MapController.markers[tag].push(marker);
     };
     MapController.prototype.loadData = function () {
         var ctrl = this;
@@ -47,8 +45,8 @@ var MapController = (function () {
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var data = JSON.parse(this.responseText);
-                ctrl.markers = [];
                 for (var tag in data) {
+                    MapController.markers[tag] = [];
                     for (var index in data[tag]) {
                         var element = data[tag][index];
                         ctrl.addMarker(tag, { lat: element.lat, lng: element.lng }, element.nom, element.description, element.urlImg);
@@ -59,8 +57,9 @@ var MapController = (function () {
         xhttp.open("GET", "./static/data/data.json", true);
         xhttp.send();
     };
-    MapController.prototype.geoLocalisation = function (lat, lng, distance, callback) {
+    MapController.prototype.geoLocalisation = function (lat, lng, distance) {
         var ctrl = this;
+        var icon = 'http://i.stack.imgur.com/orZ4x.png';
         if (!lat) {
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
@@ -68,28 +67,47 @@ var MapController = (function () {
                     var jsonResponse = JSON.parse(this.responseText);
                     lat = jsonResponse.location.lat;
                     lng = jsonResponse.location.lng;
-                    var icon = 'http://i.stack.imgur.com/orZ4x.png';
-                    ctrl.addMarker("MyPosition", { lat: lat, lng: lng }, "You are here", "Your current position.", icon);
+                    ctrl.addMarker({ lat: lat, lng: lng }, "You are here", "Your current position.", icon);
                     ctrl.showNear(lat, lng, distance);
-                    ctrl.map.setCenter({ lat: lat, lng: lng });
+                    MapController.map.setCenter({ lat: lat, lng: lng });
                 }
             };
             xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
             xhttp.send();
         }
         else {
+            ctrl.addMarker({ lat: lat, lng: lng }, "You are here", "Your current position.", icon);
+            ctrl.showNear(lat, lng, distance);
+            MapController.map.setCenter({ lat: lat, lng: lng });
+        }
+    };
+    MapController.toggleBtn = function (key, obj) {
+        var markers = MapController.markers[key];
+        var map;
+        var classname = obj.className.split(" ")[1];
+        if (classname && classname == "disabled") {
+            obj.className = "sidebarBtn enable";
+            map = MapController.map;
+        }
+        else {
+            obj.className = "sidebarBtn disabled";
+            map = null;
+        }
+        for (var index in markers) {
+            markers[index].setMap(map);
         }
     };
     MapController.prototype.showNear = function (lat, long, distance) {
         var ctrl = this;
-        var allData = ctrl.getAllData();
-        for (var tag in allData) {
-            for (var i = 0; i < allData[tag].length; i++) {
-                if (ctrl.getDistanceFromLatLonInKm(lat, long, allData[tag][i].position.lat(), allData[tag][i].position.lng()) < distance) {
-                    allData[tag][i].setMap(ctrl.map);
+        var markers = MapController.markers;
+        for (var tag in markers) {
+            for (var index in markers[tag]) {
+                var element = markers[tag][index];
+                if (ctrl.getDistanceFromLatLonInKm(lat, long, element.lat, element.lng) < distance) {
+                    element.setMap(MapController.map);
                 }
                 else {
-                    allData[tag][i].setMap(null);
+                    element.setMap(null);
                 }
             }
         }
@@ -121,13 +139,10 @@ var MapController = (function () {
             });
         }
         else {
-            ctrl.getImage(name, function (url) {
-                document.getElementById("descr-img").src = url;
-            });
+            ctrl.getImage(name);
         }
     };
-    MapController.prototype.getImage = function (query, callback) {
-        var ctrl = this;
+    MapController.prototype.getImage = function (query) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -136,15 +151,11 @@ var MapController = (function () {
                 if (jsonResponse.items) {
                     url = jsonResponse.items[0];
                 }
-                callback(url);
+                $("#descr-img").attr('src', url);
             }
         };
-        xhttp.open("GET", "https://www.googleapis.com/customsearch/v1?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&cx=015911799653155271639%3Ayxc2mwmxfwy&searchType=image&fileType=jpg&q=" + query + " endroit montreal", true);
+        xhttp.open("GET", "https://www.googleapis.com/customsearch/v1?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&cx=015911799653155271639%3Ayxc2mwmxfwy&searchType=image&fileType=jpg&q=" + query + " Montreal", true);
         xhttp.send();
-    };
-    MapController.prototype.getAllData = function () {
-        var ctrl = this;
-        return ctrl.markers;
     };
     MapController.prototype.setMapOnAll = function (map, arr) {
         for (var i = 0; i < arr.length; i++) {

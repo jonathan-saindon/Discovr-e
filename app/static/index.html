@@ -18,11 +18,11 @@
 
     <div class="content">
         <div class="sidebar">
-            <div class="sidebarBtn" onclick="toggleBtn(0, this)" title="Landmarks"><div class="img landmarks"></div></div>
-            <div class="sidebarBtn" onclick="toggleBtn(1, this)" title="Public Places"><div class="img public"></div></div>
-            <div class="sidebarBtn" onclick="toggleBtn(2, this)" title="Patrimony"><div class="img patrimoine"></div></div>
-            <div class="sidebarBtn" onclick="toggleBtn(3, this)" title="Art"><div class="img art"></div></div>
-            <div class="sidebarBtn" onclick="toggleBtn(4, this)" title="Parks"><div class="img parks"></div></div>
+            <div class="sidebarBtn" onclick="MapController.toggleBtn('landmarks', this)" title="Landmarks"><div class="img landmarks"></div></div>
+            <div class="sidebarBtn" onclick="MapController.toggleBtn('lieuxCulturels', this)" title="Public Places"><div class="img public"></div></div>
+            <div class="sidebarBtn" onclick="MapController.toggleBtn('patrimoine', this)" title="Patrimony"><div class="img patrimoine"></div></div>
+            <div class="sidebarBtn" onclick="MapController.toggleBtn('art', this)" title="Art"><div class="img art"></div></div>
+            <div class="sidebarBtn" onclick="MapController.toggleBtn('parcs', this)" title="Parks"><div class="img parks"></div></div>
         </div>
 
         <div id="map" class="mapContainer"></div>
@@ -43,7 +43,6 @@
 
     <!-- SCRIPTS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <!--<script src="/static/js/DataHandler.js"></script>-->
     <script src="/static/js/MapController.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBte-6m0uXpCfKsoCcQrpQycWZf7XNHO6Y&callback=init"
             async defer>
