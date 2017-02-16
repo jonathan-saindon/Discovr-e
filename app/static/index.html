@@ -8,8 +8,8 @@
 <body>
     <div class="menubar">
         <div class="title">Discovr-e</div>
-        <a class="menuElem left">Map</a>
         <!--
+        <a class="menuElem left">Map</a>
         <a class="menuElem right">FAQ</a>
         <a class="menuElem right">Contact</a>
         -->
@@ -18,12 +18,11 @@
 
     <div class="content">
         <div class="sidebar">
-            <div class="sidebarBtn" onclick="toggleBtn(0, this)" title="Landmark"><div class="img landmarks"></div></div>
-            <div class="sidebarBtn" onclick="toggleBtn(1, this)" title="Public place"><div class="img public"></div></div>
-            <!--<div class="sidebarBtn" onclick="toggleBtn(parks, this)" title="Parks"><div class="img parks"></div></div>-->
-            <!--<div class="sidebarBtn" onclick="toggleBtn(library, this)" title="Library"><div class="img library"></div></div>-->
+            <div class="sidebarBtn" onclick="toggleBtn(0, this)" title="Landmarks"><div class="img landmarks"></div></div>
+            <div class="sidebarBtn" onclick="toggleBtn(1, this)" title="Public Places"><div class="img public"></div></div>
             <div class="sidebarBtn" onclick="toggleBtn(2, this)" title="Patrimony"><div class="img patrimoine"></div></div>
-            <div class="sidebarBtn" onclick="toggleBtn(3, this)" title="Street art"><div class="img murale"></div></div>
+            <div class="sidebarBtn" onclick="toggleBtn(3, this)" title="Art"><div class="img art"></div></div>
+            <div class="sidebarBtn" onclick="toggleBtn(4, this)" title="Parks"><div class="img parks"></div></div>
         </div>
 
         <div id="map" class="mapContainer"></div>
@@ -33,7 +32,7 @@
                 <p id="descr-name" class="descrBar-name">name</p>
                 <div class="descrBtn" onclick="hideDescrBar()"><div class="img close"></div></div>
             </div>
-            <p id="descr-details" class="descrBar-description">description</p>
+            s<p id="descr-details" class="descrBar-description">description</p>
             <img id="descr-img" class="descrBar-image" src="">
         </div>
 
@@ -43,17 +42,17 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script
-            src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-            integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
-            crossorigin="anonymous"></script>
-    <script src="/static/js/require.min.js"></script>
-    <script src="/static/js/gmap.js" defer="defer"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <!--<script src="/static/js/dataHandler.js" defer="defer"></script>-->
-    <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&callback=initMap"
+    <!--<script src="/static/js/DataHandler.js"></script>-->
+    <script src="/static/js/MapController.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBte-6m0uXpCfKsoCcQrpQycWZf7XNHO6Y&callback=init"
             async defer>
+    </script>
+    <script>
+        //$(document).tooltip();
+        function init() {
+            new MapController();
+        }
     </script>
 </body>
 </html>

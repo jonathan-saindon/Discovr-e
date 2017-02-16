@@ -1,24 +1,11 @@
 import MapCtrl from "./MapController"
 
-export module GMap {
-    /* ---- VARIABLES ---- */
-    private mapCtrl: MapController;
-
-    /* ---- FUNCTIONS ---- */
-    export function initMap() {
-        mapCtrl = new MapController();
-        map = mapCtrl.initMap();
-        setTimeout(function () {
-            dictionaire = [monumentMarkers, lieuMarkers, patrimoniauxMarkers];
-            mapCtrl.geoLocalisation();
-        }, 1000);
-    }
-
-    function hideDescrBar() {
+module GMap {
+    export function hideDescrBar() {
         $('#descrBar').animate({right: -355}).hide();
     }
 
-    function toggleBtn(index, obj) {
+    export function toggleBtn(index, obj) {
         var classname = obj.className.split(" ")[1];
         if (classname && classname == "disabled") {
             obj.className = "sidebarBtn enable";
@@ -55,35 +42,35 @@ export module GMap {
         }
     }
 
-    function hideMonument() {
+    export function hideMonument() {
         mapCtrl.hideMonument();
     }
 
-    function hideLieu() {
+    export function hideLieu() {
         mapCtrl.hideLieu();
     }
 
-    function hidePatrimoniaux() {
+    export function hidePatrimoniaux() {
         mapCtrl.hidePatrimoniaux();
     }
 
-    function hideMurales() {
+    export function hideMurales() {
         mapCtrl.hideMurales();
     }
 
-    function showMonument() {
+    export function showMonument() {
         mapCtrl.showMonument();
     }
 
-    function showLieu() {
+    export function showLieu() {
         mapCtrl.showLieu();
     }
 
-    function showPatrimoniaux() {
+    export function showPatrimoniaux() {
         mapCtrl.showPatrimoniaux();
     }
 
-    function showMurales() {
+    export function showMurales() {
         mapCtrl.showMurales();
     }
 
@@ -96,12 +83,4 @@ export module GMap {
         return results == null ? null : results[1];
     }
 
-    /* ---- SCRIPT ---- */
-    $(document).tooltip();
-    var dist = gup('distance');
-    mapCtrl.setLat(parseFloat(gup('lat')));
-    mapCtrl.setLng(parseFloat(gup('lng')));
-    if (dist) {
-        mapCtrl.setDistance(dist);
-    }
 }

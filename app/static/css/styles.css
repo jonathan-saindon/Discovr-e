@@ -157,6 +157,10 @@ a.menuElem.right {
     background-image: url("/static/img/murale.png");
 }
 
+.img.art {
+    background-image: url("/static/img/art.png");
+}
+
 /* When you mouse over the navigation links, change their color */
 .sidebar a:hover,
 .offcanvas a:focus {

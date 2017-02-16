@@ -7,3 +7,4 @@ dist
 .idea/
 src/maison_des_regions/styles/style.css
 *.css.map
+app/static/data/__pycache__/
