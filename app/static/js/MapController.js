@@ -1,6 +1,5 @@
 var MapController = (function () {
     function MapController() {
-        this.distance = 5;
         this.initMap();
     }
     MapController.prototype.initMap = function () {
@@ -9,35 +8,15 @@ var MapController = (function () {
         MapController.map = new google.maps.Map(document.getElementById('map'), {
             center: {
                 lat: 45.5016889,
-                lng: -73.56725599999999
+                lng: -73.567256
             },
             zoom: 14
         });
         ctrl.loadData();
-        ctrl.geoLocalisation(ctrl.lat, ctrl.lng, ctrl.distance);
-    };
-    MapController.prototype.setLat = function (lat) {
-        this.lat = lat;
-    };
-    MapController.prototype.setLng = function (lng) {
-        this.lng = lng;
+        ctrl.geoLocalisation();
     };
     MapController.prototype.setDistance = function (distance) {
-        this.distance = distance;
-    };
-    MapController.prototype.addMarker = function (tag, location, name, description, urlImage) {
-        var ctrl = this;
-        var marker = new google.maps.Marker({
-            position: location,
-            map: MapController.map
-        });
-        marker.addListener('click', function () {
-            ctrl.setSidebarInformation(name, urlImage, description);
-            if ($("#descrBar").style('display', 'none')) {
-                $('#descrBar').show().animate({ right: 0 });
-            }
-        });
-        MapController.markers[tag].push(marker);
+        MapController.distance = distance;
     };
     MapController.prototype.loadData = function () {
         var ctrl = this;
@@ -57,29 +36,37 @@ var MapController = (function () {
         xhttp.open("GET", "./static/data/data.json", true);
         xhttp.send();
     };
-    MapController.prototype.geoLocalisation = function (lat, lng, distance) {
+    MapController.prototype.addMarker = function (tag, location, name, description, urlImage) {
+        var ctrl = this;
+        var marker = new google.maps.Marker({
+            position: location,
+            map: MapController.map
+        });
+        marker.addListener('click', function () {
+            ctrl.setSidebarInformation(name, urlImage, description);
+            $('#descrBar').show().animate({ right: 0 });
+        });
+        MapController.markers[tag].push(marker);
+    };
+    MapController.prototype.geoLocalisation = function () {
         var ctrl = this;
         var icon = 'http://i.stack.imgur.com/orZ4x.png';
-        if (!lat) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    var jsonResponse = JSON.parse(this.responseText);
-                    lat = jsonResponse.location.lat;
-                    lng = jsonResponse.location.lng;
-                    ctrl.addMarker({ lat: lat, lng: lng }, "You are here", "Your current position.", icon);
-                    ctrl.showNear(lat, lng, distance);
-                    MapController.map.setCenter({ lat: lat, lng: lng });
-                }
-            };
-            xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
-            xhttp.send();
-        }
-        else {
-            ctrl.addMarker({ lat: lat, lng: lng }, "You are here", "Your current position.", icon);
-            ctrl.showNear(lat, lng, distance);
-            MapController.map.setCenter({ lat: lat, lng: lng });
-        }
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var jsonResponse = JSON.parse(this.responseText);
+                var lat = jsonResponse.location.lat;
+                var lng = jsonResponse.location.lng;
+                MapController.userMarker = new google.maps.Marker({
+                    position: { lat: lat, lng: lng },
+                    map: MapController.map
+                });
+                ctrl.showNear(lat, lng);
+                MapController.map.setCenter({ lat: lat, lng: lng });
+            }
+        };
+        xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
+        xhttp.send();
     };
     MapController.toggleBtn = function (key, obj) {
         var markers = MapController.markers[key];
@@ -93,17 +80,20 @@ var MapController = (function () {
             obj.className = "sidebarBtn disabled";
             map = null;
         }
+        var myLat = MapController.userMarker.position.lat();
+        var myLng = MapController.userMarker.position.lng();
         for (var index in markers) {
-            markers[index].setMap(map);
+            if (MapController.isNear(myLat, myLng, markers[index].position.lat(), markers[index].position.lng())) {
+                markers[index].setMap(map);
+            }
         }
     };
-    MapController.prototype.showNear = function (lat, long, distance) {
-        var ctrl = this;
+    MapController.prototype.showNear = function (lat, lng) {
         var markers = MapController.markers;
         for (var tag in markers) {
             for (var index in markers[tag]) {
                 var element = markers[tag][index];
-                if (ctrl.getDistanceFromLatLonInKm(lat, long, element.lat, element.lng) < distance) {
+                if (MapController.isNear(lat, lng, element.position.lat(), element.position.lng())) {
                     element.setMap(MapController.map);
                 }
                 else {
@@ -112,18 +102,20 @@ var MapController = (function () {
             }
         }
     };
-    MapController.prototype.getDistanceFromLatLonInKm = function (lat1, lon1, lat2, lon2) {
-        var ctrl = this;
+    MapController.isNear = function (lat1, lng1, lat2, lng2) {
+        return MapController.getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) < MapController.distance;
+    };
+    MapController.getDistanceFromLatLonInKm = function (lat1, lng1, lat2, lng2) {
         var R = 6371;
-        var dLat = ctrl.deg2rad(lat2 - lat1);
-        var dLon = ctrl.deg2rad(lon2 - lon1);
+        var dLat = MapController.deg2rad(lat2 - lat1);
+        var dLon = MapController.deg2rad(lng2 - lng1);
         var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(ctrl.deg2rad(lat1)) * Math.cos(ctrl.deg2rad(lat2)) *
+            Math.cos(MapController.deg2rad(lat1)) * Math.cos(MapController.deg2rad(lat2)) *
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
     };
-    MapController.prototype.deg2rad = function (deg) {
+    MapController.deg2rad = function (deg) {
         return deg * (Math.PI / 180);
     };
     MapController.prototype.setSidebarInformation = function (name, urlImage, description) {
@@ -158,8 +150,9 @@ var MapController = (function () {
         xhttp.send();
     };
     MapController.prototype.setMapOnAll = function (map, arr) {
+        var userMarker = MapController.userMarker;
         for (var i = 0; i < arr.length; i++) {
-            if (this.getDistanceFromLatLonInKm(this.lat, this.lng, arr[i].position.lat(), arr[i].position.lng()) < this.distance) {
+            if (MapController.getDistanceFromLatLonInKm(userMarker.position.lat(), userMarker.position.lnt(), arr[i].position.lat(), arr[i].position.lng()) < MapController.distance) {
                 arr[i].setMap(map);
             }
             else {
@@ -169,4 +162,5 @@ var MapController = (function () {
     };
     return MapController;
 }());
+MapController.distance = 5;
 //# sourceMappingURL=MapController.js.map

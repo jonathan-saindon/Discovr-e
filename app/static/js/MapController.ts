@@ -1,9 +1,8 @@
 class MapController {
     private static markers: Array<google.maps.Marker>;
+    private static userMarker: google.maps.Marker;
     private static map: google.maps.Map;
-    private lat: number;
-    private lng: number;
-    private distance: number = 5;
+    private static distance: number = 5;
 
     constructor() {
         this.initMap();
@@ -15,39 +14,16 @@ class MapController {
         MapController.map = new google.maps.Map(document.getElementById('map'), {
             center: {
                 lat: 45.5016889,
-                lng: -73.56725599999999
+                lng: -73.567256
             },
             zoom: 14
         });
         ctrl.loadData();
-        ctrl.geoLocalisation(ctrl.lat, ctrl.lng, ctrl.distance);
-    }
-
-    setLat(lat: number) : void {
-        this.lat = lat;
-    }
-
-    setLng(lng: number) : void {
-        this.lng = lng;
+        ctrl.geoLocalisation();
     }
 
     setDistance(distance: number) : void {
-        this.distance = distance;
-    }
-
-    addMarker(tag: string, location: Object, name: string, description: string, urlImage: string): void { //google.maps.Marker {
-        let ctrl = this;
-        let marker = new google.maps.Marker({
-            position: location,
-            map: MapController.map
-        });
-        marker.addListener('click', function () {
-            ctrl.setSidebarInformation(name, urlImage, description);
-            if ($("#descrBar").style('display', 'none')) {
-                $('#descrBar').show().animate({right: 0});
-            }
-        });
-        MapController.markers[tag].push(marker);
+        MapController.distance = distance;
     }
 
     /**
@@ -82,29 +58,39 @@ class MapController {
         xhttp.send();
     }
 
-    geoLocalisation(lat: number, lng: number, distance: number) {
+    addMarker(tag: string, location: Object, name: string, description: string, urlImage: string): void { //google.maps.Marker {
+        let ctrl = this;
+        let marker = new google.maps.Marker({
+            position: location,
+            map: MapController.map
+        });
+        marker.addListener('click', function () {
+            ctrl.setSidebarInformation(name, urlImage, description);
+            $('#descrBar').show().animate({right: 0});
+        });
+        MapController.markers[tag].push(marker);
+    }
+
+    geoLocalisation() {
         let ctrl = this;
         let icon = 'http://i.stack.imgur.com/orZ4x.png';
-        if (!lat) {
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    let jsonResponse = JSON.parse(this.responseText);
-                    lat = jsonResponse.location.lat;
-                    lng = jsonResponse.location.lng;
 
-                    ctrl.addMarker({lat: lat, lng: lng}, "You are here", "Your current position.", icon);
-                    ctrl.showNear(lat, lng, distance);
-                    MapController.map.setCenter({lat: lat, lng: lng});
-                }
-            };
-            xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
-            xhttp.send();
-        } else {
-            ctrl.addMarker({lat: lat, lng: lng}, "You are here", "Your current position.", icon);
-            ctrl.showNear(lat, lng, distance);
-            MapController.map.setCenter({lat: lat, lng: lng});
-        }
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let jsonResponse = JSON.parse(this.responseText);
+                let lat = jsonResponse.location.lat;
+                let lng = jsonResponse.location.lng;
+                MapController.userMarker = new google.maps.Marker({
+                    position: {lat: lat, lng: lng},
+                    map: MapController.map
+                });
+                ctrl.showNear(lat, lng);
+                MapController.map.setCenter({lat: lat, lng: lng});
+            }
+        };
+        xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
+        xhttp.send();
     }
 
     public static toggleBtn(key: string, obj: Object) {
@@ -120,18 +106,21 @@ class MapController {
             map = null;
         }
 
+        let myLat = MapController.userMarker.position.lat();
+        let myLng = MapController.userMarker.position.lng();
         for (let index in markers) {
-            markers[index].setMap(map);
+            if (MapController.isNear(myLat, myLng, markers[index].position.lat(), markers[index].position.lng())) {
+                markers[index].setMap(map);
+            }
         }
     }
 
-    showNear(lat: number, long: number, distance: number) : void {
-        let ctrl = this;
+    showNear(lat: number, lng: number) : void {
         let markers = MapController.markers;
         for (let tag in markers) {
             for (let index in markers[tag]) {
                 let element:google.maps.Marker = markers[tag][index];
-                if (ctrl.getDistanceFromLatLonInKm(lat, long, element.lat, element.lng) < distance) {
+                if (MapController.isNear(lat, lng, element.position.lat(), element.position.lng())) {
                     element.setMap(MapController.map);
                 } else {
                     element.setMap(null);
@@ -140,19 +129,22 @@ class MapController {
         }
     }
 
-    getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
-        let ctrl = this;
+    public static isNear(lat1: number, lng1: number, lat2: number, lng2: number) : boolean {
+        return MapController.getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) < MapController.distance;
+    }
+
+    private static getDistanceFromLatLonInKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
         let R = 6371; // Radius of the earth in km
-        let dLat = ctrl.deg2rad(lat2 - lat1);  // deg2rad below
-        let dLon = ctrl.deg2rad(lon2 - lon1);
+        let dLat = MapController.deg2rad(lat2 - lat1);  // deg2rad below
+        let dLon = MapController.deg2rad(lng2 - lng1);
         let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(ctrl.deg2rad(lat1)) * Math.cos(ctrl.deg2rad(lat2)) *
+                Math.cos(MapController.deg2rad(lat1)) * Math.cos(MapController.deg2rad(lat2)) *
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
         let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return R * c;
     }
 
-    deg2rad(deg: number): number {
+    private static deg2rad(deg: number): number {
         return deg * (Math.PI / 180)
     }
 
@@ -194,8 +186,9 @@ class MapController {
     }
 
     setMapOnAll(map: google.maps.Map, arr: Array<google.maps.Marker>) {
+        let userMarker = MapController.userMarker;
         for (let i = 0; i < arr.length; i++) {
-            if (this.getDistanceFromLatLonInKm(this.lat, this.lng, arr[i].position.lat(), arr[i].position.lng()) < this.distance) {
+            if (MapController.getDistanceFromLatLonInKm(userMarker.position.lat(), userMarker.position.lnt(), arr[i].position.lat(), arr[i].position.lng()) < MapController.distance) {
                 arr[i].setMap(map);
             } else {
                 arr[i].setMap(null);
