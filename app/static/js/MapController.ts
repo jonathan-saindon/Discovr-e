@@ -8,7 +8,7 @@ class MapController {
         this.initMap();
     }
 
-    initMap(): void {
+    private initMap(): void {
         let ctrl = this;
         MapController.markers = [];
         MapController.map = new google.maps.Map(document.getElementById('map'), {
@@ -29,7 +29,7 @@ class MapController {
     /**
      * Get json data from server
      */
-    loadData() {
+    private loadData() {
         /*
          * TODO
          * Optimiser les données envoyer pour accélérer le temps de réponse
@@ -58,7 +58,7 @@ class MapController {
         xhttp.send();
     }
 
-    addMarker(tag: string, location: Object, name: string, description: string, urlImage: string): void { //google.maps.Marker {
+    public addMarker(tag: string, location: Object, name: string, description: string, urlImage: string): void { //google.maps.Marker {
         let ctrl = this;
         let marker = new google.maps.Marker({
             position: location,
@@ -71,7 +71,7 @@ class MapController {
         MapController.markers[tag].push(marker);
     }
 
-    geoLocalisation() {
+    private geoLocalisation() {
         let ctrl = this;
         let icon = 'http://i.stack.imgur.com/orZ4x.png';
 
@@ -115,7 +115,7 @@ class MapController {
         }
     }
 
-    showNear(lat: number, lng: number) : void {
+    private showNear(lat: number, lng: number) : void {
         let markers = MapController.markers;
         for (let tag in markers) {
             for (let index in markers[tag]) {
