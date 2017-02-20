@@ -1,4 +1,3 @@
-# hackatown-2017
 ##TODO
 * icon en fonction du type de data
 * chercher image en fonction du titre avec api image

@@ -8,21 +8,20 @@ class MapController {
         this.initMap();
     }
 
-    private initMap(): void {
+    private initMap() : void {
         let ctrl = this;
         MapController.markers = [];
         MapController.map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: 45.5016889,
-                lng: -73.567256
-            },
+            center: { lat: 45.5016889, lng: -73.567256 },
             zoom: 14
         });
         ctrl.loadData();
-        ctrl.geoLocalisation();
+
+        if (!MapController.userMarker)
+            ctrl.geoLocalisation();
     }
 
-    setDistance(distance: number) : void {
+    public static setDistance(distance: number) : void {
         MapController.distance = distance;
     }
 
@@ -58,34 +57,28 @@ class MapController {
         xhttp.send();
     }
 
-    public addMarker(tag: string, location: Object, name: string, description: string, urlImage: string): void { //google.maps.Marker {
-        let ctrl = this;
+    public addMarker(tag: string, location: Object, name: string, description: string, urlImage: string): void {
         let marker = new google.maps.Marker({
             position: location,
             map: MapController.map
         });
         marker.addListener('click', function () {
-            ctrl.setSidebarInformation(name, urlImage, description);
-            $('#descrBar').show().animate({right: 0});
+            AppController.setSidebarInformation(name, urlImage, description);
+            AppController.showDescrBar();
         });
         MapController.markers[tag].push(marker);
     }
 
     private geoLocalisation() {
         let ctrl = this;
-        let icon = 'http://i.stack.imgur.com/orZ4x.png';
-
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 let jsonResponse = JSON.parse(this.responseText);
                 let lat = jsonResponse.location.lat;
                 let lng = jsonResponse.location.lng;
-                MapController.userMarker = new google.maps.Marker({
-                    position: {lat: lat, lng: lng},
-                    map: MapController.map
-                });
-                ctrl.showNear(lat, lng);
+                ctrl.createUserMarker(lat, lng);
+                ctrl.showMarkersNear(lat, lng);
                 MapController.map.setCenter({lat: lat, lng: lng});
             }
         };
@@ -93,34 +86,37 @@ class MapController {
         xhttp.send();
     }
 
-    public static toggleBtn(key: string, obj: Object) {
+    private createUserMarker(lat: number, lng:number) {
+        MapController.userMarker = new google.maps.Marker({
+            position: {lat: lat, lng: lng},
+            map: MapController.map,
+            icon: MapIcons.getYouAreHereIcon()
+        });
+    }
+
+    public static toggleMarkers(key: string, enabled: boolean) {
         let markers = MapController.markers[key];
-        let map;
-
-        let classname = obj.className.split(" ")[1];
-        if (classname && classname == "disabled") {
-            obj.className = "sidebarBtn enable";
-            map = MapController.map;
-        } else {
-            obj.className = "sidebarBtn disabled";
-            map = null;
-        }
-
+        let map = enabled ? MapController.map : null;
         let myLat = MapController.userMarker.position.lat();
         let myLng = MapController.userMarker.position.lng();
         for (let index in markers) {
-            if (MapController.isNear(myLat, myLng, markers[index].position.lat(), markers[index].position.lng())) {
-                markers[index].setMap(map);
+            let marker = markers[index];
+            if (MathUtil.arePointsCloserThan(
+                    myLat, myLng,
+                    marker.position.lat(), marker.position.lng(),
+                    MapController.distance))
+            {
+                marker.setMap(map);
             }
         }
     }
 
-    private showNear(lat: number, lng: number) : void {
+    private showMarkersNear(lat: number, lng: number) : void {
         let markers = MapController.markers;
         for (let tag in markers) {
             for (let index in markers[tag]) {
                 let element:google.maps.Marker = markers[tag][index];
-                if (MapController.isNear(lat, lng, element.position.lat(), element.position.lng())) {
+                if (MathUtil.arePointsCloserThan(lat, lng, element.position.lat(), element.position.lng(), MapController.distance)) {
                     element.setMap(MapController.map);
                 } else {
                     element.setMap(null);
@@ -129,70 +125,4 @@ class MapController {
         }
     }
 
-    public static isNear(lat1: number, lng1: number, lat2: number, lng2: number) : boolean {
-        return MapController.getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) < MapController.distance;
-    }
-
-    private static getDistanceFromLatLonInKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
-        let R = 6371; // Radius of the earth in km
-        let dLat = MapController.deg2rad(lat2 - lat1);  // deg2rad below
-        let dLon = MapController.deg2rad(lng2 - lng1);
-        let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(MapController.deg2rad(lat1)) * Math.cos(MapController.deg2rad(lat2)) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
-    }
-
-    private static deg2rad(deg: number): number {
-        return deg * (Math.PI / 180)
-    }
-
-    setSidebarInformation(name: string, urlImage: string, description: string): void {
-        let ctrl = this;
-        //$("#descr-name").html(name);
-        document.getElementById("descr-name").innerHTML = name;
-
-        if (!description) {
-            description = "";
-        }
-        document.getElementById("descr-details").innerHTML = description;
-
-        if (urlImage) {
-            document.getElementById("descr-img").src = urlImage;
-            document.getElementById("descr-img").addEventListener('click', function () {
-                //$("#overlay").show();
-                //$("#overlay-img").attr("src", urlImage);
-            });
-        } else {
-            ctrl.getImage(name);
-        }
-    }
-
-    getImage(query: string) {
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                let jsonResponse = JSON.parse(this.responseText);
-                let url = "";
-                if (jsonResponse.items) {
-                    url = jsonResponse.items[0];
-                }
-                $("#descr-img").attr('src', url);
-            }
-        };
-        xhttp.open("GET", "https://www.googleapis.com/customsearch/v1?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&cx=015911799653155271639%3Ayxc2mwmxfwy&searchType=image&fileType=jpg&q=" + query + " Montreal", true);
-        xhttp.send();
-    }
-
-    setMapOnAll(map: google.maps.Map, arr: Array<google.maps.Marker>) {
-        let userMarker = MapController.userMarker;
-        for (let i = 0; i < arr.length; i++) {
-            if (MapController.getDistanceFromLatLonInKm(userMarker.position.lat(), userMarker.position.lnt(), arr[i].position.lat(), arr[i].position.lng()) < MapController.distance) {
-                arr[i].setMap(map);
-            } else {
-                arr[i].setMap(null);
-            }
-        }
-    }
 }

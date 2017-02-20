@@ -1,21 +1,22 @@
 {
-  "name": "hackatown",
+  "name": "Discovr-e",
   "version": "1.0.0",
-  "description": "HackaTown APP.",
+  "description": "The Discovr-e app helps you discover well known and unknown places around town.",
   "scripts": {
-    "start": "nodemon ./app/index.js"
+    "start": "nodemon ./app/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Girardvjonathan/hackatown-2017.git"
+    "url": "git+https://github.com/jonathan-saindon/discovr-e.git"
   },
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "jsonfile": "^2.4.0",
+    "path": "^0.12.7"
   },
   "devDependencies": {
-    "jsonfile": "^2.4.0",
     "nodemon": "^1.10.2",
     "typescript": "^2.1.6"
   }

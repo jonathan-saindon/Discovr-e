@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Discovr-e</title>
     <link rel="stylesheet" href="/static/css/styles.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/static/css/images.css" type="text/css" media="screen" />
 </head>
 <body>
     <div class="menubar">
@@ -18,11 +19,26 @@
 
     <div class="content">
         <div class="sidebar">
-            <div class="sidebarBtn" onclick="MapController.toggleBtn('landmarks', this)" title="Landmarks"><div class="img landmarks"></div></div>
-            <div class="sidebarBtn" onclick="MapController.toggleBtn('lieuxCulturels', this)" title="Public Places"><div class="img public"></div></div>
-            <div class="sidebarBtn" onclick="MapController.toggleBtn('patrimoine', this)" title="Patrimony"><div class="img patrimoine"></div></div>
-            <div class="sidebarBtn" onclick="MapController.toggleBtn('art', this)" title="Art"><div class="img art"></div></div>
-            <div class="sidebarBtn" onclick="MapController.toggleBtn('parcs', this)" title="Parks"><div class="img parks"></div></div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('landmarks', this)">
+                <div class="img landmarks"></div>
+                <span class="tooltipText">Monuments</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('lieuxCulturels', this)">
+                <div class="img public"></div>
+                <span class="tooltipText">Places Publiques</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('patrimoine', this)">
+                <div class="img patrimoine"></div>
+                <span class="tooltipText">Patrimoine</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('art', this)">
+                <div class="img art"></div>
+                <span class="tooltipText">Art</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('parcs', this)">
+                <div class="img parks"></div>
+                <span class="tooltipText">Parcs</span>
+            </div>
         </div>
 
         <div id="map" class="mapContainer"></div>
@@ -42,14 +58,16 @@
     </div>
 
     <!-- SCRIPTS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBte-6m0uXpCfKsoCcQrpQycWZf7XNHO6Y&callback=init" async defer></script>
+    <script src="/static/js/require.min.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/MapIcons.js"></script>
+    <script src="/static/js/MathUtil.js"></script>
+    <script src="/static/js/AppController.js"></script>
     <script src="/static/js/MapController.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBte-6m0uXpCfKsoCcQrpQycWZf7XNHO6Y&callback=init"
-            async defer>
-    </script>
     <script>
-        //$(document).tooltip();
         function init() {
+            AppController.parseParameters();
             new MapController();
         }
     </script>

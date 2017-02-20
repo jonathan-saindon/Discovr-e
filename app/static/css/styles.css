@@ -129,38 +129,6 @@ a.menuElem.right {
     opacity: 0.75;
 }
 
-.img.landmarks {
-    background-image: url("/static/img/landmark.png");
-}
-
-.img.parks {
-    background-image: url("/static/img/parc.png");
-}
-
-.img.parkings {
-    background-image: url("/static/img/parking.png");
-}
-
-.img.public {
-    background-image: url("/static/img/public.png");
-}
-
-.img.library {
-    background-image: url("/static/img/bibliotheque.png");
-}
-
-.img.patrimoine {
-    background-image: url("/static/img/patrimoine.png");
-}
-
-.img.murale {
-    background-image: url("/static/img/murale.png");
-}
-
-.img.art {
-    background-image: url("/static/img/art.png");
-}
-
 /* When you mouse over the navigation links, change their color */
 .sidebar a:hover,
 .offcanvas a:focus {
@@ -201,16 +169,14 @@ a.menuElem.right {
 .descrBar-description {
     max-height: 250px;
     overflow: auto;
-    margin: 0;
+    margin-top: 0;
     margin-bottom: 10px;
-    /* border: solid 1px var(--color-secondary-2-2); */
 }
 
 .descrBar-image {
     display: inline-block;
     width: calc(100% - 20px);
     height: 200px;
-    /*position: absolute;*/
     bottom: 10px;
 }
 
@@ -252,6 +218,42 @@ a.menuElem.right {
 .overlay-image {
     opacity: 1;
     margin: auto;
+}
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltipText {
+    visibility: hidden;
+    width: 120px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 30%;
+    left: 54px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.tooltip .tooltipText::after {
+    content: "";
+    position: absolute;
+    top: 35%;
+    left: 0%;
+    margin-left: -5px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 5px solid #333;
+}
+
+.tooltip:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
 }
 
 @media screen and (min-width: var(--mediumres)) {
