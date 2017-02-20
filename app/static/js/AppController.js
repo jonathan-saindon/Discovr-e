@@ -42,8 +42,6 @@ var AppController;
         $("#descr-details").html(description);
         if (urlImage) {
             $("#descr-img").attr('src', urlImage);
-            $("#descr-img").addEventListener('click', function () {
-            });
         }
         else {
             AppController.getImage(name);

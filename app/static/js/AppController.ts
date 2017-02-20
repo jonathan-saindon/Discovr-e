@@ -45,10 +45,10 @@ module AppController {
 
         if (urlImage) {
             $("#descr-img").attr('src', urlImage);
-            $("#descr-img").addEventListener('click', function () {
+            //$("#descr-img").addEventListener('click', function () {
                 //$("#overlay").show();
                 //$("#overlay-img").attr("src", urlImage);
-            });
+            //q});
         } else {
             AppController.getImage(name);
         }
