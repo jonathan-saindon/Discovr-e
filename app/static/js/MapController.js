@@ -1,72 +1,22 @@
+var GMarker = (function () {
+    function GMarker(obj) {
+        this.lat = obj.lat;
+        this.lng = obj.lng;
+        this.nom = obj.nom;
+        this.description = obj.description;
+        this.urlImg = obj.urlImg;
+    }
+    return GMarker;
+}());
 var MapController = (function () {
     function MapController() {
         this.initMap();
     }
-    MapController.prototype.initMap = function () {
-        var ctrl = this;
-        MapController.markers = [];
-        MapController.map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: 45.5016889, lng: -73.567256 },
-            zoom: 14
-        });
-        ctrl.loadData();
-        if (!MapController.userMarker)
-            ctrl.geoLocalisation();
+    MapController.getSelectedMarker = function () {
+        return MapController.selectedMarker;
     };
     MapController.setDistance = function (distance) {
         MapController.distance = distance;
-    };
-    MapController.prototype.loadData = function () {
-        var ctrl = this;
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var data = JSON.parse(this.responseText);
-                for (var tag in data) {
-                    MapController.markers[tag] = [];
-                    for (var index in data[tag]) {
-                        var element = data[tag][index];
-                        ctrl.addMarker(tag, { lat: element.lat, lng: element.lng }, element.nom, element.description, element.urlImg);
-                    }
-                }
-            }
-        };
-        xhttp.open("GET", "./static/data/data.json", true);
-        xhttp.send();
-    };
-    MapController.prototype.addMarker = function (tag, location, name, description, urlImage) {
-        var marker = new google.maps.Marker({
-            position: location,
-            map: MapController.map
-        });
-        marker.addListener('click', function () {
-            AppController.setSidebarInformation(name, urlImage, description);
-            AppController.showDescrBar();
-        });
-        MapController.markers[tag].push(marker);
-    };
-    MapController.prototype.geoLocalisation = function () {
-        var ctrl = this;
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var jsonResponse = JSON.parse(this.responseText);
-                var lat = jsonResponse.location.lat;
-                var lng = jsonResponse.location.lng;
-                ctrl.createUserMarker(lat, lng);
-                ctrl.showMarkersNear(lat, lng);
-                MapController.map.setCenter({ lat: lat, lng: lng });
-            }
-        };
-        xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
-        xhttp.send();
-    };
-    MapController.prototype.createUserMarker = function (lat, lng) {
-        MapController.userMarker = new google.maps.Marker({
-            position: { lat: lat, lng: lng },
-            map: MapController.map,
-            icon: MapIcons.getYouAreHereIcon()
-        });
     };
     MapController.toggleMarkers = function (key, enabled) {
         var markers = MapController.markers[key];
@@ -79,6 +29,75 @@ var MapController = (function () {
                 marker.setMap(map);
             }
         }
+    };
+    MapController.createUserMarker = function (lat, lng) {
+        MapController.userMarker = new google.maps.Marker({
+            position: { lat: lat, lng: lng },
+            map: MapController.map,
+            icon: MapIcons.getYouAreHereIcon()
+        });
+    };
+    MapController.prototype.initMap = function () {
+        var ctrl = this;
+        MapController.markers = [];
+        MapController.map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 45.5016889, lng: -73.567256 },
+            zoom: 14
+        });
+        ctrl.loadData();
+        if (!MapController.userMarker)
+            ctrl.geoLocalisation();
+    };
+    MapController.prototype.loadData = function () {
+        var ctrl = this;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                for (var tag in data) {
+                    MapController.markers[tag] = [];
+                    for (var index in data[tag]) {
+                        ctrl.addMarker(tag, data[tag][index]);
+                    }
+                }
+            }
+        };
+        xhttp.open("GET", "./static/data/data.json", true);
+        xhttp.send();
+    };
+    MapController.prototype.addMarker = function (tag, element) {
+        var position = { lat: element.lat, lng: element.lng };
+        var marker = new google.maps.Marker({
+            position: position,
+            map: MapController.map
+        });
+        marker.addListener('click', function () {
+            AppController.setSidebarInformation(element.nom, element.urlImg, element.description);
+            AppController.showDescrBar();
+            if (MapController.selectedMarker !== undefined) {
+                MapController.selectedMarker.setAnimation(null);
+            }
+            var animation = this.getAnimation() != google.maps.Animation.BOUNCE ? google.maps.Animation.BOUNCE : null;
+            this.setAnimation(animation);
+            MapController.selectedMarker = this;
+        });
+        MapController.markers[tag].push(marker);
+    };
+    MapController.prototype.geoLocalisation = function () {
+        var ctrl = this;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var jsonResponse = JSON.parse(this.responseText);
+                var lat = jsonResponse.location.lat;
+                var lng = jsonResponse.location.lng;
+                MapController.createUserMarker(lat, lng);
+                ctrl.showMarkersNear(lat, lng);
+                MapController.map.setCenter({ lat: lat, lng: lng });
+            }
+        };
+        xhttp.open("POST", "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY", true);
+        xhttp.send();
     };
     MapController.prototype.showMarkersNear = function (lat, lng) {
         var markers = MapController.markers;

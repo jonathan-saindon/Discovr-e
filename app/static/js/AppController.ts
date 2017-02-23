@@ -6,7 +6,7 @@ module AppController {
 
         let paramLat = parseFloat(getParamValue('lat'));
         let paramLng = parseFloat(getParamValue('lng'));
-        if (paramLat && paramLng) this.createUserMarker(paramLat, paramLng);
+        if (paramLat && paramLng) MapController.createUserMarker(paramLat, paramLng);
     }
 
     export function getParamValue(name: string) {
@@ -21,9 +21,9 @@ module AppController {
     }
 
     export function toggleBtn(key: string, obj: HTMLBodyElement) {
-        let classname = obj.className.split(" ")[1];
+        let classname = obj.className.split(" ")[2];
         let enabled = classname && classname == "disabled";
-        obj.className = enabled ? "sidebarBtn enable" : "sidebarBtn disabled";
+        obj.className = enabled ? "sidebarBtn tooltip enable" : "sidebarBtn tooltip disabled";
         MapController.toggleMarkers(key, enabled);
     }
 
@@ -33,6 +33,7 @@ module AppController {
 
     export function hideDescrBar() {
         $('#descrBar').animate({right: -355}).hide();
+        MapController.getSelectedMarker().setAnimation(null);
     }
 
     export function setSidebarInformation(name: string, urlImage: string, description: string): void {
@@ -70,5 +71,10 @@ module AppController {
         xhttp.send();
     }
 
-
+    export function getGMarkerIcon(subcat: string) : string {
+        switch(subcat) {
+            case "": return "";
+        }
+        return "";
+    }
 }

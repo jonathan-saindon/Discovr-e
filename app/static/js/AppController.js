@@ -7,7 +7,7 @@ var AppController;
         var paramLat = parseFloat(getParamValue('lat'));
         var paramLng = parseFloat(getParamValue('lng'));
         if (paramLat && paramLng)
-            this.createUserMarker(paramLat, paramLng);
+            MapController.createUserMarker(paramLat, paramLng);
     }
     AppController.parseParameters = parseParameters;
     function getParamValue(name) {
@@ -20,9 +20,9 @@ var AppController;
     }
     AppController.getParamValue = getParamValue;
     function toggleBtn(key, obj) {
-        var classname = obj.className.split(" ")[1];
+        var classname = obj.className.split(" ")[2];
         var enabled = classname && classname == "disabled";
-        obj.className = enabled ? "sidebarBtn enable" : "sidebarBtn disabled";
+        obj.className = enabled ? "sidebarBtn tooltip enable" : "sidebarBtn tooltip disabled";
         MapController.toggleMarkers(key, enabled);
     }
     AppController.toggleBtn = toggleBtn;
@@ -32,6 +32,7 @@ var AppController;
     AppController.showDescrBar = showDescrBar;
     function hideDescrBar() {
         $('#descrBar').animate({ right: -355 }).hide();
+        MapController.getSelectedMarker().setAnimation(null);
     }
     AppController.hideDescrBar = hideDescrBar;
     function setSidebarInformation(name, urlImage, description) {
@@ -64,5 +65,12 @@ var AppController;
         xhttp.send();
     }
     AppController.getImage = getImage;
+    function getGMarkerIcon(subcat) {
+        switch (subcat) {
+            case "": return "";
+        }
+        return "";
+    }
+    AppController.getGMarkerIcon = getGMarkerIcon;
 })(AppController || (AppController = {}));
 //# sourceMappingURL=AppController.js.map
