@@ -37,7 +37,7 @@ def createElement(lat, lng, nom, descr, url, cat):
 		"nom": nom,
 		"description": descr,
 		"urlImg": url,
-		"category": cat
+		"categorie": cat
 	}
 
 def appendElementTo(tag, element):
@@ -87,7 +87,12 @@ with open(basepath + "ArtPublicMtl.json", 'r') as data_file:
 	data = json.load(data_file)
 	tag = "beaux-arts"
 	for elem in data:
+		catText = elem["CategorieObjet"]
 		desc = elem["NomCollection"] + ", " + elem["CategorieObjet"]
+		
+		if elem["SousCategorieObjet"] != None:
+			catText += str(", " + elem["SousCategorieObjet"])
+			desc += str(", " + elem["SousCategorieObjet"])
 		if elem["TitreVariante"] != None:
 			desc += str(newline + elem["TitreVariante"])
 		if elem["Batiment"] != None:
@@ -96,11 +101,7 @@ with open(basepath + "ArtPublicMtl.json", 'r') as data_file:
 			desc += str(newline + elem["Parc"])
 		if elem["AdresseCivique"] != None:
 			desc += str(newline + elem["AdresseCivique"])
-		
-		catText = elem["CategorieObjet"]
-		if elem["SousCategorieObjet"] != None:
-			catText += str(", " + elem["SousCategorieObjet"])
-		
+				
 		element = createElement(
 			float(elem["CoordonneeLatitude"]),
 			float(elem["CoordonneeLongitude"]),
@@ -205,18 +206,12 @@ with open(basepath + "lieuCulturel.json", 'r') as data_file:
 		appendElementTo(tag, element)
 	printTime("Lieux culturels", start_time)
 
-with open(basepath + "monument.json", 'r') as data_file:
-	data = json.load(data_file)
-	for elem in data:
-		element = createElement(
-			elem["LAT"],
-			elem["LONG"],
-			elem["NOM"], 
-			"", 
-			"",
-			"monument")
-		appendElementTo("patrimony", element)
-	printTime("Monuments", start_time)
+#with open(basepath + "monument.json", 'r') as data_file:
+#	data = json.load(data_file)
+#	for elem in data:
+#		element = createElement(elem["LAT"], elem["LONG"], elem["NOM"],  "",  "", "monument")
+#		appendElementTo("patrimony", element)
+#	printTime("Monuments", start_time)
 
 with open(basepath + "muralesSubventionnees.json", 'r') as data_file:
 	data = json.load(data_file)["features"]

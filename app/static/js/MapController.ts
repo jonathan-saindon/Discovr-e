@@ -4,6 +4,7 @@ class GMarker {
     public nom: string;
     public description: string;
     public urlImg: string;
+    public categorie: string;
 
     constructor(obj: GMarker) {
         this.lat = obj.lat;
@@ -11,6 +12,7 @@ class GMarker {
         this.nom = obj.nom;
         this.description = obj.description;
         this.urlImg = obj.urlImg;
+        this.categorie = obj.categorie;
     }
 }
 
@@ -97,7 +99,8 @@ class MapController {
         let position = { lat: element.lat, lng: element.lng };
         let marker = new google.maps.Marker({
             position: position,
-            map: MapController.map
+            map: MapController.map,
+            icon: MapIcons.getIcon(element.categorie)
         });
         marker.addListener('click', function () {
             AppController.setSidebarInformation(element.nom, element.urlImg, element.description);
@@ -108,8 +111,8 @@ class MapController {
                 MapController.selectedMarker.setAnimation(null);
             }
 
-            let animation = this.getAnimation() != google.maps.Animation.BOUNCE ? google.maps.Animation.BOUNCE : null;
-            this.setAnimation(animation);
+            //let animation = this.getAnimation() != google.maps.Animation.BOUNCE ? google.maps.Animation.BOUNCE : null;
+            this.setAnimation(google.maps.Animation.BOUNCE);
             MapController.selectedMarker = this;
         });
         MapController.markers[tag].push(marker);

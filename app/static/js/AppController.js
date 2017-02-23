@@ -50,15 +50,15 @@ var AppController;
     }
     AppController.setSidebarInformation = setSidebarInformation;
     function getImage(query) {
+        var STATE_DONE = 4;
+        var STATUS_SUCCESS = 200;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState == STATE_DONE && this.status == STATUS_SUCCESS) {
                 var jsonResponse = JSON.parse(this.responseText);
-                var url = "";
                 if (jsonResponse.items) {
-                    url = jsonResponse.items[0];
+                    $("#descr-img").attr('src', jsonResponse.items[0]);
                 }
-                $("#descr-img").attr('src', url);
             }
         };
         xhttp.open("GET", "https://www.googleapis.com/customsearch/v1?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&cx=015911799653155271639%3Ayxc2mwmxfwy&searchType=image&fileType=jpg&q=" + query + " Montreal", true);

@@ -5,6 +5,7 @@ var GMarker = (function () {
         this.nom = obj.nom;
         this.description = obj.description;
         this.urlImg = obj.urlImg;
+        this.categorie = obj.categorie;
     }
     return GMarker;
 }());
@@ -69,7 +70,8 @@ var MapController = (function () {
         var position = { lat: element.lat, lng: element.lng };
         var marker = new google.maps.Marker({
             position: position,
-            map: MapController.map
+            map: MapController.map,
+            icon: MapIcons.getIcon(element.categorie)
         });
         marker.addListener('click', function () {
             AppController.setSidebarInformation(element.nom, element.urlImg, element.description);
@@ -77,8 +79,7 @@ var MapController = (function () {
             if (MapController.selectedMarker !== undefined) {
                 MapController.selectedMarker.setAnimation(null);
             }
-            var animation = this.getAnimation() != google.maps.Animation.BOUNCE ? google.maps.Animation.BOUNCE : null;
-            this.setAnimation(animation);
+            this.setAnimation(google.maps.Animation.BOUNCE);
             MapController.selectedMarker = this;
         });
         MapController.markers[tag].push(marker);
