@@ -66,6 +66,24 @@ var MapController = (function () {
         xhttp.open("GET", "./static/data/data.json", true);
         xhttp.send();
     };
+    MapController.prototype.initMarkerClusterer = function () {
+        var mcOptions = {
+            imagePath: '/static/img/cluster/m',
+            minimumClusterSize: 5,
+            maxZoom: 14
+        };
+        MapController.clusterer = new MarkerClusterer(MapController.map, this.concatMarkers(), mcOptions);
+    };
+    MapController.prototype.concatMarkers = function () {
+        var array = [];
+        for (var key in MapController.markers) {
+            var markers = MapController.markers[key];
+            for (var index in markers) {
+                array.push(markers[index]);
+            }
+        }
+        return array;
+    };
     MapController.prototype.addMarker = function (tag, element) {
         var position = { lat: element.lat, lng: element.lng };
         var marker = new google.maps.Marker({
@@ -80,6 +98,7 @@ var MapController = (function () {
                 MapController.selectedMarker.setAnimation(null);
             }
             this.setAnimation(google.maps.Animation.BOUNCE);
+            2;
             MapController.selectedMarker = this;
         });
         MapController.markers[tag].push(marker);

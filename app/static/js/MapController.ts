@@ -1,3 +1,7 @@
+interface IMarkers {
+    [key: string] : Array<GMarker>
+}
+
 class GMarker {
     public lat: number;
     public lng: number;
@@ -17,9 +21,10 @@ class GMarker {
 }
 
 class MapController {
-    private static markers: Array<google.maps.Marker>;
-    private static userMarker: google.maps.Marker;
-    private static selectedMarker: google.maps.Marker;
+    private static markers: IMarkers;
+    private static clusterer: MarkerClusterer;
+    private static userMarker: GMarker;
+    private static selectedMarker: GMarker;
 
     private static map: google.maps.Map;
     private static distance: number = 5;
@@ -89,10 +94,31 @@ class MapController {
                         ctrl.addMarker(tag, data[tag][index]);
                     }
                 }
+                //ctrl.initMarkerClusterer();
             }
         };
         xhttp.open("GET", "./static/data/data.json", true);
         xhttp.send();
+    }
+
+    private initMarkerClusterer() {
+        let mcOptions = {
+            imagePath: '/static/img/cluster/m',
+            minimumClusterSize: 5,
+            maxZoom: 14
+        };
+        MapController.clusterer = new MarkerClusterer(MapController.map, this.concatMarkers(), mcOptions);
+    }
+
+    private concatMarkers() : Array<GMarker> {
+        let array:Array<GMarker> = [];
+        for (let key in MapController.markers) {
+            let markers = MapController.markers[key];
+            for (let index in markers) {
+                array.push(markers[index]);
+            }
+        }
+        return array;
     }
 
     public addMarker(tag: string, element: GMarker): void {
@@ -111,7 +137,6 @@ class MapController {
                 MapController.selectedMarker.setAnimation(null);
             }
 
-            //let animation = this.getAnimation() != google.maps.Animation.BOUNCE ? google.maps.Animation.BOUNCE : null;
             this.setAnimation(google.maps.Animation.BOUNCE);
             MapController.selectedMarker = this;
         });
