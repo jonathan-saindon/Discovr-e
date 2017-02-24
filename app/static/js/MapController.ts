@@ -11,12 +11,22 @@ class MapController {
     private static map: google.maps.Map;
     private static distance: number = 5;
 
+    private static instance:MapController;
+
     constructor() {
+        MapController.instance = this;
+        $("#distance")[0].value = MapController.distance;
         this.initMap();
     }
 
     public static getSelectedMarker() : google.maps.Marker {
         return MapController.selectedMarker;
+    }
+
+    public static onDistanceChange() : void {
+        let distance = $("#distance")[0].value;
+        MapController.setDistance(distance);
+        MapController.showNearUser();
     }
 
     public static setDistance(distance: number) : void {
@@ -58,8 +68,15 @@ class MapController {
         });
     }
 
+    private static showNearUser() : void {
+        if (MapController.userMarker != null) {
+            let position = MapController.userMarker.position;
+            MapController.instance.showMarkersNear(position.lat(), position.lng());
+        }
+    }
+
     private initMap(): void {
-        let ctrl = this;
+        let ctrl = MapController.instance;
         MapController.map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 45.5016889, lng: -73.567256 },
             zoom: 14
@@ -71,7 +88,7 @@ class MapController {
     }
 
     private loadData() {
-        let ctrl = this;
+        let ctrl = MapController.instance;
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -152,16 +169,21 @@ class MapController {
 
     private showMarkersNear(lat: number, lng: number) : void {
         let markers = MapController.markers;
+        let visibleMarkers:google.maps.Marker = [];
         for (let tag in markers) {
             for (let index in markers[tag]) {
                 let element:google.maps.Marker = markers[tag][index];
                 if (MathUtil.arePointsCloserThan(lat, lng, element.position.lat(), element.position.lng(), MapController.distance)) {
                     element.setMap(MapController.map);
+                    visibleMarkers.push(element);
                 } else {
                     element.setMap(null);
                 }
             }
         }
+        MapController.clusterer.clearMarkers();
+        MapController.clusterer.addMarkers(visibleMarkers);
+        MapController.clusterer.repaint();
     }
 
 }

@@ -1,9 +1,16 @@
 var MapController = (function () {
     function MapController() {
+        MapController.instance = this;
+        $("#distance")[0].value = MapController.distance;
         this.initMap();
     }
     MapController.getSelectedMarker = function () {
         return MapController.selectedMarker;
+    };
+    MapController.onDistanceChange = function () {
+        var distance = $("#distance")[0].value;
+        MapController.setDistance(distance);
+        MapController.showNearUser();
     };
     MapController.setDistance = function (distance) {
         MapController.distance = distance;
@@ -37,8 +44,14 @@ var MapController = (function () {
             icon: MapIcons.getYouAreHereIcon()
         });
     };
+    MapController.showNearUser = function () {
+        if (MapController.userMarker != null) {
+            var position = MapController.userMarker.position;
+            MapController.instance.showMarkersNear(position.lat(), position.lng());
+        }
+    };
     MapController.prototype.initMap = function () {
-        var ctrl = this;
+        var ctrl = MapController.instance;
         MapController.map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 45.5016889, lng: -73.567256 },
             zoom: 14
@@ -48,7 +61,7 @@ var MapController = (function () {
             ctrl.geoLocalisation();
     };
     MapController.prototype.loadData = function () {
-        var ctrl = this;
+        var ctrl = MapController.instance;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -119,17 +132,22 @@ var MapController = (function () {
     };
     MapController.prototype.showMarkersNear = function (lat, lng) {
         var markers = MapController.markers;
+        var visibleMarkers = [];
         for (var tag in markers) {
             for (var index in markers[tag]) {
                 var element = markers[tag][index];
                 if (MathUtil.arePointsCloserThan(lat, lng, element.position.lat(), element.position.lng(), MapController.distance)) {
                     element.setMap(MapController.map);
+                    visibleMarkers.push(element);
                 }
                 else {
                     element.setMap(null);
                 }
             }
         }
+        MapController.clusterer.clearMarkers();
+        MapController.clusterer.addMarkers(visibleMarkers);
+        MapController.clusterer.repaint();
     };
     return MapController;
 }());
