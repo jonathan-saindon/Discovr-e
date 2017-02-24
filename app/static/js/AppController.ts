@@ -49,7 +49,7 @@ module AppController {
             //$("#descr-img").addEventListener('click', function () {
                 //$("#overlay").show();
                 //$("#overlay-img").attr("src", urlImage);
-            //q});
+            //});
         } else {
             AppController.getImage(name);
         }
@@ -71,10 +71,4 @@ module AppController {
         xhttp.send();
     }
 
-    export function getGMarkerIcon(subcat: string) : string {
-        switch(subcat) {
-            case "": return "";
-        }
-        return "";
-    }
 }

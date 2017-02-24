@@ -1,14 +1,3 @@
-var GMarker = (function () {
-    function GMarker(obj) {
-        this.lat = obj.lat;
-        this.lng = obj.lng;
-        this.nom = obj.nom;
-        this.description = obj.description;
-        this.urlImg = obj.urlImg;
-        this.categorie = obj.categorie;
-    }
-    return GMarker;
-}());
 var MapController = (function () {
     function MapController() {
         this.initMap();
@@ -30,6 +19,16 @@ var MapController = (function () {
                 marker.setMap(map);
             }
         }
+        MapController.toggleCustererMarkers(markers, enabled);
+    };
+    MapController.toggleCustererMarkers = function (markers, enabled) {
+        if (enabled) {
+            MapController.clusterer.addMarkers(markers);
+        }
+        else {
+            MapController.clusterer.removeMarkers(markers);
+        }
+        MapController.clusterer.repaint();
     };
     MapController.createUserMarker = function (lat, lng) {
         MapController.userMarker = new google.maps.Marker({
@@ -40,7 +39,6 @@ var MapController = (function () {
     };
     MapController.prototype.initMap = function () {
         var ctrl = this;
-        MapController.markers = [];
         MapController.map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 45.5016889, lng: -73.567256 },
             zoom: 14
@@ -55,12 +53,14 @@ var MapController = (function () {
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var data = JSON.parse(this.responseText);
+                MapController.markers = {};
                 for (var tag in data) {
                     MapController.markers[tag] = [];
                     for (var index in data[tag]) {
                         ctrl.addMarker(tag, data[tag][index]);
                     }
                 }
+                ctrl.initMarkerClusterer();
             }
         };
         xhttp.open("GET", "./static/data/data.json", true);
@@ -69,7 +69,6 @@ var MapController = (function () {
     MapController.prototype.initMarkerClusterer = function () {
         var mcOptions = {
             imagePath: '/static/img/cluster/m',
-            minimumClusterSize: 5,
             maxZoom: 14
         };
         MapController.clusterer = new MarkerClusterer(MapController.map, this.concatMarkers(), mcOptions);
@@ -98,7 +97,6 @@ var MapController = (function () {
                 MapController.selectedMarker.setAnimation(null);
             }
             this.setAnimation(google.maps.Animation.BOUNCE);
-            2;
             MapController.selectedMarker = this;
         });
         MapController.markers[tag].push(marker);

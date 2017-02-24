@@ -65,12 +65,5 @@ var AppController;
         xhttp.send();
     }
     AppController.getImage = getImage;
-    function getGMarkerIcon(subcat) {
-        switch (subcat) {
-            case "": return "";
-        }
-        return "";
-    }
-    AppController.getGMarkerIcon = getGMarkerIcon;
 })(AppController || (AppController = {}));
 //# sourceMappingURL=AppController.js.map
