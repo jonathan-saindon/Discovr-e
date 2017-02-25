@@ -25,6 +25,7 @@
     --color-complement-4: #8F320D;
 
     --color-disabled: #888;
+    --color-input-focus: #30eb9b;
 
     /* ---- SCREEN RESOLUTIONS ---- */
     --low-res: 480px;
@@ -32,13 +33,13 @@
     --high-res: 1200px;
 
     /* ELEMENT SIZES */
-    --menubar-height: 40px;
-    --menubar-title-width: 120px;
+    --menubar-height: 30px;
+    --menubar-title-width: 80px;
     --sidebar-width: 52px;
     --sidebarBtn-size: 40px;
-    --menuElem-width: 80px;
-    --menuElem-padding: 10px;
+    --menuElem-width: 100px;
     --descrBtn-size: 30px;
+    --menubarBtn-size: 25px;
 }
 
 html, body {
@@ -65,18 +66,54 @@ html, body {
 .menubar .title {
     float: left;
     display: inline-block;
-    height: calc(100% - (2 * var(--menuElem-padding)));
+    height: calc(100% - 10px);
     width: var(--menubar-title-width);
-    padding: var(--menuElem-padding);
+    padding: 5px 8px;
     color: var(--color-primary-4);
     background-color: var(--color-primary-2);
+    margin-right: 8px;
 }
 
 .menubar .menuElem {
-    display: inline-block;
-    height: calc(100% - (2 * var(--menuElem-padding)));
-    padding: var(--menuElem-padding) calc(2 * var(--menuElem-padding));
+    display: inline-flex;
+    height: calc(100% - 4px);
+    padding: 2px;
     color: white;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+}
+
+.menuElem input {
+    outline: 0;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    padding: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.menuElem input:focus {
+    border: 1px solid var(--color-input-focus);
+}
+
+.inputLabel {
+    padding: 4px 2px;
+}
+
+.distanceInput {
+    width: 60px;
+    text-align: right;
+}
+
+.addressInput {
+    width: calc(100% - 30px);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.addressButton {
+    width: var(--menubarBtn-size);
+    height: var(--menubarBtn-size);
+    cursor: pointer;
+    padding: 4px;
 }
 
 a.menuElem:hover {

@@ -7,11 +7,12 @@ class MapController {
     private static clusterer: MarkerClusterer;
     private static userMarker: google.maps.Marker;
     private static selectedMarker: google.maps.Marker;
+    private static geocoder: google.maps.Geocoder;
 
     private static map: google.maps.Map;
     private static distance: number = 5;
 
-    private static instance:MapController;
+    private static instance: MapController;
 
     constructor() {
         MapController.instance = this;
@@ -60,12 +61,20 @@ class MapController {
         MapController.clusterer.repaint();
     }
 
-    public static createUserMarker(lat: number, lng:number) {
-        MapController.userMarker = new google.maps.Marker({
-            position: {lat: lat, lng: lng},
-            map: MapController.map,
-            icon: MapIcons.getYouAreHereIcon()
-        });
+    public static createUserMarker(position: google.maps.LatLng) {
+        window.setTimeout(function() {
+            MapController.userMarker = new google.maps.Marker({
+                position: position,
+                map: MapController.map,
+                draggable: true,
+                icon: MapIcons.getYouAreHereIcon(),
+                animation: google.maps.Animation.DROP
+            });
+
+            MapController.userMarker.addListener('dragend', function () {
+                MapController.showNearUser();
+            });
+        }, 200);
     }
 
     private static showNearUser() : void {
@@ -81,6 +90,8 @@ class MapController {
             center: { lat: 45.5016889, lng: -73.567256 },
             zoom: 14
         });
+        //MapController.map.setMyLocationEnabled(true);
+        MapController.geocoder = new google.maps.Geocoder();
         ctrl.loadData();
 
         if (!MapController.userMarker)
@@ -158,7 +169,7 @@ class MapController {
                 let jsonResponse = JSON.parse(this.responseText);
                 let lat = jsonResponse.location.lat;
                 let lng = jsonResponse.location.lng;
-                MapController.createUserMarker(lat, lng);
+                MapController.createUserMarker({ lat, lng });
                 ctrl.showMarkersNear(lat, lng);
                 MapController.map.setCenter({lat: lat, lng: lng});
             }
@@ -181,9 +192,28 @@ class MapController {
                 }
             }
         }
-        MapController.clusterer.clearMarkers();
-        MapController.clusterer.addMarkers(visibleMarkers);
-        MapController.clusterer.repaint();
+
+        if (MapController.clusterer) {
+            MapController.clusterer.clearMarkers();
+            MapController.clusterer.addMarkers(visibleMarkers);
+            MapController.clusterer.repaint();
+        }
     }
 
+    public static searchAddress() {
+        let address = $("#address")[0].value;
+        MapController.geocoder.geocode( { 'address': address }, function(results:Array<google.maps.Geolocation>, status:string) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                MapController.map.setCenter(results[0].geometry.location);
+                MapController.userMarker.setMap(null);
+
+                let position = results[0].geometry.location;
+                MapController.createUserMarker(position);
+                MapController.map.panTo(position);
+                MapController.showNearUser();
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
 }

@@ -5,7 +5,7 @@ module AppController {
 
         let paramLat = parseFloat(getParamValue('lat'));
         let paramLng = parseFloat(getParamValue('lng'));
-        if (paramLat && paramLng) MapController.createUserMarker(paramLat, paramLng);
+        if (paramLat && paramLng) MapController.createUserMarker({ paramLat, paramLng });
     }
 
     export function getParamValue(name: string) {

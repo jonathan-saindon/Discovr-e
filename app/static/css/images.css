@@ -34,3 +34,8 @@
 .img.places {
     background-image: url("/static/img/public.png");
 }
+
+.addressButton {
+    background: url(/static/img/search.png) no-repeat;
+    background-size: contain;
+}

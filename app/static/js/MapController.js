@@ -37,12 +37,19 @@ var MapController = (function () {
         }
         MapController.clusterer.repaint();
     };
-    MapController.createUserMarker = function (lat, lng) {
-        MapController.userMarker = new google.maps.Marker({
-            position: { lat: lat, lng: lng },
-            map: MapController.map,
-            icon: MapIcons.getYouAreHereIcon()
-        });
+    MapController.createUserMarker = function (position) {
+        window.setTimeout(function () {
+            MapController.userMarker = new google.maps.Marker({
+                position: position,
+                map: MapController.map,
+                draggable: true,
+                icon: MapIcons.getYouAreHereIcon(),
+                animation: google.maps.Animation.DROP
+            });
+            MapController.userMarker.addListener('dragend', function () {
+                MapController.showNearUser();
+            });
+        }, 200);
     };
     MapController.showNearUser = function () {
         if (MapController.userMarker != null) {
@@ -56,6 +63,7 @@ var MapController = (function () {
             center: { lat: 45.5016889, lng: -73.567256 },
             zoom: 14
         });
+        MapController.geocoder = new google.maps.Geocoder();
         ctrl.loadData();
         if (!MapController.userMarker)
             ctrl.geoLocalisation();
@@ -122,7 +130,7 @@ var MapController = (function () {
                 var jsonResponse = JSON.parse(this.responseText);
                 var lat = jsonResponse.location.lat;
                 var lng = jsonResponse.location.lng;
-                MapController.createUserMarker(lat, lng);
+                MapController.createUserMarker({ lat: lat, lng: lng });
                 ctrl.showMarkersNear(lat, lng);
                 MapController.map.setCenter({ lat: lat, lng: lng });
             }
@@ -145,9 +153,27 @@ var MapController = (function () {
                 }
             }
         }
-        MapController.clusterer.clearMarkers();
-        MapController.clusterer.addMarkers(visibleMarkers);
-        MapController.clusterer.repaint();
+        if (MapController.clusterer) {
+            MapController.clusterer.clearMarkers();
+            MapController.clusterer.addMarkers(visibleMarkers);
+            MapController.clusterer.repaint();
+        }
+    };
+    MapController.searchAddress = function () {
+        var address = $("#address")[0].value;
+        MapController.geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                MapController.map.setCenter(results[0].geometry.location);
+                MapController.userMarker.setMap(null);
+                var position = results[0].geometry.location;
+                MapController.createUserMarker(position);
+                MapController.map.panTo(position);
+                MapController.showNearUser();
+            }
+            else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
     };
     return MapController;
 }());

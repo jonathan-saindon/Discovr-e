@@ -7,7 +7,7 @@ var AppController;
         var paramLat = parseFloat(getParamValue('lat'));
         var paramLng = parseFloat(getParamValue('lng'));
         if (paramLat && paramLng)
-            MapController.createUserMarker(paramLat, paramLng);
+            MapController.createUserMarker({ paramLat: paramLat, paramLng: paramLng });
     }
     AppController.parseParameters = parseParameters;
     function getParamValue(name) {
