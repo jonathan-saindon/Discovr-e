@@ -12,12 +12,12 @@
         <div class="title">Discovr-e</div>
         <div class="menuElem">
             <div class="inputLabel">Distance</div>
-            <input id="distance" class="distanceInput" type="number" name="distance" value="5" onchange="MapController.onDistanceChange()" min="1" max="9999">
+            <input id="distance" class="distanceInput" type="number" name="distance" value="5" onchange="AppController.onDistanceChange()" min="1" max="9999">
         </div>
         <div class="menuElem">
             <div class="inputLabel">Recherche</div>
             <input id="address" class="addressInput" type="textbox" value="" placeholder="Entrez une adresse...">
-            <div class="addressButton" type="button" onclick="MapController.searchAddress()"></div>
+            <div class="addressButton" type="button" onclick="AppController.searchAddress()"></div>
         </div>
     </div>
 

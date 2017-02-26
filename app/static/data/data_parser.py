@@ -17,6 +17,7 @@ wrapper = {
 	"entertainment": [],
 	"unesco": [] }
 categories = json.load(open(basepath + "categories.json", 'r'))
+attraitsTypes = json.load(open(basepath + "attraitsQcTypes.json"))
 newline = "<br /><br />"
 counter = itertools.count()
 start_time = time.time()
@@ -50,10 +51,15 @@ def getCategory(tag, text):
 		for subcat in subcats:
 			keywords = subcats[subcat]
 			for keyword in keywords:
-				if keyword in text:
+				if keyword.lower() in text.lower():
 					return subcat
 	return None
-	
+
+def getAttraitTypeTag(typeId):
+	for tag in attraitsTypes:
+		if typeId in attraitsTypes[tag]:
+			return tag
+
 def meanPosition(positions):
 	n = 0
 	totalLat = 0
@@ -113,25 +119,26 @@ with open(basepath + "ArtPublicMtl.json", 'r') as data_file:
 	printTime("Art public Mtl", start_time)
 
 with open(basepath + "attraitsQc.xml", 'r') as xml_file:
-	attraitsTypes = json.load(open(basepath + "attraitsQcTypes.json"))
 	data = ET.parse(xml_file).getroot()
 	for elem in data.findall('ETABLISSEMENT'):
 		nom = elem.find('ETBL_NOM_FR').text
-		desc = elem.find('ETBL_DESC_FR').text
+		desc = elem.find('ETBL_DESC_FR').text 
 		adrs = elem.find('ADRESSES')
-		adr = adrs[0] if adrs != None else None
 		
-		if adr != None:
-			types = elem.find('ETBL_TYPES')
-			type = types[0] if types != None else None
-			
-			if not any(type in attraitsTypes[tag] for tag in attraitsTypes) and len(types) > 1:
-				type = types[1]
-			
-			if any(type in attraitsTypes[tag] for tag in attraitsTypes):
-				lng = adr.find('ADR_LONGITUDE').text
-				lat = adr.find('ADR_LATITUDE').text
-				if (lng != None and lat != None):
+		if adrs != None:
+			adr = adrs[0]
+			lng = adr.find('ADR_LONGITUDE').text
+			lat = adr.find('ADR_LATITUDE').text
+			if (lng != None and lat != None):			
+				types = elem.find('ETBL_TYPES')
+				if types != None:
+					type = types[0]
+					
+					tag = getAttraitTypeTag(int(type.find('ETBL_TYPE_ID').text))
+					if tag == None and len(types) > 1:
+						type = types[1]
+						tag = getAttraitTypeTag(int(type.find('ETBL_TYPE_ID').text))
+					
 					element = createElement(
 						float(lat),
 						float(lng),

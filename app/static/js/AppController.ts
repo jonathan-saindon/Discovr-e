@@ -5,10 +5,10 @@ module AppController {
 
         let paramLat = parseFloat(getParamValue('lat'));
         let paramLng = parseFloat(getParamValue('lng'));
-        if (paramLat && paramLng) MapController.createUserMarker({ paramLat, paramLng });
+        if (paramLat && paramLng)MapController.setUserMarkerAt({ paramLat, paramLng });
     }
 
-    export function getParamValue(name: string) {
+    function getParamValue(name: string) {
         let url = location.href;
         name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
 
@@ -50,11 +50,11 @@ module AppController {
                 //$("#overlay-img").attr("src", urlImage);
             //});
         } else {
-            AppController.getImage(name);
+            getImage(name);
         }
     }
 
-    export function getImage(query: string) {
+    function getImage(query: string) {
         let STATE_DONE = 4;
         let STATUS_SUCCESS = 200;
         let xhttp = new XMLHttpRequest();
@@ -70,4 +70,21 @@ module AppController {
         xhttp.send();
     }
 
+    export function searchAddress() {
+        let address = $("#address")[0].value;
+        let geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': address}, function (results: Array<google.maps.Geolocation>, status: string) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                MapController.setUserMarkerAt(results[0].geometry.location);
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
+    export function onDistanceChange() : void {
+        let distance = $("#distance")[0].value;
+        MapController.setDistance(distance);
+        MapController.showNearUser();
+    }
 }
