@@ -32,6 +32,7 @@ module MapIcons {
         musee: "art-museum-2.png",
         observatoire: "observatory.png",
         parc: "tree.png",
+        patin: "iceskating.png",
         peche: "fishing.png",
         piscine: "swimming.png",
         plage: "beach.png",

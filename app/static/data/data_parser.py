@@ -3,6 +3,7 @@ import itertools
 import json
 import csv
 import xml.etree.ElementTree as ET
+import geocoder
 
 #
 # GLOBAL VARIABLES
@@ -51,7 +52,7 @@ def getCategory(tag, text):
 		for subcat in subcats:
 			keywords = subcats[subcat]
 			for keyword in keywords:
-				if keyword.lower() in text.lower():
+				if keyword.lower().encode("utf-8") in text.lower().encode("utf-8"):
 					return subcat
 	return None
 
@@ -148,6 +149,52 @@ with open(basepath + "attraitsQc.xml", 'r') as xml_file:
 						getCategory(tag, type.find('ETBL_TYPE_FR').text))
 					appendElementTo(tag, element)
 	printTime("Attraits Qc", start_time)
+
+with open(basepath + "canada_heritage.csv", 'r') as data_file:
+	data = csv.reader(data_file, dialect="excel", delimiter=',')
+	next(data)
+	tag = "patrimony"
+	for elem in data:
+		try:
+			element = createElement(
+				float(elem[10]),
+				float(elem[11]),
+				elem[2],
+				elem[8],
+				"",
+				getCategory(tag, str(elem[2] + " " + elem[8])))
+			appendElementTo(tag, element)
+		except ValueError:
+			try:				
+				element = createElement(
+					float(elem[10]),
+					float(elem[11]),
+					elem[2],
+					elem[8],
+					"",
+					getCategory(tag, str(elem[2] + " " + elem[8])))
+				appendElementTo(tag, element)
+			except ValueError:
+				i = 0
+	printTime("Canada heritage", start_time)
+
+with open(basepath + "canada_national-parks_historic-sites.xml") as xml_file:
+	data = ET.parse(xml_file).getroot()
+	for elem in data.findall('I_PRKS'):
+		tag = "parks"
+		
+		lat = elem.find('LATITUDE').text
+		lng = elem.find('LONGITUDE').text
+		if lat != None and lng != None:
+			element = createElement(
+				lat,
+				lng,
+				elem.find('LOW_FRE').text,
+				elem.find('LOW_FRE_FULL').text,
+				"",
+				getCategory(tag, elem.find('LOW_FRE_FULL').text))
+			appendElementTo(tag, element)
+	printTime("Canada national parks & historic sites", start_time)
 
 with open(basepath + "gatineau_lieuxPublics.json", 'r') as data_file:
 	data = json.load(data_file)
