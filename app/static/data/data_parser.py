@@ -4,6 +4,8 @@ import json
 import csv
 import xml.etree.ElementTree as ET
 import geocoder
+import msvcrt as m #WINDOWS ONLY
+import sys
 
 #
 # GLOBAL VARIABLES
@@ -17,10 +19,12 @@ wrapper = {
 	"patrimony": [],
 	"entertainment": [],
 	"unesco": [] }
-categories = json.load(open(basepath + "categories.json", 'r'))
-attraitsTypes = json.load(open(basepath + "attraitsQcTypes.json"))
+positions = [] # Utilisé pour éviter d'ajouter des doublons en fonction des positions LatLng
+duplicates = 0
+categories = json.load(open(basepath + "categories.json", 'r')) # Utilisé pour sous-catégoriser les éléments
+attraitsTypes = json.load(open(basepath + "attraitsQcTypes.json")) # Utilisé pour catégoriser les éléments provenants de 'attraitsQc.xml'
 newline = "<br /><br />"
-counter = itertools.count()
+counter = itertools.count() # Itérateur pour générer les ID
 start_time = time.time()
 
 
@@ -42,10 +46,19 @@ def createElement(lat, lng, nom, descr, url, cat):
 		"categorie": cat
 	}
 
+# Return 0 if successfuly appended element
+# Return 0 if failed to append because element is None
+# Return 1 if failed to append because duplicate
 def appendElementTo(tag, element):
 	if element != None:
-		wrapper[tag].append(element)
-	
+		latlng = [element["lat"], element["lng"]]
+		if not latlng in positions:
+			wrapper[tag].append(element)
+			positions.append(latlng)
+		else:
+			return 1
+	return 0
+
 def getCategory(tag, text):
 	if tag != None and text != None:
 		subcats = categories[tag]
@@ -82,10 +95,19 @@ def meanPosition(positions):
 	}
 	return mean
 
+def countAll():
+	total = 0
+	for tag in wrapper:
+		total += len(wrapper[tag])
+	return total
+
 def printTime(title, reference):
 	snapshot = time.time()
-	print(title + " parsed in " + str(snapshot - reference) + " seconds")
-	
+	consoleLog(title + " parsed in " + str(snapshot - reference) + " seconds")
+
+def consoleLog(msg):
+	sys.stdout.write("\n" + msg)
+	sys.stdout.flush()
 
 #
 # FILES READ
@@ -116,7 +138,7 @@ with open(basepath + "ArtPublicMtl.json", 'r') as data_file:
 			desc,
 			"",
 			getCategory(tag, catText))
-		appendElementTo(tag, element)
+		duplicates += appendElementTo(tag, element)
 	printTime("Art public Mtl", start_time)
 
 with open(basepath + "attraitsQc.xml", 'r') as xml_file:
@@ -147,7 +169,7 @@ with open(basepath + "attraitsQc.xml", 'r') as xml_file:
 						desc if desc != None else "",
 						"",
 						getCategory(tag, type.find('ETBL_TYPE_FR').text))
-					appendElementTo(tag, element)
+					duplicates += appendElementTo(tag, element)
 	printTime("Attraits Qc", start_time)
 
 with open(basepath + "canada_heritage.csv", 'r') as data_file:
@@ -155,27 +177,14 @@ with open(basepath + "canada_heritage.csv", 'r') as data_file:
 	next(data)
 	tag = "patrimony"
 	for elem in data:
-		try:
-			element = createElement(
-				float(elem[10]),
-				float(elem[11]),
-				elem[2],
-				elem[8],
-				"",
-				getCategory(tag, str(elem[2] + " " + elem[8])))
-			appendElementTo(tag, element)
-		except ValueError:
-			try:				
-				element = createElement(
-					float(elem[10]),
-					float(elem[11]),
-					elem[2],
-					elem[8],
-					"",
-					getCategory(tag, str(elem[2] + " " + elem[8])))
-				appendElementTo(tag, element)
-			except ValueError:
-				i = 0
+		element = createElement(
+			float(elem[9]),
+			float(elem[10]),
+			elem[2],
+			elem[8],
+			"",
+			getCategory(tag, str(elem[2] + " " + elem[8])))
+		duplicates += appendElementTo(tag, element)
 	printTime("Canada heritage", start_time)
 
 with open(basepath + "canada_national-parks_historic-sites.xml") as xml_file:
@@ -187,13 +196,13 @@ with open(basepath + "canada_national-parks_historic-sites.xml") as xml_file:
 		lng = elem.find('LONGITUDE').text
 		if lat != None and lng != None:
 			element = createElement(
-				lat,
-				lng,
+				float(lat),
+				float(lng),
 				elem.find('LOW_FRE').text,
 				elem.find('LOW_FRE_FULL').text,
 				"",
 				getCategory(tag, elem.find('LOW_FRE_FULL').text))
-			appendElementTo(tag, element)
+			duplicates += appendElementTo(tag, element)
 	printTime("Canada national parks & historic sites", start_time)
 
 with open(basepath + "gatineau_lieuxPublics.json", 'r') as data_file:
@@ -221,7 +230,7 @@ with open(basepath + "gatineau_lieuxPublics.json", 'r') as data_file:
 				str(type + newline + elem["properties"]["ADR_COMPLE"]),
 				"",
 				getCategory(tag, type))
-			appendElementTo(tag, element)
+			duplicates += appendElementTo(tag, element)
 	printTime("Gatineau lieux publics", start_time)
 	
 with open(basepath + "grandsparcsmtl.geojson", 'r') as data_file:
@@ -236,7 +245,7 @@ with open(basepath + "grandsparcsmtl.geojson", 'r') as data_file:
 			elem["properties"]["Generique2"],
 			"",
 			getCategory(tag, elem["properties"]["Generique2"]))
-		appendElementTo(tag, element)
+		duplicates += appendElementTo(tag, element)
 	printTime("Grands parcs Mtl", start_time)
 
 with open(basepath + "lieuCulturel.json", 'r') as data_file:
@@ -257,14 +266,14 @@ with open(basepath + "lieuCulturel.json", 'r') as data_file:
 			desc,
 			"",
 			getCategory(tag, elem["FIELD2"]))
-		appendElementTo(tag, element)
+		duplicates += appendElementTo(tag, element)
 	printTime("Lieux culturels", start_time)
 
 #with open(basepath + "monument.json", 'r') as data_file:
 #	data = json.load(data_file)
 #	for elem in data:
 #		element = createElement(elem["LAT"], elem["LONG"], elem["NOM"],  "",  "", "monument")
-#		appendElementTo("patrimony", element)
+#		duplicates += appendElementTo("patrimony", element)
 #	printTime("Monuments", start_time)
 
 with open(basepath + "muralesSubventionnees.json", 'r') as data_file:
@@ -277,23 +286,40 @@ with open(basepath + "muralesSubventionnees.json", 'r') as data_file:
 			elem["properties"]["artiste"] + ", " + str(elem["properties"]["annee"]),
 			elem["properties"]["image"],
 			"murale")
-		appendElementTo("beaux-arts", element)
+		duplicates += appendElementTo("beaux-arts", element)
 	printTime("Murales subventionnees", start_time)
 
-with open(basepath + "PatrimoineQc.csv", 'r') as data_file:
-	data = csv.reader(data_file, dialect="excel")
-	next(data)
+with open(basepath + "panneaux_interpretation.json", 'r') as data_file:
+	data = json.load(data_file)
 	tag = "patrimony"
 	for elem in data:
 		element = createElement(
-			float(elem[10]),
-			float(elem[11]),
-			elem[0],
-			elem[3],
-			elem[25] if elem[25] != "NULL" else "",
-			getCategory(tag, elem[7]))
-		appendElementTo(tag, element)
-	printTime("Patrimoine Qc", start_time)
+			float(elem["LATITUDE"]),
+			float(elem["LONGITUDE"]),
+			elem["TITRE"],
+			elem["TEXTE"],
+			"",
+			getCategory(tag, elem["EMPLACEMENT"]))
+		duplicates += appendElementTo(tag, element)
+	printTime("Panneaux Interprétation", start_time)
+
+with open(basepath + "Patrimoine_Municipal.csv", 'r') as data_file:
+	data = csv.reader(data_file, dialect="excel", delimiter=',')
+	next(data)
+	tag = "patrimony"
+	for elem in data:
+		lat = elem[10]
+		lng = elem[11]
+		if lat != "" and lng != "":
+			element = createElement(
+				float(lat),
+				float(lng),
+				elem[0],
+				elem[3],
+				elem[4] if elem[4] != "NULL" else "",
+				getCategory(tag, elem[0]))
+			duplicates += appendElementTo(tag, element)
+	printTime("Patrimoine Municipal", start_time)
 
 with open(basepath + "piscinesMtl.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
@@ -306,7 +332,7 @@ with open(basepath + "piscinesMtl.geojson", 'r') as data_file:
 			elem["properties"]["TYPE"],
 			"",
 			getCategory(tag, elem["properties"]["TYPE"]))
-		appendElementTo(tag, element)
+		duplicates += appendElementTo(tag, element)
 	printTime("Piscines Mtl", start_time)
 
 with open(basepath + "SitePatrimoniaux.json", 'r') as data_file:
@@ -328,7 +354,7 @@ with open(basepath + "SitePatrimoniaux.json", 'r') as data_file:
 				descr,
 				"",
 				getCategory(tag, elem["FIELD21"]))
-			appendElementTo(tag, element)
+			duplicates += appendElementTo(tag, element)
 	printTime("Site Patrimoniaux", start_time)
 
 with open(basepath + "sitesPatQc.geojson", 'r') as data_file:
@@ -343,7 +369,7 @@ with open(basepath + "sitesPatQc.geojson", 'r') as data_file:
 			elem["properties"]["description_bien"],
 			elem["properties"]["url_photo"],
 			getCategory(tag, elem["properties"]["sous_usage"]))
-		appendElementTo(tag, element)
+		duplicates += appendElementTo(tag, element)
 	printTime("Sites Pat Qc", start_time)
 
 with open(basepath + "unesco.xml", 'rb') as xml_file:
@@ -364,16 +390,19 @@ with open(basepath + "unesco.xml", 'rb') as xml_file:
 				desc,
 				url,
 				tag)
-			appendElementTo(tag, element)
-		else:
-			print("LatLng error")
+			duplicates += appendElementTo(tag, element)
 	printTime("Unesco", start_time)
-					
+
 #
 # OUTPUT FILE WRITING
 #
 with open(output_file, "w") as f:
 	f.write(json.dumps(wrapper, ensure_ascii=False))
-	
+
 end_time = time.time()
-print("\nDone in " + str(end_time - start_time) + " seconds")
+consoleLog("\nDone in " + str(end_time - start_time) + " seconds")
+consoleLog("Elements added: " + str(countAll()))
+consoleLog("Duplicates rejected: " + str(duplicates))
+consoleLog("\nPress any key to exit...")
+m.getch()
+sys.exit()
