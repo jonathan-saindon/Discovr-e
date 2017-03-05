@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "jquery": "latest",
-    "require": "https://github.com/requirejs/requirejs.git"
+    "require": "https://github.com/requirejs/requirejs.git",
+    "js-marker-clusterer": "latest"
   }
 }
