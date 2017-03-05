@@ -2,43 +2,35 @@
     background-image: url("/img/close.png");
 }
 
+.img.searchButton {
+    background: url("/img/search.png") no-repeat;
+    background-size: contain;
+}
+
 .img.art {
-    background-image: url("/img/art.png");
+    background-image: url("/img/sidebar/art.png");
 }
 
 .img.entertainment {
-    background-image: url("/img/entertainment.png");
+    background-image: url("/img/sidebar/entertainment.png");
 }
 
 .img.landmark {
-    background-image: url("/img/landmark.png");
-}
-
-.img.library {
-    background-image: url("/img/bibliotheque.png");
+    background-image: url("/img/sidebar/landmark.png");
 }
 
 .img.murale {
-    background-image: url("/img/murale.png");
-}
-
-.img.parkings {
-    background-image: url("/img/parking.png");
+    background-image: url("/img/sidebar/murale.png");
 }
 
 .img.parks {
-    background-image: url("/img/parc.png");
+    background-image: url("/img/sidebar/parc.png");
 }
 
 .img.patrimoine {
-    background-image: url("/img/patrimoine.png");
+    background-image: url("/img/sidebar/patrimoine.png");
 }
 
 .img.places {
-    background-image: url("/img/public.png");
-}
-
-.searchButton {
-    background: url("/img/search.png") no-repeat;
-    background-size: contain;
+    background-image: url("/img/sidebar/public.png");
 }
