@@ -1,11 +1,8 @@
-node_modules
-*.log
-.DS_Store
-lib
-coverage
-dist
 .idea/
-src/maison_des_regions/styles/style.css
+node_modules
+app/public/data/__pycache__/
+app/public/data/datasets/
+app/public/js/libs/
+*.log
 *.css.map
-app/static/data/__pycache__/
-app/static/data/datasets/
+*.js.map

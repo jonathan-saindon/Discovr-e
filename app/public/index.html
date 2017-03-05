@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Discovr-e</title>
-    <link rel="icon" href="/static/img/favicon.ico">
-    <link rel="stylesheet" href="/static/css/styles.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/static/css/images.css" type="text/css" media="screen" />
+    <link rel="icon" href="./img/favicon.ico">
+    <link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/images.css" type="text/css" media="screen" />
 </head>
 <body>
     <div class="menubar">
@@ -17,7 +17,7 @@
         <div class="menuElem">
             <div class="inputLabel">Recherche</div>
             <input id="address" class="addressInput" type="textbox" value="" placeholder="Entrez une adresse...">
-            <div class="addressButton" type="button" onclick="AppController.searchAddress()"></div>
+            <div class="searchButton" type="button" onclick="AppController.searchAddress()"></div>
         </div>
     </div>
 
@@ -67,13 +67,13 @@
 
     <!-- SCRIPTS -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBte-6m0uXpCfKsoCcQrpQycWZf7XNHO6Y&callback=init" async defer></script>
-    <script src="/static/js/require.min.js"></script>
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/markerclusterer.js"></script>
-    <script src="/static/js/MapIcons.js"></script>
-    <script src="/static/js/MathUtil.js"></script>
-    <script src="/static/js/AppController.js"></script>
-    <script src="/static/js/MapController.js"></script>
+    <script src="js/libs/jquery/dist/jquery.js"></script>
+    <script src="js/libs/require/require.js"></script>
+    <script src="js/libs/js-marker-clusterer/src/markerclusterer.js"></script>
+    <script src="js/MapIcons.js"></script>
+    <script src="js/MathUtil.js"></script>
+    <script src="js/AppController.js"></script>
+    <script src="js/MapController.js"></script>
     <script>
         function init() {
             AppController.parseParameters();

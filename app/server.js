@@ -4,7 +4,7 @@ var app = express();
 var routes = require('./routes');
 const port = process.env.PORT || 9002;
 
-app.use('/static', express.static(__dirname + '/static'));
+app.use('/', express.static(__dirname + '/public'));
 app.use('/', routes);
 
 app.listen(port);

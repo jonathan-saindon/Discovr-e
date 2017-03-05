@@ -59,14 +59,14 @@ class MapController {
                 ctrl.initMarkerClusterer();
             }
         };
-        xhttp.open("GET", "./static/data/data.json", true);
+        xhttp.open("GET", "/data/data.json", true);
         xhttp.send();
     }
 
     private initMarkerClusterer() {
         let ctrl = MapController.instance;
         let mcOptions = {
-            imagePath: '/static/img/cluster/m',
+            imagePath: '/img/cluster/m',
             //minimumClusterSize: 5,
             maxZoom: 14
         };
@@ -106,6 +106,7 @@ class MapController {
                 icon: MapIcons.getYouAreHereIcon(),
                 animation: google.maps.Animation.DROP
             });
+            MapController.showNearUser();
 
             ctrl.userMarker.addListener('dragend', function () {
                 MapController.showNearUser();

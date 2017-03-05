@@ -6,7 +6,7 @@
     "sourceMap": true
   },
   "include": [
-    "app/static/js/*"
+    "app/public/js/*"
   ],
   "exclude": [
     "node_modules"

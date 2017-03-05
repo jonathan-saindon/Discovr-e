@@ -1,0 +1,44 @@
+.img.close {
+    background-image: url("/img/close.png");
+}
+
+.img.art {
+    background-image: url("/img/art.png");
+}
+
+.img.entertainment {
+    background-image: url("/img/entertainment.png");
+}
+
+.img.landmark {
+    background-image: url("/img/landmark.png");
+}
+
+.img.library {
+    background-image: url("/img/bibliotheque.png");
+}
+
+.img.murale {
+    background-image: url("/img/murale.png");
+}
+
+.img.parkings {
+    background-image: url("/img/parking.png");
+}
+
+.img.parks {
+    background-image: url("/img/parc.png");
+}
+
+.img.patrimoine {
+    background-image: url("/img/patrimoine.png");
+}
+
+.img.places {
+    background-image: url("/img/public.png");
+}
+
+.searchButton {
+    background: url("/img/search.png") no-repeat;
+    background-size: contain;
+}

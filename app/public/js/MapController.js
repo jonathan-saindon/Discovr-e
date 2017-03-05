@@ -38,13 +38,13 @@ var MapController = (function () {
                 ctrl.initMarkerClusterer();
             }
         };
-        xhttp.open("GET", "./static/data/data.json", true);
+        xhttp.open("GET", "/data/data.json", true);
         xhttp.send();
     };
     MapController.prototype.initMarkerClusterer = function () {
         var ctrl = MapController.instance;
         var mcOptions = {
-            imagePath: '/static/img/cluster/m',
+            imagePath: '/img/cluster/m',
             maxZoom: 14
         };
         ctrl.clusterer = new MarkerClusterer(ctrl.map, this.concatMarkers(), mcOptions);
@@ -78,6 +78,7 @@ var MapController = (function () {
                 icon: MapIcons.getYouAreHereIcon(),
                 animation: google.maps.Animation.DROP
             });
+            MapController.showNearUser();
             ctrl.userMarker.addListener('dragend', function () {
                 MapController.showNearUser();
             });

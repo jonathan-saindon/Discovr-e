@@ -242,10 +242,6 @@ a.menuElem.right {
     width: var(--descrBtn-size);
 }
 
-.img.close {
-    background-image: url("/static/img/close.png");
-}
-
 .overlay {
     z-index: 1;
     background-color: #000;

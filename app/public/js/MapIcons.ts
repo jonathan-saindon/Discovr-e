@@ -1,7 +1,11 @@
-var MapIcons;
-(function (MapIcons) {
-    var basepath = "./static/img/map-icons/";
-    var icons = {
+interface Icons {
+    [key: string]: string;
+}
+
+module MapIcons {
+    let basepath = "./img/map-icons/";
+
+    let icons:Icons = {
         aeroport: "airport.png",
         batiment: "ruins-2.png",
         bibliotheque: "library.png",
@@ -49,13 +53,12 @@ var MapIcons;
         youarehere: "you-are-here-2.png",
         zoo: "zoo.png"
     };
-    function getIcon(category) {
+
+    export function getIcon(category: string) : string {
         return basepath + icons[category];
     }
-    MapIcons.getIcon = getIcon;
-    function getYouAreHereIcon() {
+
+    export function getYouAreHereIcon() : string {
         return getIcon("youarehere");
     }
-    MapIcons.getYouAreHereIcon = getYouAreHereIcon;
-})(MapIcons || (MapIcons = {}));
-//# sourceMappingURL=MapIcons.js.map
+}

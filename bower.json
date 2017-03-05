@@ -1,0 +1,22 @@
+{
+  "name": "discovr-e",
+  "description": "The Discovr-e app helps you discover well known and unknown places around town.",
+  "main": "./app/",
+  "authors": [
+    "Jonathan Saindon <jonathan.saindon@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.discovr-e.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "require": "https://github.com/requirejs/requirejs.git"
+  }
+}

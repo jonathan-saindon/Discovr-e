@@ -1,11 +1,7 @@
-interface Icons {
-    [key: string]: string;
-}
-
-module MapIcons {
-    let basepath = "./static/img/map-icons/";
-
-    let icons:Icons = {
+var MapIcons;
+(function (MapIcons) {
+    var basepath = "./img/map-icons/";
+    var icons = {
         aeroport: "airport.png",
         batiment: "ruins-2.png",
         bibliotheque: "library.png",
@@ -53,12 +49,13 @@ module MapIcons {
         youarehere: "you-are-here-2.png",
         zoo: "zoo.png"
     };
-
-    export function getIcon(category: string) : string {
+    function getIcon(category) {
         return basepath + icons[category];
     }
-
-    export function getYouAreHereIcon() : string {
+    MapIcons.getIcon = getIcon;
+    function getYouAreHereIcon() {
         return getIcon("youarehere");
     }
-}
+    MapIcons.getYouAreHereIcon = getYouAreHereIcon;
+})(MapIcons || (MapIcons = {}));
+//# sourceMappingURL=MapIcons.js.map
