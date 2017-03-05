@@ -1,7 +1,10 @@
-##TODO
-* icon en fonction du type de data
-* chercher image en fonction du titre avec api image
+INSTALLATION
 
+1. Install node modules
+> npm i
 
-exemple d'url : http://localhost:9002/?distance=40&lat=50&lng=-70
+2. Install dependencies using bower
+> bower i
 
+3. Launch app
+> npm start
