@@ -58,15 +58,31 @@ var MapController = (function () {
             icon: MapIcons.getIcon(element.categorie)
         });
         marker.addListener('click', function () {
-            AppController.setSidebarInformation(element.nom, element.urlImg, element.description);
-            AppController.showDescrBar();
-            if (ctrl.selectedMarker !== undefined) {
-                ctrl.selectedMarker.setAnimation(null);
+            if (ctrl.selectedMarker === undefined) {
+                this.setAnimation(google.maps.Animation.BOUNCE);
+                ctrl.selectMarker(tag, element, this);
             }
-            this.setAnimation(google.maps.Animation.BOUNCE);
-            ctrl.selectedMarker = this;
+            else {
+                ctrl.deselectMarker();
+                if (ctrl.selectedMarker !== this) {
+                    ctrl.selectMarker(tag, element, this);
+                }
+                else {
+                    ctrl.selectedMarker = undefined;
+                }
+            }
         });
         ctrl.markers[tag].push(marker);
+    };
+    MapController.prototype.selectMarker = function (tag, element, marker) {
+        AppController.setSidebarInformation(tag, element.nom, element.urlImg, element.description);
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        this.selectedMarker = marker;
+        AppController.showDescrBar();
+    };
+    MapController.prototype.deselectMarker = function () {
+        this.selectedMarker.setAnimation(null);
+        AppController.hideDescrBar();
     };
     MapController.prototype.createUserMarker = function (position) {
         var ctrl = MapController.instance;

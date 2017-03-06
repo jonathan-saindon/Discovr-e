@@ -75,25 +75,38 @@ class MapController {
 
     public addMarker(tag: string, element: google.maps.Marker): void {
         let ctrl = MapController.instance;
-        let position = { lat: element.lat, lng: element.lng };
+        let position = {lat: element.lat, lng: element.lng};
         let marker = new google.maps.Marker({
             position: position,
             map: ctrl.map,
             icon: MapIcons.getIcon(element.categorie)
         });
         marker.addListener('click', function () {
-            AppController.setSidebarInformation(element.nom, element.urlImg, element.description);
-            AppController.showDescrBar();
-
-            // Clear other marker animation
-            if (ctrl.selectedMarker !== undefined) {
-                ctrl.selectedMarker.setAnimation(null);
+            if (ctrl.selectedMarker === undefined) {
+                this.setAnimation(google.maps.Animation.BOUNCE);
+                ctrl.selectMarker(tag, element, this);
+            } else {
+                ctrl.deselectMarker();
+                if (ctrl.selectedMarker !== this) {
+                    ctrl.selectMarker(tag, element, this);
+                } else {
+                    ctrl.selectedMarker = undefined;
+                }
             }
-
-            this.setAnimation(google.maps.Animation.BOUNCE);
-            ctrl.selectedMarker = this;
         });
         ctrl.markers[tag].push(marker);
+    }
+
+    private selectMarker(tag: string, element: google.maps.Marker, marker: google.maps.Marker) : void {
+        AppController.setSidebarInformation(tag, element.nom, element.urlImg, element.description);
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        this.selectedMarker = marker;
+        AppController.showDescrBar();
+    }
+
+    private deselectMarker() {
+        this.selectedMarker.setAnimation(null);
+        AppController.hideDescrBar();
     }
 
     public createUserMarker(position: google.maps.LatLng) {

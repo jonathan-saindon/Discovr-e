@@ -30,13 +30,19 @@ module AppController {
         $('#descrBar').show().animate({right: 0});
     }
 
-    export function hideDescrBar() {
-        $('#descrBar').animate({right: -355}).hide();
+    export function closeMarker() {
+        this.hideDescrBar();
         MapController.getSelectedMarker().setAnimation(null);
     }
 
-    export function setSidebarInformation(name: string, urlImage: string, description: string): void {
+    export function hideDescrBar() {
+        $('#descrBar').animate({right: -355}).hide();
+    }
+
+    export function setSidebarInformation(tag: string, name: string, urlImage: string, description: string): void {
         $("#descr-name").html(name);
+        $("#descr-img").hide();
+        $("#descr-img").attr('src', '');
 
         if (!description) {
             description = "";
@@ -45,28 +51,34 @@ module AppController {
 
         if (urlImage) {
             $("#descr-img").attr('src', urlImage);
+            $("#descr-img").show();
             //$("#descr-img").addEventListener('click', function () {
                 //$("#overlay").show();
                 //$("#overlay-img").attr("src", urlImage);
             //});
-        } else {
+        } else if (["places", "patrimony"].indexOf(tag) >= 0) {
             getImage(name);
         }
     }
 
     function getImage(query: string) {
-        let STATE_DONE = 4;
-        let STATUS_SUCCESS = 200;
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
+            let STATE_DONE = 4;
+            let STATUS_SUCCESS = 200;
             if (this.readyState == STATE_DONE && this.status == STATUS_SUCCESS) {
                 let jsonResponse = JSON.parse(this.responseText);
                 if (jsonResponse.items) {
-                    $("#descr-img").attr('src', jsonResponse.items[0]);
+                    $("#descr-img").show();
+                    $("#descr-img").attr('src', jsonResponse.items["0"].link);
                 }
             }
         };
-        xhttp.open("GET", "https://www.googleapis.com/customsearch/v1?key=AIzaSyCfSD7mNOrtMaG7APY2RxYQr8klfpXi4HY&cx=015911799653155271639%3Ayxc2mwmxfwy&searchType=image&fileType=jpg&q=" + query + " Montreal", true);
+        let searchURL = "https://www.googleapis.com/customsearch/v1?&num=1&safe=high&searchType=image&imgType=photo&fileType=jpg&alt=json"
+        + '&cx=006833291377027891987:fukykbj4kpg' // Custom search engine ID
+        + '&key=AIzaSyBWZs1YiURy-kF42Vmb6n2kktPiEC09bxU' // Google API key
+        + "&q=" + query; // Query search terms
+        xhttp.open("GET", searchURL, true);
         xhttp.send();
     }
 
