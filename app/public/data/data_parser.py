@@ -257,7 +257,7 @@ with open(basepath + "lieuCulturel.json", 'r') as data_file:
 		desc = elem["FIELD12"]
 		websites = elem["FIELD9"].split(",")
 		if len(websites) > 2:
-			desc += newline + websites[1]
+			desc += newline + "<a>" + websites[1] + "</a>"
 		
 		element = createElement(
 			float(elem["FIELD11"]),
@@ -341,7 +341,8 @@ with open(basepath + "SitePatrimoniaux.json", 'r') as data_file:
 	for x in range(1, len(data)):
 		elem = data[x]
 		if ((elem["FIELD12"] != None) and (elem["FIELD11"] != None)):
-			descr = elem["FIELD8"] + newline + elem["FIELD3"]
+			website = elem["FIELD3"]
+			descr = elem["FIELD8"] + newline + "<a href='" + website + "'>" + website + "</a>" 
 			if elem["FIELD21"] != None:
 				descr += (newline + elem["FIELD21"])
 			if elem["FIELD4"] != None:
