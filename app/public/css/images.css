@@ -5,6 +5,8 @@
 .img.searchButton {
     background: url("/img/search.png") no-repeat;
     background-size: contain;
+    height: 28px;
+    width: 36px;
 }
 
 .img.art {

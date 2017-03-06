@@ -1,6 +1,5 @@
 .idea/
 node_modules
-app/public/data/__pycache__/
 app/public/data/datasets/
 app/public/js/libs/
 *.log

@@ -289,6 +289,10 @@ a.menuElem.right {
     opacity: 1;
 }
 
+.searchButton:hover {
+    cursor: pointer;
+}
+
 @media screen and (min-width: var(--mediumres)) {
 
 }
