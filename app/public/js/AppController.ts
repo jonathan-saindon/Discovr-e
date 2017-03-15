@@ -1,4 +1,9 @@
 module AppController {
+    export function init() : void {
+        new MapController();
+        AppController.parseParameters();
+    }
+
     export function parseParameters() : void {
         let paramDist = parseFloat(getParamValue('dist'));
         if (paramDist) MapController.setDistance(paramDist);

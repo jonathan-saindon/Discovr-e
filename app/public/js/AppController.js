@@ -1,5 +1,10 @@
 var AppController;
 (function (AppController) {
+    function init() {
+        new MapController();
+        AppController.parseParameters();
+    }
+    AppController.init = init;
     function parseParameters() {
         var paramDist = parseFloat(getParamValue('dist'));
         if (paramDist)

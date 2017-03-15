@@ -5,3 +5,4 @@ app/public/js/libs/
 *.log
 *.css.map
 *.js.map
+app/public/data/scripts/__pycache__/

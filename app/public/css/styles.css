@@ -293,6 +293,10 @@ a.menuElem.right {
     cursor: pointer;
 }
 
+.searchButton:active {
+    transform: translateY(4px);
+}
+
 @media screen and (min-width: var(--mediumres)) {
 
 }
