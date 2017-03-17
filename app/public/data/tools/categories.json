@@ -14,15 +14,16 @@
 		"aeroport": ["Aéroport"],
 		"bibliotheque": ["Bibliothèque"],
 		"citysquare": ["Squares"],
-		"commercial": ["Centre commercial", "Centre de conférence et congrès", "Salon"],
+		"commercial": ["Centre commercial", "Centre de conférence et congrès", "Marché public", "Salon"],
 		"education": ["Collège", "Université"],
 		"ferme": ["Ferme agrotouristique"],
+		"ferry": ["Traversier"],
 		"gouvernemental": ["Ambassades", "Consulats", "Hôtels de ville", "Édifice fédéral", "Édifice municipal", "Édifice provincial"],
 		"hotel": ["Hôtels"],
 		"medical": ["Centre hospitalier"],
 		"observatoire": ["Observatoire"],
 		"planetarium": ["Planétarium"],
-		"tourisme": ["Croisière", "Visite guidée"],
+		"tourisme": ["Croisière", "Infotouriste", "Touristique", "Visite guidée"],
 		"viewpoint": ["Belvédère"]
 	},
 	"parks": {
@@ -58,7 +59,7 @@
 		"racing": ["Autodrome", "Centre de karting"],
 		"restaurant": ["Cabane à sucre", "Restaurants"],
 		"ski": ["Centre de ski alpin", "Centre de ski de fond", "Station touristique"],
-		"sport": ["Centre sportif", "Centre équestre", "Golf", "Gymnases", "Manifestation sportive", "Stade", "Tennis"],
+		"sport": ["Centre sportif", "Centre équestre", "Golf", "Gymnases", "Loueur d'équipement", "Manifestation sportive", "Stade", "Tennis"],
 		"theatre": ["Salle de spectacle", "Théâtre"]
 	}
 }
