@@ -1,7 +1,6 @@
-import geocoder
-import xml.etree.ElementTree as ET
+from common import *
 
-with open("../datasets/canada_national-parks_historic-sites.xml") as xml_file:
+with open(datapath + "canada_national-parks_historic-sites.xml") as xml_file:
 	data = ET.parse(xml_file).getroot()
 	for elem in data.findall('I_PRKS'):
 		latlng = ["", ""]
@@ -20,5 +19,5 @@ with open("../datasets/canada_national-parks_historic-sites.xml") as xml_file:
 		ET.SubElement(elem, "LONGITUDE").text = str(latlng[1])
 	
 	tree = ET.ElementTree(data)
-	tree.write("../datasets/canada_national-parks_historic-sites_positions.xml")
+	tree.write(datapath + "canada_national-parks_historic-sites_positions.xml")
 

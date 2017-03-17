@@ -1,18 +1,10 @@
-import time
 import itertools
-import json
-import csv
-import xml.etree.ElementTree as ET
-import geocoder
-import msvcrt as m #WINDOWS ONLY
-import sys
+from common import *
 
 #
 # GLOBAL VARIABLES
 #
-datapath = "../datasets/"
-toolpath = "../tools/"
-output_file = "data.json"
+output_file = "../data.json"
 wrapper = {
 	"beaux-arts": [],
 	"hotel": [],
@@ -23,12 +15,8 @@ wrapper = {
 	"unesco": [] }
 positions = [] # Utilisé pour éviter d'ajouter des doublons en fonction des positions LatLng
 duplicates = 0
-categories = json.load(open(toolpath + "categories.json", 'r')) # Utilisé pour sous-catégoriser les éléments
 attraitsTypes = json.load(open(toolpath + "attraitsQcTypes.json")) # Utilisé pour catégoriser les éléments provenants de 'attraitsQc.xml'
-newline = "<br /><br />"
 counter = itertools.count() # Itérateur pour générer les ID
-start_time = time.time()
-
 
 #
 # FUNCTION DEFINITIONS
@@ -61,41 +49,10 @@ def appendElementTo(tag, element):
 			return 1
 	return 0
 
-def getCategory(tag, text):
-	if tag != None and text != None:
-		subcats = categories[tag]
-		for subcat in subcats:
-			keywords = subcats[subcat]
-			for keyword in keywords:
-				if keyword.lower().encode("utf-8") in text.lower().encode("utf-8"):
-					return subcat
-	return None
-
 def getAttraitTypeTag(typeId):
 	for tag in attraitsTypes:
 		if typeId in attraitsTypes[tag]:
 			return tag
-
-def meanPosition(positions):
-	n = 0
-	totalLat = 0
-	totalLong = 0
-	for x in range(0, len(positions)):
-		for y in range(0, len(positions[x])):
-			if len(positions[x][y]) > 2:
-				for z in range(0, len(positions[x][y])):
-					totalLong += positions[x][y][z][0]
-					totalLat += positions[x][y][z][1]
-					n += 1
-			else:
-				totalLong += positions[x][y][0]
-				totalLat += positions[x][y][1]
-				n += 1
-	mean = {
-		"lat": totalLat / n,
-		"lng": totalLong / n
-	}
-	return mean
 
 def countAll():
 	total = 0
@@ -103,16 +60,8 @@ def countAll():
 		total += len(wrapper[tag])
 	return total
 
-def printTime(title, reference):
-	snapshot = time.time()
-	consoleLog(title + " parsed in " + str(snapshot - reference) + " seconds")
-
-def consoleLog(msg):
-	sys.stdout.write("\n" + msg)
-	sys.stdout.flush()
-
 #
-# FILES READ
+# FILES TO READ
 #
 with open(datapath + "ArtPublicMtl.json", 'r') as data_file:
 	data = json.load(data_file)
@@ -141,7 +90,7 @@ with open(datapath + "ArtPublicMtl.json", 'r') as data_file:
 			"",
 			getCategory(tag, catText))
 		duplicates += appendElementTo(tag, element)
-	printTime("Art public Mtl", start_time)
+	printTimeFromStart("Art public Mtl")
 
 with open(datapath + "attraitsQc.xml", 'r') as xml_file:
 	data = ET.parse(xml_file).getroot()
@@ -172,7 +121,7 @@ with open(datapath + "attraitsQc.xml", 'r') as xml_file:
 						"",
 						getCategory(tag, type.find('ETBL_TYPE_FR').text))
 					duplicates += appendElementTo(tag, element)
-	printTime("Attraits Qc", start_time)
+	printTimeFromStart("Attraits Qc")
 
 with open(datapath + "canada_heritage.csv", 'r') as data_file:
 	data = csv.reader(data_file, dialect="excel", delimiter=',')
@@ -187,7 +136,7 @@ with open(datapath + "canada_heritage.csv", 'r') as data_file:
 			"",
 			getCategory(tag, str(elem[2] + " " + elem[8])))
 		duplicates += appendElementTo(tag, element)
-	printTime("Canada heritage", start_time)
+	printTimeFromStart("Canada heritage")
 
 with open(datapath + "canada_national-parks_historic-sites.xml") as xml_file:
 	data = ET.parse(xml_file).getroot()
@@ -205,7 +154,7 @@ with open(datapath + "canada_national-parks_historic-sites.xml") as xml_file:
 				"",
 				getCategory(tag, elem.find('LOW_FRE_FULL').text))
 			duplicates += appendElementTo(tag, element)
-	printTime("Canada national parks & historic sites", start_time)
+	printTimeFromStart("Canada national parks & historic sites")
 
 with open(datapath + "gatineau_lieuxPublics.json", 'r') as data_file:
 	data = json.load(data_file)
@@ -233,7 +182,7 @@ with open(datapath + "gatineau_lieuxPublics.json", 'r') as data_file:
 				"",
 				getCategory(tag, type))
 			duplicates += appendElementTo(tag, element)
-	printTime("Gatineau lieux publics", start_time)
+	printTimeFromStart("Gatineau lieux publics")
 	
 with open(datapath + "grandsparcsmtl.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
@@ -248,9 +197,9 @@ with open(datapath + "grandsparcsmtl.geojson", 'r') as data_file:
 			"",
 			getCategory(tag, elem["properties"]["Generique2"]))
 		duplicates += appendElementTo(tag, element)
-	printTime("Grands parcs Mtl", start_time)
+	printTimeFromStart("Grands parcs Mtl")
 
-with open(datapath + "hebergement.xml") as xml_file:
+with open(datapath + "hebergement.xml", 'r', encoding='utf-8', errors='ignore') as xml_file:
 	data = ET.parse(xml_file).getroot()
 	for elem in data.findall('ETABLISSEMENT'):
 		tag = "hotel"
@@ -273,7 +222,7 @@ with open(datapath + "hebergement.xml") as xml_file:
 				"",
 				getCategory(tag, type))
 			duplicates += appendElementTo(tag, element)
-	printTime("Hébergement", start_time)
+	printTimeFromStart("Hebergement")
 	
 with open(datapath + "institutions_museales.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
@@ -284,16 +233,19 @@ with open(datapath + "institutions_museales.geojson", 'r') as data_file:
 		if not elem["typologie"] in categories["beaux-arts"]["musee"]:
 			tag = "patrimony"
 		
-		desc = elem["typologie"] + newline + elem[""]
+		desc = elem["typologie"] + newline + elem["institutions_museales"]
+		if elem["corporations"] != None:
+			desc += newline + elem["corporations"]
+		
 		element = createElement(
 			elem["latitude"],
 			elem["longitude"],
 			elem["institutions_museales"],
-			elem[""],
+			desc,
 			"",
 			getCategory(tag, elem["typologie"]))
 		duplicates += appendElementTo(tag, element)
-	printTime("Institutions muséales", start_time)
+	printTimeFromStart("Institutions muséales")
 	
 with open(datapath + "lieuCulturel.json", 'r') as data_file:
 	data = json.load(data_file)
@@ -314,7 +266,7 @@ with open(datapath + "lieuCulturel.json", 'r') as data_file:
 			"",
 			getCategory(tag, elem["FIELD2"]))
 		duplicates += appendElementTo(tag, element)
-	printTime("Lieux culturels", start_time)
+	printTimeFromStart("Lieux culturels")
 
 with open(datapath + "muralesSubventionnees.json", 'r') as data_file:
 	data = json.load(data_file)["features"]
@@ -327,7 +279,7 @@ with open(datapath + "muralesSubventionnees.json", 'r') as data_file:
 			elem["properties"]["image"],
 			"murale")
 		duplicates += appendElementTo("beaux-arts", element)
-	printTime("Murales subventionnees", start_time)
+	printTimeFromStart("Murales subventionnees")
 
 with open(datapath + "panneaux_interpretation.json", 'r') as data_file:
 	data = json.load(data_file)
@@ -341,7 +293,7 @@ with open(datapath + "panneaux_interpretation.json", 'r') as data_file:
 			"",
 			"panel")
 		duplicates += appendElementTo(tag, element)
-	printTime("Panneaux Interprétation", start_time)
+	printTimeFromStart("Panneaux Interprétation")
 
 with open(datapath + "Patrimoine_Municipal.csv", 'r') as data_file:
 	data = csv.reader(data_file, dialect="excel", delimiter=',')
@@ -359,7 +311,7 @@ with open(datapath + "Patrimoine_Municipal.csv", 'r') as data_file:
 				elem[4] if elem[4] != "NULL" else "",
 				getCategory(tag, elem[0]))
 			duplicates += appendElementTo(tag, element)
-	printTime("Patrimoine Municipal", start_time)
+	printTimeFromStart("Patrimoine Municipal")
 
 with open(datapath + "piscinesMtl.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
@@ -373,7 +325,34 @@ with open(datapath + "piscinesMtl.geojson", 'r') as data_file:
 			"",
 			getCategory(tag, elem["properties"]["TYPE"]))
 		duplicates += appendElementTo(tag, element)
-	printTime("Piscines Mtl", start_time)
+	printTimeFromStart("Piscines Mtl")
+
+with open(datapath + "services.xml", 'r', encoding='utf-8', errors='ignore') as xml_file:
+	data = ET.parse(xml_file).getroot()
+	for elem in data.findall('ETABLISSEMENT'):
+		tag = "places"
+		
+		addrs = elem.find('ADRESSES');
+		if addrs != None and len(addrs) > 0:
+			addr = addrs[0]
+			lat = addr.find('ADR_LATITUDE').text
+			lng = addr.find('ADR_LONGITUDE').text
+			
+			if lat != None and lng != None:
+				nom = elem.find('ETBL_NOM_FR').text
+				desc = elem.find('ETBL_DESC_FR').text
+				
+				etbl_type = elem.find('ETBL_TYPES')[0]
+				type = etbl_type.find('ETBL_TYPE_FR').text if etbl_type.find('ETBL_TYPE_FR').text != None else etbl_type.find('ETBL_TYPE_GRP_FR').text
+				element = createElement(
+					float(lat),
+					float(lng),
+					nom,
+					desc,
+					"",
+					getCategory(tag, type))
+				duplicates += appendElementTo(tag, element)
+	printTimeFromStart("Services")
 
 with open(datapath + "SitePatrimoniaux.json", 'r') as data_file:
 	data = json.load(data_file)
@@ -396,7 +375,7 @@ with open(datapath + "SitePatrimoniaux.json", 'r') as data_file:
 				"",
 				getCategory(tag, elem["FIELD21"]))
 			duplicates += appendElementTo(tag, element)
-	printTime("Site Patrimoniaux", start_time)
+	printTimeFromStart("Site Patrimoniaux")
 
 with open(datapath + "sitesPatQc.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
@@ -411,7 +390,7 @@ with open(datapath + "sitesPatQc.geojson", 'r') as data_file:
 			elem["properties"]["url_photo"],
 			getCategory(tag, elem["properties"]["sous_usage"]))
 		duplicates += appendElementTo(tag, element)
-	printTime("Sites Pat Qc", start_time)
+	printTimeFromStart("Sites Pat Qc")
 
 with open(datapath + "unesco.xml", 'rb') as xml_file:
 	data = ET.parse(xml_file).getroot()
@@ -432,7 +411,7 @@ with open(datapath + "unesco.xml", 'rb') as xml_file:
 				url,
 				tag)
 			duplicates += appendElementTo(tag, element)
-	printTime("Unesco", start_time)
+	printTimeFromStart("Unesco")
 
 #
 # OUTPUT FILE WRITING
@@ -444,10 +423,7 @@ with open(output_file, "w") as f:
 # SCRIPT CONCLUSION
 # DATA INFORMATION
 #
-end_time = time.time()
-consoleLog("\nDone in " + str(end_time - start_time) + " seconds")
+printEndTime()
 consoleLog("Elements added: " + str(countAll()))
 consoleLog("Duplicates rejected: " + str(duplicates))
-consoleLog("\nPress any key to exit...")
-m.getch()
-sys.exit()
+promptExit()

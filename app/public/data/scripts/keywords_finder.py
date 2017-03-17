@@ -1,27 +1,13 @@
-import json
-import csv
-import xml.etree.ElementTree as ET
-import msvcrt as m #WINDOWS ONLY
-import sys
+from common import *
 
-basepath = "../datasets/"
-output_file = "../tools/keywords_raw.json"
-keywords = []
+output_file = toolpath + "keywords_raw.json"
 
-def addCategory(name):
-	if name != None and not any(name in x for x in keywords):
-		keywords.append(name);
-
-def consoleLog(msg):
-	sys.stdout.write("\n" + msg)
-	sys.stdout.flush()
-
-with open(basepath + "ArtPublicMtl.json", 'r') as data_file:
+with open(datapath + "ArtPublicMtl.json", 'r') as data_file:
 	data = json.load(data_file)
 	for elem in data:
 		addCategory(elem["CategorieObjet"] + ", " + elem["SousCategorieObjet"])
 
-with open(basepath + "attraitsQc.xml", 'r') as xml_file:
+with open(datapath + "attraitsQc.xml", 'r') as xml_file:
 	data = ET.parse(xml_file).getroot()
 	for elem in data.findall('ETABLISSEMENT'):
 		types = elem.find('ETBL_TYPES')
@@ -29,17 +15,17 @@ with open(basepath + "attraitsQc.xml", 'r') as xml_file:
 			type = types[0]
 			addCategory(type.find('ETBL_TYPE_FR').text)
 
-with open(basepath + "gatineau_lieuxPublics.json", 'r') as data_file:
+with open(datapath + "gatineau_lieuxPublics.json", 'r') as data_file:
 	data = json.load(data_file)
 	for elem in data:
 		addCategory(elem["properties"]["TYPE"])
 
-with open(basepath + "grandsparcsmtl.geojson", 'r') as data_file:
+with open(datapath + "grandsparcsmtl.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
 	for elem in data:
 		addCategory(elem["properties"]["Generique2"])
 
-with open(basepath + "hebergement.xml") as xml_file:
+with open(datapath + "hebergement.xml", 'r', encoding='utf-8', errors='ignore') as xml_file:
 	data = ET.parse(xml_file).getroot()
 	for elem in data.findall('ETABLISSEMENT'):
 		types = elem.find('ETBL_TYPES')
@@ -47,31 +33,36 @@ with open(basepath + "hebergement.xml") as xml_file:
 			type = types[0]
 			addCategory(type.find('ETBL_TYPE_FR').text)
 
-with open(basepath + "lieuCulturel.json", 'r') as data_file:
+with open(datapath + "lieuCulturel.json", 'r') as data_file:
 	data = json.load(data_file)
 	for x in range(1, len(data)):
 		elem = data[x]
 		addCategory(elem["FIELD2"])
 
-with open(basepath + "Patrimoine_Municipal.csv", 'r') as data_file:
+with open(datapath + "Patrimoine_Municipal.csv", 'r') as data_file:
 	data = csv.reader(data_file, dialect="excel", delimiter=',')
 	next(data)
 	tag = "patrimony"
 	for elem in data:
 		addCategory(elem[7])
 
-with open(basepath + "piscinesMtl.geojson", 'r') as data_file:
+with open(datapath + "piscinesMtl.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
 	for elem in data:
 		addCategory(elem["properties"]["TYPE"])
 
-with open(basepath + "SitePatrimoniaux.json", 'r') as data_file:
+with open(datapath + "services.xml", 'r') as xml_file:
+	data = ET.parse(xml_file).getroot()
+	for elem in data.findall('ETABLISSEMENT'):
+		addCategory(elem.find('ETBL_TYPES')[0].find('ETBL_TYPE_FR').text)
+
+with open(datapath + "SitePatrimoniaux.json", 'r') as data_file:
 	data = json.load(data_file)
 	for x in range(1, len(data)):
 		elem = data[x]
 		addCategory(elem["FIELD21"])
 
-with open(basepath + "sitesPatQc.geojson", 'r') as data_file:
+with open(datapath + "sitesPatQc.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
 	for x in range(1, len(data)):
 		elem = data[x]
@@ -82,6 +73,4 @@ with open(output_file, "w") as f:
 	f.write(json.dumps(keywords, ensure_ascii=False))
 
 consoleLog("Categories found: " + str(len(keywords)))
-consoleLog("\nPress any key to exit...")
-m.getch()
-sys.exit()
+promptExit()
