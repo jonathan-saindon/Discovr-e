@@ -1,10 +1,10 @@
 INSTALLATION
 
 1. Install node modules
-> npm i
+> npm install
 
 2. Install dependencies using bower
-> bower i
+> bower install
 
 3. Launch app
 > npm start

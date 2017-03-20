@@ -6,3 +6,4 @@ app/public/js/libs/
 *.css.map
 *.js.map
 app/public/data/scripts/__pycache__/
+app/public/data/scripts/test.py
