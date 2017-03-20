@@ -4,10 +4,10 @@
 		"public_art": ["Arts décoratifs", "Beaux-arts", "Sculpture"]
 	},
 	"hotel": {
-		"hotel": ["Hotel", "Auberge de jeunesse", "Autre hébergement", "Centre de vacances"],
+		"hotel": ["Hotel", "Auberge"],
 		"chalet": ["Chalet", "Pourvoirie"],
 		"bedbreakfast": ["Gîte touristique"],
-		"camping": ["Camping", "Hébergement insolite"]
+		"camping": ["Camp", "Camping", "Hébergement insolite"]
 	},
 	"places": {
 		"olympic": ["Olympique", "Olympic"],

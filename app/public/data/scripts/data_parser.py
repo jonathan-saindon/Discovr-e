@@ -23,7 +23,7 @@ counter = itertools.count() # Itérateur pour générer les ID
 #
 def createElement(lat, lng, nom, descr, url, cat):
 	if cat == None:
-		return None;
+		return None
 	
 	id = next(counter)
 	return {
@@ -218,11 +218,26 @@ with open(datapath + "hebergement.xml", 'r', encoding='utf-8', errors='ignore') 
 				float(lat),
 				float(lng),
 				nom,
-				desc,
+				desc if desc != None else "",
 				"",
 				getCategory(tag, type))
 			duplicates += appendElementTo(tag, element)
 	printTimeFromStart("Hebergement")
+	
+with open(datapath + "Immeubles_Patrimoniaux_Qc.geojson", 'r') as data_file:
+	data = json.load(data_file)["features"]
+	tag = "patrimony"
+	for elem in data:
+		elem = elem["properties"]
+		element = createElement(
+			elem["latitude"],
+			elem["longitude"],
+			elem["nom_bien"],
+			elem["description_bien"],
+			elem["url_photo"],
+			getCategory(tag, elem["usage"]))
+		duplicates += appendElementTo(tag, element)
+	printTimeFromStart("Grands parcs Mtl")
 	
 with open(datapath + "institutions_museales.geojson", 'r') as data_file:
 	data = json.load(data_file)["features"]
@@ -267,6 +282,20 @@ with open(datapath + "lieuCulturel.json", 'r') as data_file:
 			getCategory(tag, elem["FIELD2"]))
 		duplicates += appendElementTo(tag, element)
 	printTimeFromStart("Lieux culturels")
+
+with open(datapath + "monument.json", 'r') as data_file:
+	data = json.load(data_file)
+	tag = "beaux-arts"
+	for elem in data:
+		element = createElement(
+			float(elem["LAT"]),
+			float(elem["LONG"]),
+			elem["NOM"],
+			"",
+			"",
+			"monument")
+		duplicates += appendElementTo(tag, element)
+	printTimeFromStart("Monument")
 
 with open(datapath + "muralesSubventionnees.json", 'r') as data_file:
 	data = json.load(data_file)["features"]
@@ -392,7 +421,7 @@ with open(datapath + "sitesPatQc.geojson", 'r') as data_file:
 		duplicates += appendElementTo(tag, element)
 	printTimeFromStart("Sites Pat Qc")
 
-with open(datapath + "unesco.xml", 'rb') as xml_file:
+with open(datapath + "unesco.xml", 'r', encoding='utf-8', errors='ignore') as xml_file:
 	data = ET.parse(xml_file).getroot()
 	tag = "unesco";
 	for elem in data.findall('row'):
@@ -416,7 +445,7 @@ with open(datapath + "unesco.xml", 'rb') as xml_file:
 #
 # OUTPUT FILE WRITING
 #
-with open(output_file, "w") as f:
+with open(output_file, "w", encoding='utf-8', errors='ignore') as f:
 	f.write(json.dumps(wrapper, ensure_ascii=False))
 
 #

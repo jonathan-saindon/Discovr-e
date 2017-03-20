@@ -17,6 +17,10 @@
     background-image: url("/img/sidebar/entertainment.png");
 }
 
+.img.hotel {
+    background-image: url("/img/sidebar/hotel.png");
+}
+
 .img.landmark {
     background-image: url("/img/sidebar/landmark.png");
 }
