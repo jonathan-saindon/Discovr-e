@@ -1,0 +1,306 @@
+:root {
+    /* ---- COLOR PALETTE ---- */
+    --color-primary-0: #319167;	/* Main Primary color */
+    --color-primary-1: #7FC7A8;
+    --color-primary-2: #4FA882;
+    --color-primary-3: #1A7C52;
+    --color-primary-4: #09623C;
+
+    --color-secondary-1-0: #346388;	/* Main Secondary color (1) */
+    --color-secondary-1-1: #7FA4C0;
+    --color-secondary-1-2: #507C9D;
+    --color-secondary-1-3: #1F4F74;
+    --color-secondary-1-4: #0E3A5C;
+
+    --color-secondary-2-0: #D39747;	/* Main Secondary color (2) */
+    --color-secondary-2-1: #FFD8A3;
+    --color-secondary-2-2: #F5BD73;
+    --color-secondary-2-3: #B57826;
+    --color-secondary-2-4: #8F570D;
+
+    --color-complement-0: #D36F47;	/* Main Complement color */
+    --color-complement-1: #FFBDA3;
+    --color-complement-2: #F59873;
+    --color-complement-3: #B54F26;
+    --color-complement-4: #8F320D;
+
+    --color-disabled: #888;
+    --color-input-focus: #30eb9b;
+
+    /* ---- SCREEN RESOLUTIONS ---- */
+    --low-res: 480px;
+    --medium-res: 800px;
+    --high-res: 1200px;
+
+    /* ELEMENT SIZES */
+    --menubar-height: 30px;
+    --menubar-title-width: 80px;
+    --sidebar-width: 52px;
+    --sidebarBtn-size: 40px;
+    --menuElem-width: 100px;
+    --descrBtn-size: 30px;
+    --menubarBtn-size: 25px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.content {
+    height: calc(100% - var(--menubar-height));
+}
+
+.mapContainer {
+    height: 100%;
+    width: calc(100% - var(--sidebar-width));
+}
+
+.menubar {
+    height: var(--menubar-height);
+    background-color: var(--color-primary-1);
+}
+
+.menubar .title {
+    float: left;
+    display: inline-block;
+    height: calc(100% - 10px);
+    width: var(--menubar-title-width);
+    padding: 5px 8px;
+    color: var(--color-primary-4);
+    background-color: var(--color-primary-2);
+    margin-right: 8px;
+}
+
+.menubar .menuElem {
+    display: inline-flex;
+    height: calc(100% - 4px);
+    padding: 2px;
+    color: white;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25)
+}
+
+.menuElem input {
+    outline: 0;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    padding: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.menuElem input:focus {
+    border: 1px solid var(--color-input-focus);
+}
+
+.inputLabel {
+    padding: 4px 2px;
+}
+
+.distanceInput {
+    width: 60px;
+    text-align: right;
+}
+
+.addressInput {
+    width: calc(100% - 30px);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.addressButton {
+    width: var(--menubarBtn-size);
+    height: var(--menubarBtn-size);
+    cursor: pointer;
+    padding: 4px;
+}
+
+a.menuElem:hover {
+    background-color: var(--color-primary-4);
+    cursor: pointer
+}
+
+a.menuElem.left {
+    float: left;
+}
+
+a.menuElem.right {
+    float: right;
+}
+
+.sidebar {
+    float: left;
+    height: 100%;
+    width: var(--sidebar-width);
+    background-color: var(--color-secondary-2-4);
+}
+
+.sidebarBtn {
+    background-color: var(--color-secondary-2-0);
+    border-top: solid 2px var(--color-secondary-2-4);
+    border-left: solid 2px var(--color-secondary-2-4);
+    border-right: solid 2px var(--color-secondary-2-4);
+    padding: 12px 4px;
+    margin: 0;
+}
+
+.sidebarBtn:hover {
+    cursor:pointer;
+    background-color: var(--color-secondary-2-1);
+}
+
+.sidebarBtn .img {
+    background-size: contain;
+    height: var(--sidebarBtn-size);
+    width: var(--sidebarBtn-size);
+}
+
+.sidebarBtn.disabled {
+    background-color: var(--color-disabled);
+    opacity: 0.5;
+}
+
+.sidebarBtn.disabled:hover {
+    /*background-color: var(--color-secondary-2-1);*/
+    opacity: 0.75;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover,
+.offcanvas a:focus {
+    color: var(--color-primary-1);
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.descrBar {
+    position: absolute;
+    right: -330px;
+    top: 60px;
+    height: calc(100% - 100px);
+    width: 300px;
+    padding: 10px;
+    background-color: var(--color-secondary-2-0);
+    box-shadow: -3px 5px 15px #666;
+}
+
+.descrBar-name {
+    float: left;
+    display: inline-block;
+    width: calc(100% - 50px);
+    border-bottom: solid 1px var(--color-secondary-2-2);
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0;
+    padding-bottom: 5px;
+}
+
+.descrBar-description {
+    max-height: 250px;
+    overflow: auto;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.descrBar-image {
+    display: inline-block;
+    width: calc(100% - 20px);
+    height: 200px;
+    bottom: 10px;
+}
+
+.descrHead {
+    width: 100%;
+    height: 30px;
+    padding-bottom: 5px;
+}
+
+.descrBtn {
+    height: var(--descrBtn-size);
+    width: var(--descrBtn-size);
+    float: right;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.descrBtn:hover {
+    cursor: pointer;
+    background-color: var(--color-complement-2);
+}
+
+.descrBtn .img {
+    background-size: contain;
+    height: var(--descrBtn-size);
+    width: var(--descrBtn-size);
+}
+
+.overlay {
+    z-index: 1;
+    background-color: #000;
+    opacity: 0.75;
+}
+
+.overlay-image {
+    opacity: 1;
+    margin: auto;
+}
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltipText {
+    visibility: hidden;
+    width: 120px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 30%;
+    left: 54px;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.tooltip .tooltipText::after {
+    content: "";
+    position: absolute;
+    top: 35%;
+    left: 0%;
+    margin-left: -5px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 5px solid #333;
+}
+
+.tooltip:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
+}
+
+.searchButton:hover {
+    cursor: pointer;
+}
+
+.searchButton:active {
+    transform: translateY(4px);
+}
+
+@media screen and (min-width: var(--mediumres)) {
+
+}
+
+@media screen and (min-width: var(--highres)) {
+
+}

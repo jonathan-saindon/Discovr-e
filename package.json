@@ -1,6 +1,6 @@
 {
   "name": "Discovr-e",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "The Discovr-e app helps you discover well known and unknown places around town.",
   "scripts": {
     "start": "nodemon ./app/server.js"

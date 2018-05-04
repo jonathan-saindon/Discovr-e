@@ -1,0 +1,65 @@
+{
+	"beaux-arts": {
+		"musee": ["Galerie d'art", "Grande exposition", "Musée", "Centre d'exposition", "Maison de la culture"],
+		"public_art": ["Arts décoratifs", "Beaux-arts", "Sculpture"]
+	},
+	"hotel": {
+		"hotel": ["Hotel", "Auberge"],
+		"chalet": ["Chalet", "Pourvoirie"],
+		"bedbreakfast": ["Gîte touristique"],
+		"camping": ["Camp", "Camping", "Hébergement insolite"]
+	},
+	"places": {
+		"olympic": ["Olympique", "Olympic"],
+		"aeroport": ["Aéroport"],
+		"bibliotheque": ["Bibliothèque"],
+		"citysquare": ["Squares"],
+		"commercial": ["Centre commercial", "Centre de conférence et congrès", "Marché public", "Salon"],
+		"education": ["Collège", "Université"],
+		"ferme": ["Ferme agrotouristique"],
+		"ferry": ["Traversier"],
+		"gouvernemental": ["Ambassades", "Consulats", "Hôtels de ville", "Édifice fédéral", "Édifice municipal", "Édifice provincial"],
+		"hotel": ["Hôtels"],
+		"medical": ["Centre hospitalier"],
+		"observatoire": ["Observatoire"],
+		"planetarium": ["Planétarium"],
+		"tourisme": ["Croisière", "Infotouriste", "Touristique", "Visite guidée"],
+		"viewpoint": ["Belvédère"]
+	},
+	"parks": {
+		"olympic": ["Olympique", "Olympic"],
+		"caverne": ["Caverne", "Grotte"],
+		"foret": ["Parc national", "Réserve faunique", "Réserve nationale de faune"],
+		"hiking": ["Piste", "Sentier"],
+		"lac": ["Autres étendues d'eau", "Baie", "Lac"],
+		"parc": ["Autre parc", "Grand parc", "Jardin", "Parc municipal", "Parc-nature", "Parc récréatif", "Parc régional", "Parcs urbains"],
+		"patin": ["Aréna", "Patinoire"],
+		"peche": ["Centre de pêche sous la glace"],
+		"piscine": ["Jeu d'eau", "Jeux d'eau", "Pataugeoire", "Piscine"],
+		"plage": ["Plage"],
+		"river": ["Canal", "Rivière", "Ruisseau"],
+		"zoo": ["Aquarium", "Jardin zoologique"]
+	},
+	"patrimony": {
+		"olympic": ["Olympique", "Olympic"],
+		"eglise": ["Basilique", "Église", "Cathédrale", "Chapelle", "Cimetière", "Couvent", "Lieu de culte", "Monastère", "Mosquée", "Presbytère", "Sanctuaire", "Site religieux", "Synagogue", "Temple"],
+		"batiment": ["Académie", "Aqueduc", "Banque", "Barrage", "Bâtiment", "Bibliothèque", "Camps forestiers", "Canal", "Centrale", "Centre", "Chantier", "Cinéma", "College", "Commerce", "Conservatoire", "Conserverie", "Construction", "Dépôt", "Dispensaire", "Distillerie", "Édifice", "Établissement", "Ferme", "Fonderie", "Forge", "Gare", "Hall", "Hôpital", "Hôtel", "Installation", "Institution", "Jardin", "Marché", "Monument", "Moulin", "Musée", "Observatoire", "Parlement", "Pavillon", "pénitencier", "Pensionnat", "Phare", "Pont", "Port", "Poste", "Prison", "Quai", "Ranch", "Site", "Station", "Studio", "Théâtre"],
+		"historic": ["Aménagement", "Bataille", "Lieu historique", "Lieux commémoratifs", "Quartier", "Urbain", "Vestiges"],
+		"maison": ["Appartement", "Arrondissement", "Base navale", "Blockhaus", "Castle", "Chalet", "Cottage", "Domaine", "École", "Habitation", "Homestead", "Magasin", "Maison", "Manoir", "Palais", "Propriété", "Refuge", "Résidence", "Résidentiel", "Villa"],
+		"spirituel": ["Chemins de croix", "Croix de chemin", "Esprit", "Funéraire", "Lieu de rassemblement", "Mission", "Sacré", "Séminaire", "Sépulture"],
+		"militaire": ["Bateau", "Batterie", "Caserne", "Citadelle", "Défense", "Épave", "Fort", "Hangar", "Manège", "Navire", "S.S."],
+		"unesco": ["Unesco"]
+	},
+	"entertainment": {
+		"olympic": ["Olympique", "Olympic"],
+		"casino": ["Casino"],
+		"centre": ["Centre récréatif", "Festival", "Foire", "Glissoire d'hiver", "Parc aquatique", "Site thématique"],
+		"cinema": ["Cinéma"],
+		"marina": ["Marina"],
+		"racing": ["Autodrome", "Centre de karting"],
+		"restaurant": ["Cabane à sucre", "Restaurants"],
+		"ski": ["Centre de ski alpin", "Centre de ski de fond", "Station touristique"],
+		"sport": ["Centre sportif", "Centre équestre", "Golf", "Gymnases", "Loueur d'équipement", "Manifestation sportive", "Stade", "Tennis"],
+		"theatre": ["Salle de spectacle", "Théâtre"]
+	}
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Discovr-e</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="css/images.css" type="text/css" media="screen" />
+</head>
+<body>
+    <div class="menubar">
+        <div class="title">Discovr-e</div>
+        <div class="menuElem">
+            <div class="inputLabel">Distance</div>
+            <input id="distance" class="distanceInput" type="number" name="distance" value="5" onchange="AppController.onDistanceChange()" min="1" max="9999">
+        </div>
+        <div class="menuElem">
+            <div class="inputLabel">Recherche</div>
+            <input id="address" class="addressInput" type="textbox" value="" placeholder="Entrez une adresse...">
+            <div class="img searchButton" type="button" onclick="AppController.searchAddress()"></div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="sidebar">
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('entertainment', this)">
+                <div class="img entertainment"></div>
+                <span class="tooltipText">Divertissement</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('places', this)">
+                <div class="img places"></div>
+                <span class="tooltipText">Places Publiques</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('patrimony', this)">
+                <div class="img patrimoine"></div>
+                <span class="tooltipText">Patrimoine</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('beaux-arts', this)">
+                <div class="img art"></div>
+                <span class="tooltipText">Art</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('hotel', this)">
+                <div class="img hotel"></div>
+                <span class="tooltipText">Hôtels</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('parks', this)">
+                <div class="img parks"></div>
+                <span class="tooltipText">Parcs</span>
+            </div>
+            <div class="sidebarBtn tooltip" onclick="AppController.toggleBtn('unesco', this)">
+                <div class="img landmark"></div>
+                <span class="tooltipText">Unesco</span>
+            </div>
+        </div>
+
+        <div id="map" class="mapContainer"></div>
+
+        <div id="descrBar" class="descrBar" style="display: none;">
+            <div class="descrHead">
+                <p id="descr-name" class="descrBar-name">name</p>
+                <div class="descrBtn" onclick="AppController.closeMarker()"><div class="img close"></div></div>
+            </div>
+            <p id="descr-details" class="descrBar-description">description</p>
+            <img id="descr-img" class="descrBar-image" src="">
+        </div>
+
+        <div id="overlay" class="overlay" style="display: none;">
+            <img id="overlay-img" class="overlay-image" src="">
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWZs1YiURy-kF42Vmb6n2kktPiEC09bxU&callback=AppController.init" async defer></script>
+    <script src="js/libs/jquery/dist/jquery.js"></script>
+    <script src="js/libs/require/require.js"></script>
+    <script src="js/libs/js-marker-clusterer/src/markerclusterer.js"></script>
+    <script src="js/MapIcons.js"></script>
+    <script src="js/MathUtil.js"></script>
+    <script src="js/AppController.js"></script>
+    <script src="js/MapController.js"></script>
+    <!--<script>
+        function init() {
+            AppController.parseParameters();
+            new MapController();
+        }
+    </script>-->
+</body>
+</html>
