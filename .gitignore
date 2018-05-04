@@ -1,9 +1,10 @@
 .idea/
 node_modules
-app/public/data/datasets/
-app/public/js/libs/
+app/backend/data/datasets/
+app/backend/data/data.json
+app/frontend/js/libs/
 *.log
 *.css.map
 *.js.map
-app/public/data/scripts/__pycache__/
-app/public/data/scripts/test.py
+*.pyc
+__pycache__
