@@ -18,7 +18,7 @@ wrapper = {
 positions = [] # Utilisé pour éviter d'ajouter des doublons en fonction des positions LatLng
 duplicates = 0
 attraitsTypes = json.load(open(toolpath + "attraitsQcTypes.json")) # Utilisé pour catégoriser les éléments provenants de 'attraitsQc.xml'
-counter = itertools.count() # Itérateur pour générer les ID
+# counter = itertools.count() # Itérateur pour générer les ID
 
 #
 # FUNCTION DEFINITIONS
@@ -27,9 +27,9 @@ def createElement(lat, lng, nom, descr, url, cat):
 	if cat == None:
 		return None
 
-	id = next(counter)
+	# id = next(counter)
 	return {
-		"id": id,
+		# "id": id,
 		"lat": lat,
 		"lng": lng,
 		"nom": nom,
