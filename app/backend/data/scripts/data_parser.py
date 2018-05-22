@@ -7,13 +7,14 @@ from common import *
 #
 output_file = "../data.json"
 wrapper = {
-	"beaux-arts": [],
-	"hotel": [],
-	"places": [],
-	"parks": [],
-	"patrimony": [],
-	"entertainment": [],
-	"unesco": [] }
+	"beaux-arts": dict([("name", "beaux-arts"), ("data", [])]),
+	"hotel": dict([("name", "hotel"), ("data", [])]),
+	"places": dict([("name", "places"), ("data", [])]),
+	"parks": dict([("name", "parks"), ("data", [])]),
+	"patrimony": dict([("name", "patrimony"), ("data", [])]),
+	"entertainment": dict([("name", "entertainment"), ("data", [])]),
+	"unesco": dict([("name", "unesco"), ("data", [])])
+}
 positions = [] # Utilisé pour éviter d'ajouter des doublons en fonction des positions LatLng
 duplicates = 0
 attraitsTypes = json.load(open(toolpath + "attraitsQcTypes.json")) # Utilisé pour catégoriser les éléments provenants de 'attraitsQc.xml'
@@ -44,7 +45,7 @@ def appendElementTo(tag, element):
 	if element != None:
 		latlng = [element["lat"], element["lng"]]
 		if not latlng in positions:
-			wrapper[tag].append(element)
+			wrapper[tag]["data"].append(element)
 			positions.append(latlng)
 		else:
 			return 1
@@ -500,5 +501,5 @@ with open(output_file, "w", encoding='utf-8', errors='ignore') as f:
 printEndTime()
 count = countAll()
 consoleLog("Elements added: " + str(count))
-consoleLog("Duplicates rejected: " + str(duplicates) + " (" + str(round((duplicates/count)*100,2)) + "%)")
-input("Press Enter to continue...")
+consoleLog("Duplicates rejected: " + str(duplicates) + " (" + str(round((duplicates/count), 4)) + "%)")
+# input("Press Enter to continue...")

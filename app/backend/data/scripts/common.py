@@ -64,11 +64,11 @@ def meanPosition(positions):
 
 def printTimeFromStart(title):
 	snapshot = time.time()
-	consoleLog(title + " parsed in " + str(snapshot - start_time) + " seconds")
+	consoleLog(title + " parsed in " + str(round(snapshot - start_time, 4)) + " seconds")
 
 def printEndTime():
 	end_time = time.time()
-	consoleLog("\nDone in " + str(end_time - start_time) + " seconds")
+	consoleLog("\nDone in " + str(round(end_time - start_time, 4)) + " seconds")
 
 def consoleLog(msg):
 	sys.stdout.write(msg + "\n")
