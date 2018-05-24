@@ -6,15 +6,16 @@ from common import *
 # GLOBAL VARIABLES
 #
 output_file = "../data.json"
-wrapper = {
-	"beaux-arts": dict([("name", "beaux-arts"), ("data", [])]),
-	"hotel": dict([("name", "hotel"), ("data", [])]),
-	"places": dict([("name", "places"), ("data", [])]),
-	"parks": dict([("name", "parks"), ("data", [])]),
-	"patrimony": dict([("name", "patrimony"), ("data", [])]),
-	"entertainment": dict([("name", "entertainment"), ("data", [])]),
-	"unesco": dict([("name", "unesco"), ("data", [])])
-}
+# wrapper = {
+# 	"beaux-arts": dict([("name", "beaux-arts"), ("data", [])]),
+# 	"hotel": dict([("name", "hotel"), ("data", [])]),
+# 	"places": dict([("name", "places"), ("data", [])]),
+# 	"parks": dict([("name", "parks"), ("data", [])]),
+# 	"patrimony": dict([("name", "patrimony"), ("data", [])]),
+# 	"entertainment": dict([("name", "entertainment"), ("data", [])]),
+# 	"unesco": dict([("name", "unesco"), ("data", [])])
+# }
+wrapper = []
 positions = [] # Utilisé pour éviter d'ajouter des doublons en fonction des positions LatLng
 duplicates = 0
 attraitsTypes = json.load(open(toolpath + "attraitsQcTypes.json")) # Utilisé pour catégoriser les éléments provenants de 'attraitsQc.xml'
@@ -23,7 +24,7 @@ attraitsTypes = json.load(open(toolpath + "attraitsQcTypes.json")) # Utilisé po
 #
 # FUNCTION DEFINITIONS
 #
-def createElement(lat, lng, nom, descr, url, cat):
+def createElement(lat, lng, nom, descr, url, cat, tag):
 	if cat == None:
 		return None
 
@@ -32,10 +33,11 @@ def createElement(lat, lng, nom, descr, url, cat):
 		# "id": id,
 		"lat": lat,
 		"lng": lng,
-		"nom": nom,
+		"name": nom,
 		"description": descr,
-		"urlImg": url,
-		"categorie": cat
+		"img": url,
+		"category": cat,
+		"group": tag
 	}
 
 # Return 0 if successfuly appended element
@@ -45,7 +47,7 @@ def appendElementTo(tag, element):
 	if element != None:
 		latlng = [element["lat"], element["lng"]]
 		if not latlng in positions:
-			wrapper[tag]["data"].append(element)
+			wrapper.append(element)
 			positions.append(latlng)
 		else:
 			return 1
@@ -91,7 +93,8 @@ def parseArtPublicMtl(content):
 			elem["Titre"],
 			desc,
 			"",
-			getCategory(tag, catText))
+			getCategory(tag, catText),
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -121,7 +124,8 @@ def parseAttraitsQc(content):
 					nom,
 					desc if desc != None else "",
 					"",
-					getCategory(tag, type.find('ETBL_TYPE_FR').text))
+					getCategory(tag, type.find('ETBL_TYPE_FR').text),
+					tag)
 				duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -137,7 +141,8 @@ def parseCanadaHeritage(content):
 			elem[2],
 			elem[8],
 			"",
-			getCategory(tag, str(elem[2] + " " + elem[8])))
+			getCategory(tag, str(elem[2] + " " + elem[8])),
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -156,7 +161,8 @@ def parseCanadaNationalParks(content):
 				elem.find('LOW_FRE').text,
 				elem.find('LOW_FRE_FULL').text,
 				"",
-				getCategory(tag, elem.find('LOW_FRE_FULL').text))
+				getCategory(tag, elem.find('LOW_FRE_FULL').text),
+				tag)
 			duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -185,7 +191,8 @@ def parseGatineauLieuxPublics(content):
 				elem["properties"]["NOM_TOPOGR"],
 				str(type + newline + elem["properties"]["ADR_COMPLE"]),
 				"",
-				getCategory(tag, type))
+				getCategory(tag, type),
+				tag)
 			duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -201,7 +208,8 @@ def parseGrandsParcsMtl(content):
 			elem["properties"]["Nom_parc"],
 			elem["properties"]["Generique2"],
 			"",
-			getCategory(tag, elem["properties"]["Generique2"]))
+			getCategory(tag, elem["properties"]["Generique2"]),
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -227,7 +235,8 @@ def parseHebergement(content):
 				nom,
 				desc if desc != None else "",
 				"",
-				getCategory(tag, type))
+				getCategory(tag, type),
+				tag)
 			duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -243,7 +252,8 @@ def parseImmeublesPatrimoniaux(content):
 			elem["nom_bien"],
 			elem["description_bien"],
 			elem["url_photo"],
-			getCategory(tag, elem["usage"]))
+			getCategory(tag, elem["usage"]),
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -267,7 +277,8 @@ def parseInstitutionsMuseales(content):
 			elem["institutions_museales"],
 			desc,
 			"",
-			getCategory(tag, elem["typologie"]))
+			getCategory(tag, elem["typologie"]),
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -289,7 +300,8 @@ def parseLieuCulturel(content):
 			elem["FIELD3"],
 			desc,
 			"",
-			getCategory(tag, elem["FIELD2"]))
+			getCategory(tag, elem["FIELD2"]),
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -304,13 +316,15 @@ def parseMonument(content):
 			elem["NOM"],
 			"",
 			"",
-			"monument")
+			"monument",
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
 def parseMurales(content):
 	data = json.load(content)["features"]
 	duplicates = 0
+	tag = "murale"
 	for elem in data:
 		element = createElement(
 			float(elem["properties"]["latitude"]),
@@ -318,7 +332,8 @@ def parseMurales(content):
 			elem["properties"]["adresse"],
 			elem["properties"]["artiste"] + ", " + str(elem["properties"]["annee"]),
 			elem["properties"]["image"],
-			"murale")
+			tag,
+			tag)
 		duplicates += appendElementTo("beaux-arts", element)
 	return duplicates
 
@@ -333,7 +348,8 @@ def parsePanneauxInterpretation(content):
 			elem["TITRE"],
 			elem["TEXTE"],
 			"",
-			"panel")
+			"panel",
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -352,7 +368,8 @@ def parsePatrimoineMunicipal(content):
 				elem[0],
 				elem[3],
 				elem[4] if elem[4] != "NULL" else "",
-				getCategory(tag, elem[0]))
+				getCategory(tag, elem[0]),
+				tag)
 			duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -367,7 +384,8 @@ def parsePiscinesMtl(content):
 			elem["properties"]["NOM"],
 			elem["properties"]["TYPE"],
 			"",
-			getCategory(tag, elem["properties"]["TYPE"]))
+			getCategory(tag, elem["properties"]["TYPE"]),
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -395,7 +413,8 @@ def parseServices(content):
 					nom,
 					desc,
 					"",
-					getCategory(tag, type))
+					getCategory(tag, type),
+					tag)
 				duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -419,7 +438,8 @@ def parseSitesPatrimoniaux(content):
 				elem["FIELD1"],
 				descr,
 				"",
-				getCategory(tag, elem["FIELD21"]))
+				getCategory(tag, elem["FIELD21"]),
+				tag)
 			duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -435,7 +455,8 @@ def parseSitesPatQc(content):
 			elem["properties"]["nom_bien"],
 			elem["properties"]["description_bien"],
 			elem["properties"]["url_photo"],
-			getCategory(tag, elem["properties"]["sous_usage"]))
+			getCategory(tag, elem["properties"]["sous_usage"]),
+			tag)
 		duplicates += appendElementTo(tag, element)
 	return duplicates
 
@@ -457,6 +478,7 @@ def parseUnesco(content):
 				nom,
 				desc,
 				url,
+				tag,
 				tag)
 			duplicates += appendElementTo(tag, element)
 	return duplicates
@@ -499,7 +521,8 @@ with open(output_file, "w", encoding='utf-8', errors='ignore') as f:
 # DATA INFORMATION
 #
 printEndTime()
-count = countAll()
+# count = countAll()
+count = len(wrapper)
 consoleLog("Elements added: " + str(count))
 consoleLog("Duplicates rejected: " + str(duplicates) + " (" + str(round((duplicates/count), 4)) + "%)")
 # input("Press Enter to continue...")

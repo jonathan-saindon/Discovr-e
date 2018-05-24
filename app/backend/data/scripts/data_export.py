@@ -10,12 +10,18 @@ url = "mongodb://jonathan:saindon@ds231090.mlab.com:31090/discovre"
 client = MongoClient(url)
 db = client["discovre"]
 
+print("Exporting groups")
+groups = [ "beaux-arts", "hotel", "places", "parks", "patrimony", "entertainment", "unesco" ]
+for group in groups:
+    db['group'].insert({ "name": group })
+
 with open('../data.json') as json_data:
-    data = json.load(json_data)
     print("Exporting data to MongoDB")
-    for category in data:
-        name = data[category]["name"]
-        items = data[category]["data"]
-        print(name, ":", len(items))
-        if len(items) > 0:
-            db[name].insert(items)
+    data = json.load(json_data)
+    db['geolocation'].insert(data)
+    # for category in data:
+    #     name = data[category]["name"]
+    #     items = data[category]["data"]
+    #     print(name, ":", len(items))
+    #     if len(items) > 0:
+    #         db['geolocation'].insert(items)
