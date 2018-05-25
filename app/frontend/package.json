@@ -2,21 +2,14 @@
   "name": "Discovr-e",
   "version": "2.0.0",
   "description": "The Discovr-e app helps you discover well known and unknown places around town.",
-  "scripts": {
-    "start": "nodemon ./app/server.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jonathan-saindon/discovr-e.git"
   },
   "license": "MIT",
   "dependencies": {
-    "express": "^4.14.0",
-    "path": "^0.12.7",
-    "bower": "^1.8.0"
   },
   "devDependencies": {
-    "nodemon": "^1.10.2",
-    "typescript": "^2.1.6"
+    "nodemon": "^1.10.2"
   }
 }
